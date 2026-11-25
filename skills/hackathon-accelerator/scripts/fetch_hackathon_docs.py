@@ -82,7 +82,7 @@ def main() -> int:
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     manifest_path = out / "manifest.json"
-    manifest = json.loads(manifest_path.read_text()) if manifest_path.exists() else []
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else []
     seen = {m["source"]: i for i, m in enumerate(manifest)}
 
     results = [process(s, out, args.timeout) for s in args.sources]
@@ -96,7 +96,7 @@ def main() -> int:
         print(f"[{flag}] {r['source']} -> {detail}")
         if r.get("warning"):
             print(f"      warning: {r['warning']}")
-    manifest_path.write_text(json.dumps(manifest, indent=2))
+    manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     ok = sum(r["status"] == "ok" for r in results)
     print(f"{ok}/{len(results)} sources saved. Manifest: {manifest_path}")
     return 0 if ok else 1

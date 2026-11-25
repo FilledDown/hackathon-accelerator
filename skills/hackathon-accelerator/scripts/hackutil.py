@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import re
+import sys
 from datetime import datetime, timezone, timedelta
 from html.parser import HTMLParser
 from pathlib import Path
@@ -10,6 +11,12 @@ try:
     from zoneinfo import ZoneInfo
 except ImportError:  # pragma: no cover
     ZoneInfo = None
+
+for _s in (sys.stdout, sys.stderr):  # Windows consoles/pipes default to cp1252; our output has unicode
+    try:
+        _s.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):
+        pass
 
 STATUSES = ["VERIFIED", "IMPLEMENTED", "IN_PROGRESS", "PLANNED", "SIMULATED", "BLOCKED", "CUT"]
 
@@ -35,6 +42,13 @@ def find_root(start: Path) -> Path:
 
 
 # ---------- time ----------
+# Fallback when the IANA database is missing (common on Windows without `pip install tzdata`).
+# Standard-time offsets only, so they can be an hour off during daylight saving time.
+_TZ_FALLBACK = {"America/New_York": -5, "America/Toronto": -5, "America/Chicago": -6, "America/Denver": -7,
+                "America/Phoenix": -7, "America/Los_Angeles": -8, "America/Vancouver": -8, "Europe/London": 0,
+                "Europe/Dublin": 0, "Europe/Paris": 1, "Europe/Berlin": 1, "Europe/Madrid": 1, "Europe/Amsterdam": 1,
+                "Asia/Kolkata": 5.5, "Asia/Singapore": 8, "Asia/Shanghai": 8, "Asia/Tokyo": 9, "Asia/Seoul": 9,
+                "Australia/Sydney": 10, "UTC": 0, "Etc/UTC": 0}
 _TZ_ABBR = {"UTC": 0, "GMT": 0, "EST": -5, "EDT": -4, "CST": -6, "CDT": -5, "MST": -7, "MDT": -6,
             "PST": -8, "PDT": -7, "BST": 1, "CET": 1, "CEST": 2, "IST": 5.5, "JST": 9, "AEST": 10, "AEDT": 11}
 
@@ -70,7 +84,9 @@ def parse_datetime(value: str) -> datetime | None:
         try:
             return base.replace(tzinfo=ZoneInfo(tz))
         except Exception:
-            return None
+            pass
+    if tz in _TZ_FALLBACK:
+        return base.replace(tzinfo=timezone(timedelta(hours=_TZ_FALLBACK[tz])))
     return None
 
 

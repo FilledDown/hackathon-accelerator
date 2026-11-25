@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Create the hackathon shared project memory in a project root. Never overwrites existing files.
 
 Usage:
@@ -16,6 +16,12 @@ import shutil
 import sys
 from datetime import datetime
 from pathlib import Path
+
+for _s in (sys.stdout, sys.stderr):  # Windows consoles/pipes default to cp1252; our output has unicode
+    try:
+        _s.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):
+        pass
 
 TEMPLATES = Path(__file__).resolve().parent.parent / "assets" / "templates"
 MARK = "<!-- hackathon-accelerator:start -->"
@@ -47,33 +53,35 @@ def main() -> int:
 
     prog = root / "PROGRESS.md"
     if "PROGRESS.md" in created:
-        text = prog.read_text()
+        text = prog.read_text(encoding="utf-8")
         tz = args.tz
         try:
             from zoneinfo import ZoneInfo
             now = datetime.now(ZoneInfo(tz)) if tz else datetime.now().astimezone()
         except Exception:
+            if tz:
+                print(f"warning: timezone '{tz}' not found (on Windows run `pip install tzdata`); using your computer's UTC offset.")
             now, tz = datetime.now().astimezone(), None
         started = now.strftime("%Y-%m-%d %H:%M ") + (tz or now.strftime("%z")[:3] + ":" + now.strftime("%z")[3:])
         text = text.replace("Started: YYYY-MM-DD HH:MM Area/City", f"Started: {started}", 1)
         if args.deadline:
             text = text.replace("Deadline: YYYY-MM-DD HH:MM Area/City", f"Deadline: {args.deadline}", 1)
-        prog.write_text(text)
+        prog.write_text(text, encoding="utf-8")
 
     cm = root / "CLAUDE.md"
     skill_dir = TEMPLATES.parents[1]
     agents_dir = skill_dir.parents[1] / "agents"  # plugin root/agents, or .claude/agents
-    block = (TEMPLATES / "CLAUDE_BLOCK.md").read_text()
-    block = block.replace("{{SKILL_DIR}}", str(skill_dir)).replace("{{AGENTS_DIR}}", str(agents_dir))
-    existing = cm.read_text() if cm.exists() else ""
+    block = (TEMPLATES / "CLAUDE_BLOCK.md").read_text(encoding="utf-8")
+    block = block.replace("{{SKILL_DIR}}", str(skill_dir)).replace("{{CODING_ASSISTANT}}", str(agents_dir / "hackathon-coding-assistant.md"))
+    existing = cm.read_text(encoding="utf-8") if cm.exists() else ""
     if MARK in existing and str(skill_dir) not in existing:
         # skill moved (e.g. plugin updated): refresh the managed block in place
         import re as _re
         existing = _re.sub(r"<!-- hackathon-accelerator:start -->.*?<!-- hackathon-accelerator:end -->\n?", block, existing, flags=_re.S)
-        cm.write_text(existing)
+        cm.write_text(existing, encoding="utf-8")
         created.append("CLAUDE.md (hackathon block refreshed)")
     elif MARK not in existing:
-        cm.write_text((existing.rstrip() + "\n\n" if existing else "") + block)
+        cm.write_text((existing.rstrip() + "\n\n" if existing else "") + block, encoding="utf-8")
         created.append("CLAUDE.md (hackathon block)")
     else:
         skipped.append("CLAUDE.md (block already present)")

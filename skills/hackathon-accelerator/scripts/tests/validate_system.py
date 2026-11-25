@@ -8,6 +8,12 @@ import re
 import sys
 from pathlib import Path
 
+for _s in (sys.stdout, sys.stderr):  # Windows consoles/pipes default to cp1252; our output has unicode
+    try:
+        _s.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):
+        pass
+
 try:
     import yaml
 except ImportError:  # minimal fallback parser for simple `key: value` frontmatter
@@ -27,7 +33,7 @@ errors, warns = [], []
 
 
 def fm(path: Path):
-    text = path.read_text()
+    text = path.read_text(encoding="utf-8")
     m = re.match(r"^---\n(.*?)\n---\n", text, re.S)
     if not m:
         errors.append(f"{path}: missing frontmatter")
@@ -53,7 +59,7 @@ if data:
         errors.append("SKILL.md description missing or >1024 chars")
     if len(body.splitlines()) > 500:
         warns.append(f"SKILL.md body is {len(body.splitlines())} lines (>500)")
-skill_text = (SKILL / "SKILL.md").read_text()
+skill_text = (SKILL / "SKILL.md").read_text(encoding="utf-8")
 
 # referenced files exist
 for ref in sorted(set(re.findall(r"`((?:references|scripts|assets)/[\w./-]+)", skill_text))):
@@ -109,14 +115,14 @@ if extra:
 pj = CLAUDE / ".claude-plugin" / "plugin.json"
 if pj.exists():
     import json
-    meta = json.loads(pj.read_text())
+    meta = json.loads(pj.read_text(encoding="utf-8"))
     if meta.get("name") != "hackathon-accelerator":
         errors.append("plugin.json name mismatch")
 
 # agent names mentioned anywhere in skill/references/agents resolve
 mentioned = set()
 for f in [SKILL / "SKILL.md", *(SKILL / "references").glob("*.md"), *(CLAUDE / "agents").rglob("*.md")]:
-    mentioned |= set(re.findall(r"`([a-z]+(?:-[a-z]+){1,4})`", f.read_text()))
+    mentioned |= set(re.findall(r"`([a-z]+(?:-[a-z]+){1,4})`", f.read_text(encoding="utf-8")))
 agentish = {m for m in mentioned if any(m.endswith(s) for s in ("-engineer", "-analyst", "-specialist", "-director", "-critic",
                                                                 "-designer", "-writer", "-producer", "-reviewer", "-judge",
                                                                 "-researcher", "-auditor", "-strategist", "-generator",

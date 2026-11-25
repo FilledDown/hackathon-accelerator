@@ -267,7 +267,7 @@ def main() -> int:
         rp = Path(args.requirements)
         rp = rp if rp.is_absolute() else (root / rp if (root / rp).exists() else rp)
         try:
-            reqs = json.loads(rp.read_text())
+            reqs = json.loads(rp.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError) as e:
             print(f"Cannot read requirements file {rp}: {e}", file=sys.stderr)
             return 2

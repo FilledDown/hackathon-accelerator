@@ -15,7 +15,7 @@ NOW = "2026-03-15T12:00:00-07:00"
 
 
 def run(script, *args):
-    p = subprocess.run([sys.executable, "-I", str(SCRIPTS / script), *map(str, args)], capture_output=True, text=True)
+    p = subprocess.run([sys.executable, "-I", str(SCRIPTS / script), *map(str, args)], capture_output=True, text=True, encoding="utf-8")
     return p.returncode, p.stdout, p.stderr
 
 
@@ -56,9 +56,9 @@ class Fetch(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             code, out, _ = run("fetch_hackathon_docs.py", FIX / "rules_sample.html", FIX / "rules_plain.txt", "--out", d)
             self.assertEqual(code, 0, out)
-            man = json.loads((Path(d) / "manifest.json").read_text())
+            man = json.loads((Path(d) / "manifest.json").read_text(encoding="utf-8"))
             self.assertEqual([m["status"] for m in man], ["ok", "ok"])
-            txt = Path(man[0]["text_path"]).read_text()
+            txt = Path(man[0]["text_path"]).read_text(encoding="utf-8")
             self.assertIn("# PolarHacks 2026 — Official Rules", txt)
             self.assertIn("## Judging Criteria", txt)
             self.assertNotIn("color:red", txt)
@@ -100,7 +100,7 @@ class Validate(unittest.TestCase):
             proj = Path(d) / "p"
             shutil.copytree(FIX / "project_good", proj)
             ds = proj / "submission" / "DEMO_SCRIPT.md"
-            ds.write_text(ds.read_text() + ("word " * 600))
+            ds.write_text(ds.read_text(encoding="utf-8") + ("word " * 600), encoding="utf-8")
             code, out, _ = run("validate_submission.py", proj, "--requirements", "requirements.json", "--now", NOW)
             self.assertEqual(code, 1)
             self.assertIn("limit 3", out)
@@ -127,18 +127,18 @@ class ReportAndInit(unittest.TestCase):
 
     def test_init_is_idempotent_and_preserves_files(self):
         with tempfile.TemporaryDirectory() as d:
-            (Path(d) / "CLAUDE.md").write_text("# My project rules\n")
-            (Path(d) / "PRODUCT_SPEC.md").write_text("mine")
+            (Path(d) / "CLAUDE.md").write_text("# My project rules\n", encoding="utf-8")
+            (Path(d) / "PRODUCT_SPEC.md").write_text("mine", encoding="utf-8")
             run("init_project.py", d, "--deadline", "2026-12-01 17:00 America/Denver")
             run("init_project.py", d)
-            self.assertEqual((Path(d) / "PRODUCT_SPEC.md").read_text(), "mine")
-            cm = (Path(d) / "CLAUDE.md").read_text()
+            self.assertEqual((Path(d) / "PRODUCT_SPEC.md").read_text(encoding="utf-8"), "mine")
+            cm = (Path(d) / "CLAUDE.md").read_text(encoding="utf-8")
             self.assertTrue(cm.startswith("# My project rules"))
             self.assertEqual(cm.count("hackathon-accelerator:start"), 1)
             self.assertIn(f"Accelerator skill dir: {SCRIPTS.parent}", cm)
             self.assertIn(str(SCRIPTS.parents[2] / "agents" / "hackathon-coding-assistant.md"), cm)
             self.assertTrue((SCRIPTS.parents[2] / "agents" / "hackathon-coding-assistant.md").exists())
-            self.assertIn("Deadline: 2026-12-01 17:00 America/Denver", (Path(d) / "PROGRESS.md").read_text())
+            self.assertIn("Deadline: 2026-12-01 17:00 America/Denver", (Path(d) / "PROGRESS.md").read_text(encoding="utf-8"))
             for sub in ["research/raw", "reviews", "submission/DEVPOST.md", "app", "tests"]:
                 self.assertTrue((Path(d) / sub).exists(), sub)
 
@@ -149,10 +149,30 @@ class ReportAndInit(unittest.TestCase):
             self.assertEqual(code, 0)
             data = json.loads(out.split("\nPROGRESS.md")[0])
             self.assertIn("integrations", data)
-            prog = (Path(d) / "PROGRESS.md").read_text()
+            prog = (Path(d) / "PROGRESS.md").read_text(encoding="utf-8")
             self.assertEqual(prog.count("## Environment"), 1)
             self.assertIn("Detected", prog)
             self.assertIn("## Session log", prog)  # following section preserved
+
+
+class Shortcut(unittest.TestCase):
+    def test_install_reinstall_remove_and_conflict(self):
+        import os
+        tool = SCRIPTS.parents[2] / "tools" / "install_shortcut.py"
+        with tempfile.TemporaryDirectory() as home:
+            env = {**os.environ, "HOME": home, "USERPROFILE": home}
+            go = lambda *a: subprocess.run([sys.executable, "-I", str(tool), *a], capture_output=True, text=True,  # noqa: E731
+                                           encoding="utf-8", env=env)
+            dst = Path(home) / ".claude" / "skills" / "hackathon-accelerator" / "SKILL.md"
+            self.assertEqual(go().returncode, 0)
+            self.assertIn("disable-model-invocation: true", dst.read_text(encoding="utf-8"))
+            self.assertEqual(go().returncode, 0)            # reinstall over our own shortcut is fine
+            self.assertEqual(go("--remove").returncode, 0)
+            self.assertFalse(dst.exists())
+            dst.parent.mkdir(parents=True)
+            dst.write_text("someone else's skill", encoding="utf-8")
+            self.assertEqual(go().returncode, 1)            # never clobbers a different skill
+            self.assertEqual(dst.read_text(encoding="utf-8"), "someone else's skill")
 
 
 if __name__ == "__main__":

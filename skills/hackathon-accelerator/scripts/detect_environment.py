@@ -26,6 +26,12 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+for _s in (sys.stdout, sys.stderr):  # Windows consoles/pipes default to cp1252; our output has unicode
+    try:
+        _s.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):
+        pass
+
 KNOWN = {  # integration -> name patterns (lowercase substrings)
     "Context7 (docs)": ["context7"],
     "Firecrawl (web extraction)": ["firecrawl"],
@@ -44,13 +50,17 @@ KNOWN = {  # integration -> name patterns (lowercase substrings)
     "Frontend design skill": ["frontend-design"],
     "Browser automation (other)": ["chrome", "browser", "puppeteer"],
 }
-CLIS = ["git", "gh", "node", "npm", "pnpm", "yarn", "bun", "python3", "uv", "pip", "docker", "vercel",
+CLIS = ["git", "gh", "node", "npm", "pnpm", "yarn", "bun", "python3", "python", "py", "uv", "pip", "docker", "vercel",
         "netlify", "supabase", "firebase", "railway", "flyctl", "npx", "playwright", "ccr", "bd", "gitleaks", "trufflehog"]
 
 
 def run(cmd: list[str], timeout: int = 30) -> str | None:
+    exe = shutil.which(cmd[0])  # on Windows, `claude` is claude.cmd and needs its full path
+    if not exe:
+        return None
     try:
-        out = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
+        out = subprocess.run([exe, *cmd[1:]], capture_output=True, text=True, encoding="utf-8",
+                             errors="replace", timeout=timeout)
         return (out.stdout or "") + (out.stderr or "")
     except (OSError, subprocess.TimeoutExpired):
         return None
@@ -58,7 +68,7 @@ def run(cmd: list[str], timeout: int = 30) -> str | None:
 
 def load_json(p: Path):
     try:
-        return json.loads(p.read_text())
+        return json.loads(p.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         return None
 
@@ -100,7 +110,7 @@ def skills(root: Path) -> dict[str, str]:
                 continue
             name = sk.parent.name
             try:
-                m = re.search(r"^name:\s*['\"]?([^'\"\n]+)", sk.read_text(errors="replace")[:2000], re.M)
+                m = re.search(r"^name:\s*['\"]?([^'\"\n]+)", sk.read_text(errors="replace", encoding="utf-8")[:2000], re.M)
                 if m:
                     name = m.group(1).strip()
             except OSError:
@@ -127,7 +137,7 @@ def agents(root: Path) -> list[str]:
     for base in [root / ".claude" / "agents", Path.home() / ".claude" / "agents"]:
         if base.exists():
             for f in base.rglob("*.md"):
-                m = re.search(r"^name:\s*(\S+)", f.read_text(errors="replace")[:500], re.M)
+                m = re.search(r"^name:\s*(\S+)", f.read_text(errors="replace", encoding="utf-8")[:500], re.M)
                 if m:
                     out.append(m.group(1))
     return sorted(set(out))
@@ -174,13 +184,13 @@ def write_progress(root: Path, md: str) -> bool:
     p = root / "PROGRESS.md"
     if not p.exists():
         return False
-    text = p.read_text()
+    text = p.read_text(encoding="utf-8")
     new_sec = "## Environment\n" + md + "\n"
     if re.search(r"^## Environment\s*$", text, re.M):
         text = re.sub(r"^## Environment\s*\n.*?(?=^## |\Z)", new_sec + "\n", text, count=1, flags=re.M | re.S)
     else:
         text = text.rstrip() + "\n\n" + new_sec
-    p.write_text(text)
+    p.write_text(text, encoding="utf-8")
     return True
 
 

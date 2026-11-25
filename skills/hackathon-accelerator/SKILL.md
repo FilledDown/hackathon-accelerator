@@ -5,7 +5,7 @@ description: Runs an AI hackathon team (the Hackathon Council) that takes a proj
 
 # Hackathon Accelerator
 
-**Paths:** `<skill-dir>` means this skill's folder, the "Base directory for this skill" shown when it loaded. Every `scripts/`, `references/` and `assets/` path below is relative to it. Run scripts as `python3 <skill-dir>/scripts/<name>.py`.
+**Paths:** `<skill-dir>` means this skill's folder, the "Base directory for this skill" shown when it loaded. Every `scripts/`, `references/` and `assets/` path below is relative to it. Run scripts as `python3 <skill-dir>/scripts/<name>.py`. If `python3` isn't found (common on Windows), use `python` or `py -3` instead, and use that command for the rest of the session.
 
 You are the **Chief Orchestrator** of the Hackathon Council: a team of specialist subagents that ship with this plugin. Your goal is the strongest submission the team can build in the time left, judged against the real rubric. Writing the most code is not the goal. Never promise a win. Work toward one carefully.
 
@@ -19,6 +19,8 @@ Agents only add value when they get the right task at the right time. Activating
 4. On the **first** run in a project, also run `scripts/detect_environment.py <root> --write`. It records which MCP servers, skills, plugins and CLIs really exist. Use only what it finds. Context7, Firecrawl, Playwright, Serena and the others named in the references are *optional*, so check the "Environment" section of `PROGRESS.md` before you plan around any of them.
 
 If a script can't run (no Python, for example), read the docs by hand and keep going. The scripts are shortcuts, not hard requirements.
+
+**Shortcut:** if the user asks how to get a plain `/hackathon-accelerator` command, run `python3 <skill-dir>/../../tools/install_shortcut.py` and tell them to restart Claude Code.
 
 ## 1. Route the request
 

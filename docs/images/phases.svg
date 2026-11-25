@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 250" width="1000" height="250" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+  <rect width="1000" height="250" rx="18" fill="#ffffff"/>
+  <text x="40" y="45" font-size="20" font-weight="700" fill="#0f172a">The 8 phases</text>
+  <text x="960" y="45" text-anchor="end" font-size="13" fill="#64748b">start at any phase · each one ends with a quality gate</text>
+  <defs><marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#94a3b8"/></marker></defs>
+  <g font-size="12" text-anchor="middle">
+    <g transform="translate(40,75)"><rect width="100" height="120" rx="12" fill="#eef2ff" stroke="#818cf8"/><text x="50" y="34" font-size="24" font-weight="800" fill="#4338ca">1</text><text x="50" y="62" font-weight="700" fill="#1e1b4b">Recon</text><text x="50" y="84" fill="#475569">rules, rubric,</text><text x="50" y="101" fill="#475569">past winners</text></g>
+    <g transform="translate(155,75)"><rect width="100" height="120" rx="12" fill="#fefce8" stroke="#eab308"/><text x="50" y="34" font-size="24" font-weight="800" fill="#a16207">2</text><text x="50" y="62" font-weight="700" fill="#1e1b4b">Ideas</text><text x="50" y="84" fill="#475569">3–5 ideas,</text><text x="50" y="101" fill="#475569">critiqued, scored</text></g>
+    <g transform="translate(270,75)"><rect width="100" height="120" rx="12" fill="#fff7ed" stroke="#f97316"/><text x="50" y="34" font-size="24" font-weight="800" fill="#c2410c">3</text><text x="50" y="62" font-weight="700" fill="#1e1b4b">Spec</text><text x="50" y="84" fill="#475569">MVP + specs,</text><text x="50" y="101" fill="#475569">scope freeze</text></g>
+    <g transform="translate(385,75)"><rect width="100" height="120" rx="12" fill="#ecfeff" stroke="#06b6d4"/><text x="50" y="34" font-size="24" font-weight="800" fill="#0e7490">4</text><text x="50" y="62" font-weight="700" fill="#1e1b4b">Build</text><text x="50" y="84" fill="#475569">core journey</text><text x="50" y="101" fill="#475569">end to end</text></g>
+    <g transform="translate(500,75)"><rect width="100" height="120" rx="12" fill="#fdf4ff" stroke="#d946ef"/><text x="50" y="34" font-size="24" font-weight="800" fill="#a21caf">5</text><text x="50" y="62" font-weight="700" fill="#1e1b4b">Design</text><text x="50" y="84" fill="#475569">polish the</text><text x="50" y="101" fill="#475569">demo path</text></g>
+    <g transform="translate(615,75)"><rect width="100" height="120" rx="12" fill="#f0fdf4" stroke="#22c55e"/><text x="50" y="34" font-size="24" font-weight="800" fill="#15803d">6</text><text x="50" y="62" font-weight="700" fill="#1e1b4b">QA</text><text x="50" y="84" fill="#475569">3 cold-start</text><text x="50" y="101" fill="#475569">demo runs</text></g>
+    <g transform="translate(730,75)"><rect width="100" height="120" rx="12" fill="#fef2f2" stroke="#ef4444"/><text x="50" y="34" font-size="24" font-weight="800" fill="#b91c1c">7</text><text x="50" y="62" font-weight="700" fill="#1e1b4b">Pitch</text><text x="50" y="84" fill="#475569">Devpost, slides,</text><text x="50" y="101" fill="#475569">demo script</text></g>
+    <g transform="translate(845,75)"><rect width="115" height="120" rx="12" fill="#0f172a"/><text x="57" y="34" font-size="24" font-weight="800" fill="#facc15">8</text><text x="57" y="62" font-weight="700" fill="#f8fafc">Judging</text><text x="57" y="84" fill="#cbd5e1">mock judges,</text><text x="57" y="101" fill="#cbd5e1">final fixes</text></g>
+  </g>
+  <g stroke="#94a3b8" stroke-width="2" marker-end="url(#m)">
+    <path d="M141 135 L153 135"/><path d="M256 135 L268 135"/><path d="M371 135 L383 135"/><path d="M486 135 L498 135"/><path d="M601 135 L613 135"/><path d="M716 135 L728 135"/><path d="M831 135 L843 135"/>
+  </g>
+  <text x="40" y="228" font-size="13" fill="#64748b">The coding assistant is available in every phase. Ask it anything, any time.</text>
+</svg>
