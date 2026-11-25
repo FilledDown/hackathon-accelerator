@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Humly — bold-media showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --font-sans:"DM Sans","DM Sans Variable",system-ui,sans-serif;
+  --font-display:"Unbounded","Unbounded Variable",sans-serif;
+  --bg:#07060d;--surface:#12101c;--surface-2:#1b1828;
+  --border:rgba(255,255,255,.10);
+  --text:#ffffff;--text-2:rgba(255,255,255,.72);--text-3:rgba(255,255,255,.5);
+  --accent:#f472d0;--accent-2:#7c5cff;--accent-fg:#0b0712;
+  --radius:999px;--radius-card:16px;
+  --ease-out:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0}
+body{font:400 16px/1.6 var(--font-sans);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.promo{display:flex;justify-content:center;align-items:center;gap:14px;height:44px;background:#000;font-size:14px;border-bottom:1px solid var(--border)}
+.promo .tag{background:var(--accent);color:var(--accent-fg);font-weight:600;font-size:11px;letter-spacing:.08em;padding:3px 8px;border-radius:4px}
+.promo .time{color:var(--text-3);font-variant-numeric:tabular-nums;font-size:13px}
+.promo a{background:#fff;color:#000;padding:4px 12px;border-radius:999px;font-weight:600;font-size:13px}
+.scene{position:relative;min-height:860px;overflow:hidden}
+.bgfx{position:absolute;inset:0;z-index:0;
+  background:
+   radial-gradient(40% 30% at 50% 0%,rgba(124,92,255,.75),transparent 70%),
+   radial-gradient(25% 25% at 86% 30%,rgba(255,236,200,.5),transparent 60%),
+   radial-gradient(35% 40% at 70% 70%,rgba(244,114,208,.22),transparent 70%),
+   radial-gradient(50% 50% at 20% 80%,rgba(60,40,140,.35),transparent 70%),
+   linear-gradient(180deg,#120d2e 0%,#0a0818 55%,#07060d 100%)}
+.bgfx::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 3px)}
+.beam{position:absolute;top:-10%;width:2px;height:120%;background:linear-gradient(transparent,rgba(190,170,255,.5),transparent);filter:blur(1px);transform:rotate(18deg);opacity:.6}
+nav{position:relative;z-index:2;display:flex;align-items:center;max-width:1240px;margin:0 auto;padding:22px 24px}
+.logo{display:flex;align-items:center;gap:8px;font:600 22px var(--font-display);letter-spacing:-.02em}
+.logo svg{width:24px;height:24px}
+.links{display:flex;gap:40px;margin:0 auto;font-weight:500;font-size:16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 18px;border-radius:999px;font-weight:600;font-size:15px;transition:transform .12s}
+.btn:active{transform:scale(.97)}
+.btn.line{border:1px solid rgba(255,255,255,.3)}
+.btn.white{background:#fff;color:#000}
+.btn.big{height:54px;padding:0 34px;font-size:17px}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.hero{position:relative;z-index:1;text-align:center;padding:150px 24px 0}
+h1{font:800 104px/.92 var(--font-display);letter-spacing:-.02em;text-transform:uppercase}
+.type{font:italic 600 62px/1.1 var(--font-sans);color:var(--accent);margin-top:18px;letter-spacing:-.02em;min-height:70px}
+.type::after{content:"";display:inline-block;width:3px;height:56px;background:var(--accent);margin-left:4px;vertical-align:-8px;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.hero p{color:var(--text-2);max-width:500px;margin:18px auto 0;font-size:17px}
+.hero .btn{margin-top:32px}
+.stats{display:flex;gap:28px;justify-content:center;margin-top:34px;font-size:14px;color:var(--text-3)}
+.stats span{display:inline-flex;align-items:center;gap:8px}
+.stats i{width:26px;height:26px;border-radius:8px;border:1px solid var(--border);display:grid;place-items:center;font-style:normal;font-size:12px;color:var(--text-2)}
+.marquee{position:relative;z-index:1;margin-top:110px;border-top:1px solid var(--border);overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.track{display:flex;gap:56px;padding:18px 0;width:max-content;animation:scroll 40s linear infinite;font:600 14px var(--font-display);letter-spacing:.06em;color:var(--text-3);text-transform:uppercase}
+@keyframes scroll{to{transform:translateX(-50%)}}
+section.tracks{max-width:1240px;margin:0 auto;padding:90px 24px 120px}
+.sh{display:flex;justify-content:space-between;align-items:end;margin-bottom:28px}
+.sh h2{font:800 40px var(--font-display);text-transform:uppercase;letter-spacing:-.01em}
+.sh a{color:var(--text-2);font-weight:500}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-card);padding:12px;transition:transform .25s var(--ease-out)}
+.card:hover{transform:translateY(-4px)}
+.cover{aspect-ratio:1;border-radius:10px;position:relative;overflow:hidden}
+.play{position:absolute;right:10px;bottom:10px;width:44px;height:44px;border-radius:50%;background:#fff;color:#000;display:grid;place-items:center;font-size:14px;opacity:0;transform:translateY(6px);transition:.2s var(--ease-out)}
+.card:hover .play{opacity:1;transform:none}
+.card h3{font:600 16px var(--font-sans);margin:12px 4px 0}
+.card small{display:block;color:var(--text-3);margin:0 4px}
+.wave{display:flex;gap:2px;align-items:center;height:26px;margin:10px 4px 2px}
+.wave i{flex:1;background:var(--text-3);border-radius:2px;height:var(--h)}
+.wave i.on{background:var(--accent)}
+@media (max-width:900px){h1{font-size:52px}.type{font-size:34px}.links{display:none}.cards{grid-template-columns:1fr 1fr}.stats{flex-direction:column;gap:10px}}
+@media (prefers-reduced-motion:reduce){.track,.type::after{animation:none}}
+</style>
+</head>
+<body>
+<div class="promo"><span class="tag">LAUNCH WEEK</span>Every yearly plan is <b style="color:var(--accent)">40% off</b> until Sunday.<span class="time">02d 07h 41m left</span><a href="#">Claim 40% →</a></div>
+<div class="scene">
+  <div class="bgfx" aria-hidden="true"><span class="beam" style="left:30%"></span><span class="beam" style="left:62%;opacity:.35"></span></div>
+  <nav aria-label="Main">
+    <a class="logo" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12h3l2-6 3 12 3-16 3 14 2-4h4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>HUMLY</a>
+    <div class="links"><a href="#">Studio ▾</a><a href="#">Free tools ▾</a><a href="#">Pricing</a><a href="#">Blog</a></div>
+    <a class="btn line" href="#" style="margin-right:10px">Sign in</a><a class="btn white" href="#">Create</a>
+  </nav>
+  <header class="hero">
+    <h1>Make a song<br>from a sentence</h1>
+    <div class="type" aria-live="polite" id="type">Lo-fi for a rainy bus ride</div>
+    <p>Describe a moment, pick a vibe, and get a full track with vocals in under a minute. Stems included, royalty-free.</p>
+    <a class="btn white big" href="#">Generate a track</a>
+    <div class="stats"><span><i>◎</i>61K creators</span><span><i>♪</i>230K tracks made this month</span><span><i>✓</i>Stems + commercial license</span></div>
+  </header>
+  <div class="marquee" aria-hidden="true"><div class="track">
+    <span>Lo-fi</span><span>Drill</span><span>Synthwave</span><span>Afrobeats</span><span>Ambient</span><span>Hyperpop</span><span>Jazz trio</span><span>Cinematic</span><span>Bossa nova</span><span>Phonk</span><span>Indie folk</span><span>Garage</span>
+    <span>Lo-fi</span><span>Drill</span><span>Synthwave</span><span>Afrobeats</span><span>Ambient</span><span>Hyperpop</span><span>Jazz trio</span><span>Cinematic</span><span>Bossa nova</span><span>Phonk</span><span>Indie folk</span><span>Garage</span>
+  </div></div>
+</div>
+<section class="tracks" aria-label="Trending tracks">
+  <div class="sh"><h2>Made this week</h2><a href="#">Explore all →</a></div>
+  <div class="cards">
+    <a class="card" href="#"><div class="cover" style="background:radial-gradient(circle at 30% 30%,#ffb3e6,#7c5cff 60%,#1b1240)"><span class="play">▶</span></div><h3>Neon Laundromat</h3><small>synthwave · @kiko</small><div class="wave"><i class="on" style="--h:40%"></i><i class="on" style="--h:80%"></i><i class="on" style="--h:55%"></i><i class="on" style="--h:95%"></i><i style="--h:60%"></i><i style="--h:30%"></i><i style="--h:70%"></i><i style="--h:45%"></i><i style="--h:85%"></i><i style="--h:35%"></i></div></a>
+    <a class="card" href="#"><div class="cover" style="background:linear-gradient(160deg,#ffd27a,#ff6a3d 55%,#3b0f2e)"><span class="play">▶</span></div><h3>Lagos at 6am</h3><small>afrobeats · @tobi.makes</small><div class="wave"><i class="on" style="--h:60%"></i><i class="on" style="--h:35%"></i><i style="--h:75%"></i><i style="--h:50%"></i><i style="--h:90%"></i><i style="--h:40%"></i><i style="--h:65%"></i><i style="--h:30%"></i><i style="--h:80%"></i><i style="--h:55%"></i></div></a>
+    <a class="card" href="#"><div class="cover" style="background:radial-gradient(circle at 70% 20%,#9be7ff,#2b5cff 50%,#0b0b2e)"><span class="play">▶</span></div><h3>Study Hall Rain</h3><small>lo-fi · @mara</small><div class="wave"><i class="on" style="--h:30%"></i><i class="on" style="--h:50%"></i><i class="on" style="--h:40%"></i><i class="on" style="--h:60%"></i><i class="on" style="--h:45%"></i><i class="on" style="--h:55%"></i><i style="--h:35%"></i><i style="--h:50%"></i><i style="--h:40%"></i><i style="--h:30%"></i></div></a>
+    <a class="card" href="#"><div class="cover" style="background:conic-gradient(from 200deg at 60% 60%,#d7ff3a,#1f8a5b,#07261c,#d7ff3a)"><span class="play">▶</span></div><h3>Final Boss Energy</h3><small>phonk · @vexx</small><div class="wave"><i class="on" style="--h:90%"></i><i style="--h:70%"></i><i style="--h:95%"></i><i style="--h:60%"></i><i style="--h:85%"></i><i style="--h:75%"></i><i style="--h:95%"></i><i style="--h:65%"></i><i style="--h:80%"></i><i style="--h:70%"></i></div></a>
+  </div>
+</section>
+<script>
+const lines=["Lo-fi for a rainy bus ride","A drill beat about finals week","Synthwave for a night drive","What will you create?"];
+const el=document.getElementById("type");let li=0,ci=lines[0].length,del=true;
+if(!matchMedia("(prefers-reduced-motion: reduce)").matches){setInterval(()=>{const s=lines[li];if(del){ci--;if(ci<=0){del=false;li=(li+1)%lines.length}}else{ci++;if(ci>=lines[li].length+18){del=true}}el.textContent=lines[li].slice(0,Math.max(0,Math.min(ci,lines[li].length)))},55)}
+</script>
+</body>
+</html>

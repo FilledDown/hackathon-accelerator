@@ -23,5 +23,5 @@
   <text x="60" y="118" fill="#f8fafc" font-size="54" font-weight="800">hackathon-accelerator</text>
   <rect x="62" y="138" width="180" height="6" rx="3" fill="url(#acc)"/>
   <text x="60" y="190" fill="#cbd5e1" font-size="24">An AI hackathon team for Claude Code.</text>
-  <text x="60" y="226" fill="#94a3b8" font-size="19">1 orchestrator skill · 40 specialist agents · 8 phases · empty repo → submission</text>
+  <text x="60" y="226" fill="#94a3b8" font-size="19">40 specialist agents · 10 UI styles · 8 phases · empty repo → submission</text>
 </svg>

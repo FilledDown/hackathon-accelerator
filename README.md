@@ -14,6 +14,8 @@
 
 Most "AI hackathon helpers" are one big prompt. This is an orchestrator skill plus 40 specialist agents that share project files, disagree with each other, and get called only when they're useful. If you ask a quick question, you get a quick answer. The full council only shows up for big decisions.
 
+It also ships a **UI skill** with 10 style directions reverse-engineered from products like Linear, Stripe, Notion, Resend, Aesop and Teenage Engineering, so your demo looks like a funded product instead of a template.
+
 ```
 /plugin marketplace add FilledDown/hackathon-accelerator
 /plugin install hackathon-accelerator@hackathon-accelerator
@@ -28,6 +30,7 @@ Most "AI hackathon helpers" are one big prompt. This is an orchestrator skill pl
 - [Your first session](#your-first-session)
 - [Example prompts](#example-prompts)
 - [The 8 phases](#the-8-phases)
+- [UI that doesn't look AI-generated](#ui-that-doesnt-look-ai-generated)
 - [The coding assistant](#the-coding-assistant)
 - [The agents](#the-agents)
 - [Project memory files](#project-memory-files)
@@ -211,6 +214,40 @@ The coding assistant will disagree with you when a request is likely to hurt you
 | 6 | QA | Journeys, error cases, security, performance, pre-mortem | `submission/FINAL_CHECKLIST.md` | Demo runs 3 times in a row from a cold start and no secrets are in the repo |
 | 7 | Pitch | Story, Devpost, slides, video script, README, judge Q&A | Everything in `submission/` | `validate_submission.py` passes |
 | 8 | Judging | 3 to 4 simulated judges score the real repo | `submission/JUDGING_SIMULATION.md` | The fixes that fit in the time left are done |
+
+---
+
+## UI that doesn't look AI-generated
+
+Most hackathons are judged on a working app or website, and judges can spot generic AI output (purple gradients, three identical icon cards, Lorem ipsum) in seconds. The plugin's second skill, **hackathon-ui**, gives Claude a real design process:
+
+1. **Pick one style direction** from 10, each reverse-engineered from top product sites.
+2. **Tokens before components.** Every color, font, radius and shadow comes from one file.
+3. **Build the demo-path screens** with realistic data and loading, empty and error states.
+4. **Add purposeful motion**, including a staged "hero moment" for the demo.
+5. **Verify by looking.** It screenshots the app at desktop and mobile widths and runs `ui_audit.py`, which flags placeholder copy, slop gradients, hardcoded colors, missing alt text and more.
+
+Each style comes with tokens, type rules, layout signatures, component details, motion, do's and don'ts, a ready prompt, and a working demo page for an invented product. These are the demo pages:
+
+| | |
+|---|---|
+| <img src="skills/hackathon-ui/assets/showcase/screenshots/precision-dark.png" alt="precision-dark style demo: dark incident tracker"><br>**precision-dark** · Linear, Raycast, Vercel, Cursor | <img src="skills/hackathon-ui/assets/showcase/screenshots/fintech-gradient.png" alt="fintech-gradient style demo: payouts landing page with gradient mesh"><br>**fintech-gradient** · Stripe, Mercury, Ramp, Brex |
+| <img src="skills/hackathon-ui/assets/showcase/screenshots/calm-workspace.png" alt="calm-workspace style demo: practice planner calendar"><br>**calm-workspace** · Notion, Attio, Notion Calendar, Pitch | <img src="skills/hackathon-ui/assets/showcase/screenshots/dev-platform.png" alt="dev-platform style demo: email API with code window"><br>**dev-platform** · Resend, Supabase, Neon, Railway |
+| <img src="skills/hackathon-ui/assets/showcase/screenshots/editorial-luxe.png" alt="editorial-luxe style demo: ceramics studio with large serif wordmark"><br>**editorial-luxe** · Aesop, COS, Apple, Squarespace templates | <img src="skills/hackathon-ui/assets/showcase/screenshots/spec-sheet.png" alt="spec-sheet style demo: field recorder product sheet in red ink"><br>**spec-sheet** · Teenage Engineering, Nothing |
+| <img src="skills/hackathon-ui/assets/showcase/screenshots/bold-media.png" alt="bold-media style demo: AI music generator hero"><br>**bold-media** · music, streaming, gaming, sports retail | <img src="skills/hackathon-ui/assets/showcase/screenshots/data-dashboard.png" alt="data-dashboard style demo: river level monitoring dashboard"><br>**data-dashboard** · Datadog, Grafana, Tremor, PostHog |
+| <img src="skills/hackathon-ui/assets/showcase/screenshots/playful-builder.png" alt="playful-builder style demo: AI app builder with prompt box"><br>**playful-builder** · Framer, Webflow, Lovable, Replit | **immersive** · Lusion, Immersive Garden, Spline, Rive<br><br>Guidance only, with no demo page: 3D and scroll storytelling are high-risk in a hackathon, so the skill says when it's worth it and how to keep a static fallback. |
+
+The demo pages are original. Product names, copy and art are invented. They borrow design patterns, never logos or assets. Open any `.html` file in `skills/hackathon-ui/assets/showcase/` to see it live.
+
+**Use it directly** in any project, hackathon or not:
+
+```
+/hackathon-accelerator:hackathon-ui make the dashboard look like a real product
+```
+
+or just say "improve the frontend" or "make this landing page look good." Inside a hackathon project, the design agents use it automatically in Phases 3 and 5.
+
+**Got UI/UX Pro Max or another design skill installed?** They work together. Claude reads the other skill for palette and font exploration, while hackathon-ui owns the style choice, the token rule and the audit, so the result stays consistent.
 
 ---
 
@@ -422,7 +459,7 @@ The rules the whole system follows:
 
 ## Scripts
 
-They're all in `skills/hackathon-accelerator/scripts/`. Claude runs them for you, but you can run them yourself too. Use `python3` on macOS and Linux, or `python` on Windows.
+The accelerator scripts are in `skills/hackathon-accelerator/scripts/`, and the UI audit is in `skills/hackathon-ui/scripts/`. Claude runs them for you, but you can run them yourself too. Use `python3` on macOS and Linux, or `python` on Windows.
 
 | Script | What it does | Example |
 |---|---|---|
@@ -432,6 +469,7 @@ They're all in `skills/hackathon-accelerator/scripts/`. Claude runs them for you
 | `extract_submission_requirements.py` | Pulls out the deadline, team size, criteria and weights, deliverables, DQ rules and sponsor requirements, as JSON plus markdown | `python extract_submission_requirements.py research/raw --out research/requirements.json` |
 | `validate_submission.py` | The honesty and compliance gate described above | `python validate_submission.py . --requirements research/requirements.json --strict` |
 | `generate_project_report.py` | Time left, checkpoint, feature counts, risks, scorecard, warnings | `python generate_project_report.py .` |
+| `hackathon-ui/scripts/ui_audit.py` | Anti-slop audit of your frontend source: placeholder copy, slop gradients, hardcoded colors, type scale, alt text, focus styles, reduced motion | `python ui_audit.py app/src` |
 
 The requirements extractor works by pattern matching. It gives the agents a head start and records its evidence for each item, but always check its output against the official rules. The `rules-auditor` agent does that check as part of Phase 1.
 
@@ -492,6 +530,9 @@ It tries hard not to. Agents are only called when they change the outcome, repor
 **Can I use it for game jams or buildathons?**
 Yes. Anything with a deadline, deliverables and judging works the same way.
 
+**Can I add my own UI style?**
+Yes. Add `skills/hackathon-ui/references/styles/<name>.md` (copy the structure of an existing one), a demo page in `assets/showcase/<name>.html`, list it in `styles/index.md`, and regenerate screenshots with `tools/render-showcases` (`npm install`, then `npm run render`).
+
 **Can I add my own agent?**
 Yes. Drop a markdown file into `agents/` with the same frontmatter format as the others, add it to the roster in `skills/hackathon-accelerator/SKILL.md`, and run the structure check (see below).
 
@@ -513,6 +554,7 @@ claude --plugin-dir ../hackathon-accelerator
 cd ../hackathon-accelerator
 python skills/hackathon-accelerator/scripts/tests/validate_system.py
 python -m unittest discover -s skills/hackathon-accelerator/scripts/tests
+python -m unittest discover -s skills/hackathon-ui/scripts/tests
 claude plugin validate .
 ```
 
@@ -534,9 +576,14 @@ skills/hackathon-accelerator/
   references/            9 playbooks: rubrics, MVP scope, demo engineering, pitch, sponsors...
   scripts/               the Python helpers + tests/ + fixtures
   assets/templates/      project memory templates
+skills/hackathon-ui/
+  SKILL.md               the UI process
+  references/            foundations, components, motion, anti-slop, inspiration, styles/ (10 directions)
+  assets/showcase/       9 demo pages + screenshots/
+  scripts/               ui_audit.py + tests
 agents/                  40 agent definitions
 shortcut/                the /hackathon-accelerator forwarding skill
-tools/                   install_shortcut.py
+tools/                   install_shortcut.py, render-showcases/ (regenerates the screenshots)
 evals/                   test cases for `claude plugin eval`
 docs/images/             README images
 ```

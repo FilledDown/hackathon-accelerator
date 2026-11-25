@@ -23,8 +23,10 @@ jobs:
           python-version: ${{ matrix.python }}
       - name: Structure check (frontmatter, agent roster, references)
         run: python skills/hackathon-accelerator/scripts/tests/validate_system.py
-      - name: Script tests
+      - name: Script tests (accelerator)
         run: python -m unittest discover -s skills/hackathon-accelerator/scripts/tests -v
+      - name: Script tests (hackathon-ui)
+        run: python -m unittest discover -s skills/hackathon-ui/scripts/tests -v
 
   plugin:
     name: claude plugin validate

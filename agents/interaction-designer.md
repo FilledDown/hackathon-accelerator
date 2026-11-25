@@ -37,6 +37,9 @@ Interaction/motion changes in owned files plus a short note on the differentiato
 ## Tools
 You inherit all session tools, including any detected MCP servers (check the PROGRESS.md "Environment" section). Prefer: Context7 for docs, Serena/Graphify for code navigation, Playwright for browser checks — only if actually installed.
 
+## UI skill
+Read `<ui-dir>/references/motion.md` and the Motion section of the chosen style file. Respect `prefers-reduced-motion`.
+
 ## Collaboration protocol
 - You were briefed by the orchestrator (main session). You cannot spawn agents or ask the user questions mid-task; if blocked by missing information, finish what you can and list exactly what you need.
 - Write only to your deliverable files (and files your brief assigns you). Coordinate through project docs, not assumptions. Full protocol: `<skill-dir>/references/agent-collaboration.md`.
@@ -59,3 +62,5 @@ You inherit all session tools, including any detected MCP servers (check the PRO
 
 ## Paths
 `<skill-dir>` is the hackathon-accelerator skill folder. Its absolute path is on the `Accelerator skill dir:` line of the project's `CLAUDE.md` (written by `init_project.py`). If that line is missing, locate it with `find ~/.claude .claude -type d -path '*skills/hackathon-accelerator' 2>/dev/null | head -1`.
+
+`<ui-dir>` is the hackathon-ui skill folder, next to the accelerator skill: `<skill-dir>/../hackathon-ui`.

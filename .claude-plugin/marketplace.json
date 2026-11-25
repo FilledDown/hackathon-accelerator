@@ -9,8 +9,8 @@
     {
       "name": "hackathon-accelerator",
       "source": "./",
-      "description": "An AI hackathon team for Claude Code: an orchestrator skill plus 40 specialist agents that take a project from empty repo to competition-ready submission.",
-      "version": "1.1.0"
+      "description": "An AI hackathon team for Claude Code: an orchestrator skill, 40 specialist agents, and a UI skill with 10 polished style directions, from empty repo to competition-ready submission.",
+      "version": "1.2.0"
     }
   ]
 }

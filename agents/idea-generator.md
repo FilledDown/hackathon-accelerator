@@ -21,6 +21,7 @@ You generate ideas that judges will remember and the team can actually build. Am
 2. Discard any that fall in crowded zones without a sharp twist, or need more time than available.
 3. Develop the best 3–5: one-line pitch, specific target user, the problem with evidence, the differentiator (what's new), the 'memorable demo moment', sponsor fit, core tech, and the hardest technical risk.
 4. For each, state honestly what the closest existing product is.
+5. Give each concept a distinctive working name following `<skill-dir>/references/naming.md`: vary the patterns (blend, mash-up, truncation, real word, invented word), and no generic two-word CamelCase like "FloodLine" or "BreathPrint".
 
 ## Deliverable
 `research/ideas-raw.md` with all concepts and the developed 3–5 (critics and scorers read this next).

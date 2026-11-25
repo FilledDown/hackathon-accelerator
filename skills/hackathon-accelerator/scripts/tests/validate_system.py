@@ -72,6 +72,26 @@ for f in (SKILL / "scripts").glob("*.py"):
     if f.name != "hackutil.py" and f"scripts/{f.name}" not in skill_text and f.name not in skill_text:
         warns.append(f"script not mentioned in SKILL.md: {f.name}")
 
+# ---- hackathon-ui skill (ships next to the accelerator)
+UI = SKILL.parent / "hackathon-ui"
+if UI.exists():
+    d, b = fm(UI / "SKILL.md")
+    if d and (d.get("name") != "hackathon-ui" or not d.get("description") or len(d["description"]) > 1024):
+        errors.append("hackathon-ui SKILL.md name/description invalid")
+    ui_text = (UI / "SKILL.md").read_text(encoding="utf-8")
+    for ref in sorted(set(re.findall(r"`((?:references|scripts|assets)/[\w./-]+)", ui_text))):
+        if "<" not in ref and not (UI / ref).exists():
+            errors.append(f"hackathon-ui SKILL.md references missing file: {ref}")
+    styles = UI / "references" / "styles"
+    index = (styles / "index.md").read_text(encoding="utf-8")
+    for sf in styles.glob("*.md"):
+        if sf.name != "index.md" and f"({sf.name})" not in index:
+            errors.append(f"style not listed in styles/index.md: {sf.name}")
+        if sf.name not in ("index.md", "immersive.md") and not (UI / "assets" / "showcase" / sf.name.replace(".md", ".html")).exists():
+            errors.append(f"style has no showcase page: {sf.name}")
+else:
+    warns.append("hackathon-ui skill not found next to hackathon-accelerator")
+
 # ---- agents
 names = {}
 for path in sorted((CLAUDE / "agents").rglob("*.md")):
@@ -101,6 +121,9 @@ for path in sorted((CLAUDE / "agents").rglob("*.md")):
     for ref in re.findall(r"`<skill-dir>/([\w./-]+)`", b):
         if not (SKILL / ref).exists():
             errors.append(f"{n}: references missing path <skill-dir>/{ref}")
+    for ref in re.findall(r"`<ui-dir>/([\w./-]+)", b):
+        if not (SKILL.parent / "hackathon-ui" / ref).exists():
+            errors.append(f"{n}: references missing path <ui-dir>/{ref}")
     if len(b.strip()) < 400:
         errors.append(f"{n}: body too thin to be operational")
 

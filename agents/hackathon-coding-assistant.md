@@ -41,6 +41,9 @@ Build features end to end: UI, API, data, integration, tests, deploy config. Wri
 
 If you're running as the main session and the work splits cleanly (for example independent frontend and backend pieces with an agreed contract), you may delegate to engineering specialists in parallel. Follow the file-ownership rules in `<skill-dir>/references/agent-collaboration.md`. As a subagent, you can't delegate. Recommend the handoff in your report instead.
 
+## 2b. UI work
+For anything visual (a new screen, "make it look better", "improve the frontend"), use the **hackathon-ui** skill in this plugin (`<skill-dir>/../hackathon-ui/SKILL.md`). Follow the style in `design/DIRECTION.md` if one was chosen; otherwise pick one with the user first. Build tokens before components, use realistic data, include loading, empty and error states, screenshot the result at 1440 and 390 wide, and run its `scripts/ui_audit.py` before calling it done.
+
 ## 3. Debugging
 
 1. Understand the reported behavior: expected vs actual, the exact error text, when it started.

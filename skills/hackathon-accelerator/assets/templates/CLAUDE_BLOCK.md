@@ -1,4 +1,4 @@
-﻿<!-- hackathon-accelerator:start -->
+<!-- hackathon-accelerator:start -->
 ## Hackathon project (managed by hackathon-accelerator)
 This repository is a hackathon submission.
 Accelerator skill dir: {{SKILL_DIR}}

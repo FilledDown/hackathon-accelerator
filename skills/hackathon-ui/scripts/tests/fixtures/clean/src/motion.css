@@ -1,0 +1,3 @@
+.reveal { animation: rv .7s var(--ease-out) forwards; }
+@keyframes rv { to { opacity: 1 } }
+@media (prefers-reduced-motion: reduce) { .reveal { animation: none } }

@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Relay — precision-dark showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --font-sans:"Inter","Inter Variable",system-ui,sans-serif;
+  --font-display:"Inter Tight","Inter Tight Variable","Inter",system-ui,sans-serif;
+  --font-mono:"Geist Mono","Geist Mono Variable",ui-monospace,monospace;
+  --bg:#08090a;--surface:#0f1011;--surface-2:#151618;--surface-3:#1c1d20;
+  --border:rgba(255,255,255,.07);--border-strong:rgba(255,255,255,.12);
+  --text:#f7f8f8;--text-2:#b4b6bc;--text-3:#7c7f87;--text-4:#55575d;
+  --accent:#6e79d6;--success:#4cb782;--warning:#f2c94c;--danger:#eb5757;
+  --radius-sm:6px;--radius:8px;--radius-lg:12px;--radius-xl:16px;
+  --ease-out:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--text);font:400 14px/1.5 var(--font-sans);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+nav.top{display:flex;align-items:center;height:64px;border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:10px;font:600 17px var(--font-display);letter-spacing:-.02em}
+.logo svg{width:20px;height:20px}
+.links{display:flex;gap:28px;margin-left:auto;color:var(--text-2);font-weight:500}
+.links a:hover{color:var(--text)}
+.sep{width:1px;height:16px;background:var(--border-strong);margin:0 24px}
+.btn{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 14px;border-radius:999px;font:500 14px var(--font-sans);border:1px solid transparent;cursor:pointer;transition:transform .1s,background .15s}
+.btn:active{transform:scale(.98)}
+.btn.primary{background:var(--text);color:var(--bg)}
+.btn.ghost{color:var(--text-2)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+header.hero{padding:120px 0 72px}
+h1{font:600 68px/1.04 var(--font-display);letter-spacing:-.035em;max-width:820px;text-wrap:balance}
+.sub{display:flex;align-items:flex-end;justify-content:space-between;margin-top:28px;color:var(--text-2);font-size:17px}
+.sub p{max-width:540px}
+.new{color:var(--text-3);font-size:15px}.new b{color:var(--text);font-weight:600;margin-right:6px}
+.reveal{opacity:0;transform:translateY(8px);filter:blur(4px);animation:rv .8s var(--ease-out) forwards;animation-delay:calc(var(--i,0)*80ms)}
+@keyframes rv{to{opacity:1;transform:none;filter:none}}
+.stage{position:relative;margin-bottom:120px}
+.glow{position:absolute;left:10%;right:10%;bottom:-80px;height:260px;background:radial-gradient(closest-side,rgba(180,186,200,.22),transparent);filter:blur(30px);z-index:0}
+.frame{position:relative;z-index:1;display:grid;grid-template-columns:232px 1fr;background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--radius-xl);padding:8px;box-shadow:0 0 0 1px rgba(255,255,255,.03) inset,0 40px 100px rgba(0,0,0,.6);height:600px;overflow:hidden}
+aside.side{padding:10px 8px;display:flex;flex-direction:column;gap:2px;font-size:13px}
+.ws{display:flex;align-items:center;gap:8px;padding:6px 8px 14px;font-weight:600}
+.ws .av{width:18px;height:18px;border-radius:5px;background:linear-gradient(135deg,#7c86e8,#4b54b8);display:grid;place-items:center;font-size:10px}
+.ws .icons{margin-left:auto;display:flex;gap:6px;color:var(--text-3)}
+.item{display:flex;align-items:center;gap:10px;height:30px;padding:0 8px;border-radius:var(--radius-sm);color:var(--text-2);font-weight:500}
+.item.on{background:var(--surface-3);color:var(--text)}
+.item i{width:14px;height:14px;border:1.5px solid currentColor;border-radius:4px;opacity:.8}
+.item i.dot{border-radius:50%}
+.count{margin-left:auto;font:500 11px var(--font-mono);color:var(--text-3)}
+.label{margin:16px 8px 4px;font-size:12px;color:var(--text-3);font-weight:500}
+main.pane{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);display:grid;grid-template-rows:48px 1fr;overflow:hidden}
+.bar{display:flex;align-items:center;gap:10px;padding:0 16px;border-bottom:1px solid var(--border);font-size:13px}
+.id{font:500 12px var(--font-mono);color:var(--text-3)}
+.pager{margin-left:auto;color:var(--text-3);font:500 12px var(--font-mono);display:flex;gap:14px}
+.body{display:grid;grid-template-columns:1fr 260px;overflow:hidden}
+.doc{padding:28px 40px;overflow:hidden}
+.doc h2{font:600 22px/1.3 var(--font-display);letter-spacing:-.02em}
+.doc p{color:var(--text-2);margin-top:8px;max-width:58ch}
+code{font:500 12px var(--font-mono);background:var(--surface-2);border:1px solid var(--border);padding:1px 6px;border-radius:5px;color:var(--text)}
+.doc h3{font:600 15px var(--font-sans);margin:28px 0 14px}
+.ev{display:flex;gap:10px;align-items:center;color:var(--text-3);font-size:13px;padding:6px 0}
+.ev b{color:var(--text-2);font-weight:500}
+.ava{width:18px;height:18px;border-radius:50%;flex:none;display:grid;place-items:center;font:600 9px var(--font-sans);color:#fff}
+.card{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface);margin-top:12px}
+.card .row{padding:14px 16px}
+.card .row+.row{border-top:1px solid var(--border)}
+.card .who{display:flex;gap:8px;align-items:center;font-size:13px}
+.card .who span{color:var(--text-3)}
+.card .msg{margin-top:6px;color:var(--text);font-size:13.5px}
+.mention{color:#a5adf0}
+.props{border-left:1px solid var(--border);padding:24px 20px;font-size:13px}
+.props h4{font-size:12px;color:var(--text-3);font-weight:500;margin:0 0 10px}
+.props h4:not(:first-child){margin-top:24px}
+.pv{display:flex;align-items:center;gap:8px;height:28px;color:var(--text)}
+.ring{width:12px;height:12px;border-radius:50%;border:2px solid var(--warning);border-right-color:transparent}
+.sev{display:flex;gap:2px;align-items:flex-end}.sev i{width:3px;background:var(--text-2);border-radius:1px}
+.tag{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 9px;border:1px solid var(--border-strong);border-radius:999px;font-size:12px;color:var(--text-2);margin:0 6px 6px 0}
+.tag::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--c)}
+kbd{font:500 11px var(--font-mono);padding:1px 5px;border:1px solid var(--border-strong);border-radius:4px;color:var(--text-3)}
+section.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;padding-bottom:140px}
+.tile{grid-column:span 2;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;min-height:240px;position:relative;overflow:hidden;
+  background-image:radial-gradient(380px circle at var(--mx,-200px) var(--my,-200px),rgba(110,121,214,.14),transparent 40%)}
+.tile.wide{grid-column:span 4}
+.tile h5{font:600 16px var(--font-display);letter-spacing:-.01em}
+.tile p{color:var(--text-2);margin-top:6px;font-size:14px;max-width:40ch}
+.palette{margin-top:22px;border:1px solid var(--border-strong);border-radius:10px;background:var(--surface-2);font-size:13px;overflow:hidden}
+.palette .q{padding:12px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.palette .r{display:flex;align-items:center;gap:10px;padding:9px 14px;color:var(--text-2)}
+.palette .r.sel{background:var(--surface-3);color:var(--text)}
+.palette .r kbd{margin-left:auto}
+.spark{margin-top:26px}
+.stat{font:600 40px var(--font-display);letter-spacing:-.04em;margin-top:22px;font-variant-numeric:tabular-nums}
+.stat small{font:500 13px var(--font-sans);color:var(--success);letter-spacing:0;margin-left:8px}
+@media (max-width:900px){h1{font-size:44px}.frame{grid-template-columns:1fr}aside.side,.props{display:none}.body{grid-template-columns:1fr}.links{display:none}.tile,.tile.wide{grid-column:span 6}.sub{flex-direction:column;align-items:flex-start;gap:12px}}
+@media (prefers-reduced-motion:reduce){.reveal{animation:none;opacity:1;transform:none;filter:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="top" aria-label="Main">
+    <a class="logo" href="#"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="none" stroke="#f7f8f8" stroke-width="1.6"/><path d="M5 12.5 9 8.5l2.5 2.5L15 7.5" fill="none" stroke="#f7f8f8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Relay</a>
+    <div class="links"><a href="#">Product</a><a href="#">Integrations</a><a href="#">Customers</a><a href="#">Changelog</a><a href="#">Pricing</a></div>
+    <span class="sep"></span>
+    <a class="btn ghost" href="#">Log in</a>
+    <a class="btn primary" href="#">Start free</a>
+  </nav>
+
+  <header class="hero">
+    <h1 class="reveal" style="--i:1">The incident desk for teams that ship at night</h1>
+    <div class="sub reveal" style="--i:2">
+      <p>Page the right person, coordinate the fix, and get a draft postmortem before the coffee's cold.</p>
+      <a class="new" href="#"><b>New</b>Auto-postmortems →</a>
+    </div>
+  </header>
+
+  <div class="stage reveal" style="--i:3">
+    <div class="glow"></div>
+    <div class="frame" role="img" aria-label="Relay app showing incident INC-2041">
+      <aside class="side">
+        <div class="ws"><span class="av">R</span>Relay<span class="icons">⌕ ✎</span></div>
+        <a class="item" href="#"><i></i>Pulse</a>
+        <a class="item" href="#"><i></i>Inbox<span class="count">3</span></a>
+        <a class="item" href="#"><i class="dot"></i>On call</a>
+        <a class="item" href="#"><i></i>Postmortems</a>
+        <div class="label">Workspace ▾</div>
+        <a class="item" href="#"><i class="dot"></i>Services</a>
+        <a class="item" href="#"><i></i>Runbooks</a>
+        <a class="item" href="#"><i></i>Escalations</a>
+        <div class="label">Active ▾</div>
+        <a class="item on" href="#"><span class="ring"></span>Checkout latency</a>
+        <a class="item" href="#"><i class="dot" style="color:var(--danger)"></i>Webhook retries</a>
+        <a class="item" href="#"><i class="dot" style="color:var(--success)"></i>Search reindex</a>
+      </aside>
+      <main class="pane">
+        <div class="bar"><span class="ring"></span><span class="id">INC-2041</span><b style="font-weight:600">Checkout latency spike in eu-west-1</b><span style="color:var(--warning)">★</span><span class="pager">1 / 12 <span>↑</span><span>↓</span></span></div>
+        <div class="body">
+          <div class="doc">
+            <h2>Checkout latency spike in eu-west-1</h2>
+            <p>p95 on <code>POST /checkout</code> climbed from 180ms to 2.4s after the 21:40 deploy. Payment provider healthy, suspect the new inventory lock.</p>
+            <h3>Activity</h3>
+            <div class="ev"><span class="ava" style="background:#3b3f8f">R</span><b>Relay</b>&nbsp;paged Mina via PagerDuty rotation · 14 min ago</div>
+            <div class="ev"><span class="ava" style="background:#2d6a4f">AI</span>Triage added <b>&nbsp;checkout-api</b>&nbsp;and <b>&nbsp;inventory</b> · 12 min ago</div>
+            <div class="card">
+              <div class="row"><div class="who"><span class="ava" style="background:#8a5a2b">M</span><b>mina</b><span>· 9 min ago</span></div>
+                <div class="msg">Rolling back <code>inventory@4.12</code>. Lock wait time is 1.9s on the hot SKU table.</div></div>
+              <div class="row"><div class="who"><span class="ava" style="background:#5b4b9e">J</span><b>jules</b><span>· just now</span></div>
+                <div class="msg"><span class="mention">@Relay</span> draft the timeline for the postmortem?</div></div>
+            </div>
+            <div class="ev" style="margin-top:14px"><span class="ring"></span>Relay moved status from Investigating to <b>&nbsp;Mitigating</b> · just now</div>
+          </div>
+          <div class="props">
+            <h4>Properties</h4>
+            <div class="pv"><span class="ring"></span>Mitigating</div>
+            <div class="pv"><span class="sev"><i style="height:5px"></i><i style="height:8px"></i><i style="height:11px;opacity:.3"></i></span>SEV-2</div>
+            <div class="pv"><span class="ava" style="background:#8a5a2b">M</span>Mina Okafor</div>
+            <div class="pv" style="color:var(--text-2)"><kbd>⌘</kbd><kbd>I</kbd>&nbsp;Assign commander</div>
+            <h4>Services</h4>
+            <span class="tag" style="--c:#4cb782">checkout-api</span><span class="tag" style="--c:#f2c94c">inventory</span>
+            <h4>Timeline</h4>
+            <div class="pv" style="color:var(--text-2);font-family:var(--font-mono);font-size:12px">21:40 deploy · 21:52 page</div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <section class="bento" aria-label="Features">
+    <div class="tile wide">
+      <h5>Everything is a keystroke away</h5>
+      <p>Assign, escalate, roll back and page from one palette. Your hands never leave the keyboard.</p>
+      <div class="palette">
+        <div class="q">roll back inventory</div>
+        <div class="r sel">↺ Roll back inventory@4.12 → 4.11<kbd>↵</kbd></div>
+        <div class="r">⚑ Escalate to SEV-1<kbd>⌘ E</kbd></div>
+        <div class="r">✉ Post status update<kbd>⌘ U</kbd></div>
+      </div>
+    </div>
+    <div class="tile">
+      <h5>Time to mitigate</h5>
+      <p>Median across 412 incidents this quarter.</p>
+      <div class="stat">11m 40s<small>▼ 38%</small></div>
+      <svg class="spark" viewBox="0 0 200 40" width="100%" height="40" aria-hidden="true"><path d="M0 30 L25 28 L50 32 L75 22 L100 24 L125 16 L150 18 L175 10 L200 8" fill="none" stroke="#6e79d6" stroke-width="2"/></svg>
+    </div>
+  </section>
+</div>
+<script>
+document.querySelectorAll('.tile').forEach(t=>t.addEventListener('pointermove',e=>{const r=t.getBoundingClientRect();t.style.setProperty('--mx',e.clientX-r.left+'px');t.style.setProperty('--my',e.clientY-r.top+'px')}));
+</script>
+</body>
+</html>

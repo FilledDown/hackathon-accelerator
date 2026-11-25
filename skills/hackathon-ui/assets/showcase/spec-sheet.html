@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FR-7 — spec-sheet showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --font-sans:"Space Grotesk","Space Grotesk Variable",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono","JetBrains Mono Variable",ui-monospace,monospace;
+  --paper:#e9e6df;--paper-2:#f2f0eb;--ink:#d63a2a;
+  --bg:var(--paper);--surface:var(--paper-2);
+  --text:var(--ink);--text-2:color-mix(in oklab,var(--ink) 78%,var(--paper));--text-3:color-mix(in oklab,var(--ink) 52%,var(--paper));
+  --border:color-mix(in oklab,var(--ink) 40%,transparent);
+}
+*{box-sizing:border-box;margin:0}
+body{font:400 13px/1.7 var(--font-mono);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;min-height:100vh;position:relative}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.35;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E")}
+a{color:inherit;text-decoration:none}
+.up{text-transform:uppercase;letter-spacing:.14em;font-size:11.5px}
+.crop{position:fixed;width:14px;height:14px;border-color:var(--ink);border-style:solid;border-width:0}
+.crop.tl{left:14px;top:14px;border-left-width:1px;border-top-width:1px}.crop.tr{right:14px;top:14px;border-right-width:1px;border-top-width:1px}
+.crop.bl{left:14px;bottom:14px;border-left-width:1px;border-bottom-width:1px}.crop.br{right:14px;bottom:14px;border-right-width:1px;border-bottom-width:1px}
+.reg{position:fixed;right:40px;top:40px;width:18px;height:18px;border:1px solid var(--ink);border-radius:50%}
+.reg::before,.reg::after{content:"";position:absolute;background:var(--ink)}
+.reg::before{left:50%;top:-6px;bottom:-6px;width:1px}.reg::after{top:50%;left:-6px;right:-6px;height:1px}
+nav{display:flex;align-items:center;gap:26px;max-width:1180px;margin:0 auto;padding:22px 40px}
+nav .mark{font:700 15px var(--font-sans);letter-spacing:-.02em;text-transform:none}
+nav .sp{margin-left:auto}
+nav .box{border:1px solid var(--ink);padding:3px 10px}
+.toggle{display:inline-flex;align-items:center;gap:10px}
+.toggle i{width:30px;height:16px;border:1px solid var(--ink);border-radius:999px;position:relative}
+.toggle i::after{content:"";position:absolute;left:3px;top:3px;width:8px;height:8px;border-radius:50%;background:var(--ink)}
+main{max-width:1180px;margin:0 auto;padding:40px 40px 60px;display:grid;grid-template-columns:1.05fr 1fr;gap:64px;align-items:start}
+.device{position:relative;margin-top:60px;transform:rotate(-2deg);animation:swing 5s ease-in-out infinite alternate;transform-origin:50% -120px}
+@keyframes swing{to{transform:rotate(1.2deg)}}
+.lanyard{position:absolute;left:50%;top:-110px;width:200px;height:110px;transform:translateX(-50%)}
+.body{background:var(--surface);border:1px solid var(--ink);box-shadow:6px 6px 0 color-mix(in oklab,var(--ink) 20%,transparent);padding:18px}
+.top{display:flex;justify-content:space-between}
+.screen{margin:16px 0;background:#1b1514;padding:18px 18px 14px;color:#ff6a4d;font:700 13px var(--font-mono)}
+.dots{display:flex;gap:6px;align-items:flex-end;height:72px}
+.dots i{flex:1;background:radial-gradient(circle,#ff6a4d 1.6px,transparent 2px) 0 0/6px 6px;height:var(--h)}
+.readout{display:flex;justify-content:space-between;margin-top:10px;letter-spacing:.1em}
+.knobs{display:flex;gap:14px;align-items:center}
+.knob{width:44px;height:44px;border-radius:50%;border:1px solid var(--ink);position:relative;background:var(--paper)}
+.knob::after{content:"";position:absolute;left:50%;top:5px;width:2px;height:12px;background:var(--ink);transform-origin:50% 17px;transform:translateX(-50%) rotate(var(--r,0deg))}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-left:auto}
+.keys b{width:28px;height:28px;border:1px solid var(--ink);display:grid;place-items:center;font-size:10px}
+.keys b.on{background:var(--ink);color:var(--paper)}
+.bar{height:34px;margin-top:16px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 5px,transparent 5px 8px,var(--ink) 8px 11px,transparent 11px 12px)}
+h1{font:500 56px/1 var(--font-mono);letter-spacing:-.04em;margin:8px 0 6px}
+.role{font-weight:700}
+.lede{color:var(--text-2);max-width:52ch;margin-top:22px}
+.spec{margin-top:28px;border-top:1px solid var(--border)}
+.row{display:grid;grid-template-columns:150px 1fr;padding:9px 0;border-bottom:1px solid var(--border)}
+.row span:first-child{color:var(--text-3)}
+.cta{display:flex;gap:10px;margin-top:28px}
+.btn{display:inline-flex;align-items:center;height:34px;padding:0 14px;border:1px solid var(--ink);text-transform:uppercase;letter-spacing:.14em;font-size:11.5px;transition:background .1s steps(2),color .1s steps(2)}
+.btn.fill{background:var(--ink);color:var(--paper)}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.btn:focus-visible{outline:1px dashed var(--ink);outline-offset:3px}
+footer{max-width:1180px;margin:0 auto;padding:0 40px 40px;display:flex;justify-content:space-between;border-top:1px dashed var(--border);padding-top:14px}
+@media (max-width:900px){main{grid-template-columns:1fr;padding:20px}nav .hide{display:none}h1{font-size:40px}}
+@media (prefers-reduced-motion:reduce){.device{animation:none}}
+</style>
+</head>
+<body>
+<span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span><span class="reg" aria-hidden="true"></span>
+<nav class="up" aria-label="Main">
+  <a class="mark" href="#">unit/07</a>
+  <span class="toggle hide"><i></i>Night mode</span>
+  <span class="sp"></span>
+  <a class="hide" href="#">Product</a><a class="hide" href="#">Specs</a><a class="hide" href="#">Manual</a><a class="hide" href="#">✦ Field notes</a>
+  <a class="box" href="#">Pre-order</a>
+</nav>
+<main>
+  <div class="device" role="img" aria-label="FR-7 field recorder with dot matrix display">
+    <svg class="lanyard" viewBox="0 0 200 110" aria-hidden="true"><path d="M10 0 L96 104 M190 0 L104 104" stroke="#d63a2a" stroke-width="1.2" fill="none"/><rect x="88" y="98" width="24" height="12" rx="3" fill="none" stroke="#d63a2a"/></svg>
+    <div class="body">
+      <div class="top up"><span>FR-7 · Field recorder</span><span>№ 0417</span></div>
+      <div class="screen">
+        <div class="dots"><i style="--h:40%"></i><i style="--h:72%"></i><i style="--h:55%"></i><i style="--h:90%"></i><i style="--h:64%"></i><i style="--h:30%"></i><i style="--h:80%"></i><i style="--h:46%"></i><i style="--h:68%"></i><i style="--h:24%"></i><i style="--h:58%"></i><i style="--h:76%"></i><i style="--h:36%"></i><i style="--h:62%"></i></div>
+        <div class="readout"><span>● REC 00:14:32</span><span>48K / 32F</span></div>
+      </div>
+      <div class="knobs">
+        <span class="knob" style="--r:-40deg"></span><span class="knob" style="--r:25deg"></span><span class="knob" style="--r:110deg"></span>
+        <div class="keys"><b class="on">1</b><b>2</b><b>3</b><b>4</b><b>A</b><b class="on">B</b><b>C</b><b>D</b></div>
+      </div>
+      <div class="bar" aria-hidden="true"></div>
+    </div>
+  </div>
+  <div>
+    <span class="up" style="color:var(--text-3)">RS-2026 · Product sheet 01</span>
+    <h1>FR-7<br>Field recorder</h1>
+    <span class="up role">Pocket 4-track · 32-bit float · built to drop</span>
+    <p class="lede">A recorder you can throw in a coat pocket and forget about until the moment matters. Four tracks, no menus, and a battery that outlasts the festival.</p>
+    <div class="spec">
+      <div class="row"><span class="up">Capture</span><span>4 tracks · 32-bit float · 48/96 kHz</span></div>
+      <div class="row"><span class="up">Inputs</span><span>2× XLR/TRS combo · built-in X/Y mics</span></div>
+      <div class="row"><span class="up">Battery</span><span>22 h recording · USB-C, charges in 70 min</span></div>
+      <div class="row"><span class="up">Body</span><span>Anodized aluminum · 186 g · IP54</span></div>
+      <div class="row"><span class="up">Status</span><span>● Shipping batch 03 · March 2027</span></div>
+    </div>
+    <div class="cta"><a class="btn fill" href="#">⇩ Spec sheet, PDF</a><a class="btn" href="#">Hear samples ↓</a><a class="btn" href="#">Pre-order $349</a></div>
+  </div>
+</main>
+<footer class="up"><span>Sheet 01 / 06</span><span style="color:var(--text-3)">↓ Scroll</span></footer>
+</body>
+</html>

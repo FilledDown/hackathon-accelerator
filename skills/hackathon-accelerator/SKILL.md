@@ -53,10 +53,12 @@ Each phase lists the agents to activate, what they must produce, and a **quality
 - **Agents:** `problem-discovery-researcher` and `idea-generator` (in parallel) → `originality-critic` and `feasibility-analyst` (in parallel, critiquing the candidates) → `idea-scoring-analyst` → `product-manager` recommends.
 - **Deliverable:** `IDEA_SCORECARD.md` with 3–5 genuinely different concepts, each scored on the rubric-adapted weights (§5) and each with its strongest critique.
 - **Gate:** each surviving idea has passed a critic and a feasibility check. The user chooses, or approves your recommendation. Log the choice in `DECISION_LOG.md`.
-- Reference: `references/judging-psychology.md`, `references/sponsor-integration.md`.
+- Give concepts working names that follow `references/naming.md`: no generic two-word CamelCase like "FloodLine". The final name is chosen in Phase 3.
+- Reference: `references/judging-psychology.md`, `references/sponsor-integration.md`, `references/naming.md`.
 
 ### Phase 3: Product definition
-- **Agents:** `product-manager` writes `PRODUCT_SPEC.md`, then `system-architect` writes `ARCHITECTURE.md` and the `design-director` sets the design direction (these two in parallel). `feasibility-analyst` checks the plan against the time left.
+- **Agents:** `product-manager` writes `PRODUCT_SPEC.md`, then `system-architect` writes `ARCHITECTURE.md` and the `design-director` sets the design direction (these two in parallel). The design direction comes from the **hackathon-ui** skill in this plugin (`<skill-dir>/../hackathon-ui/SKILL.md`): pick one of its style directions and record it in `design/DIRECTION.md`. `feasibility-analyst` checks the plan against the time left.
+- **Name the product** with `references/naming.md`: 6–10 candidates across at least 4 patterns, collision-checked, and the user picks.
 - **Deliverables:** `PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `BUILD_PLAN.md`. Also fill `PROGRESS.md` feature rows (status `PLANNED`) and `RISK_REGISTER.md`.
 - **Gate:** the MVP is the *core user journey plus one differentiator*. The demo scenario is written down. The build plan keeps at least 20% of the remaining time for integration, polish and presentation. **Scope is now frozen.** Changes need a `DECISION_LOG.md` entry that explains why they improve the expected score.
 - Reference: `references/mvp-guardrails.md`, `references/technical-architecture.md`.
@@ -70,8 +72,9 @@ Each phase lists the agents to activate, what they must produce, and a **quality
 
 ### Phase 5: Design polish
 - **Agents:** `design-director` audits and prioritizes, then `ui-ux-specialist`, `visual-design-specialist` and `interaction-designer` make changes, and `accessibility-reviewer` checks them. Design agents edit UI files only, and only after engineering on that screen is stable.
-- If the environment has design skills (UI/UX Pro Max, Taste Skill, frontend-design), have the design agents read them rather than reinventing them.
-- **Gate:** the screens the demo path uses look intentional. They don't look like a default template or a generic AI dashboard. Loading, empty and error states exist on the demo path.
+- Follow the **hackathon-ui** skill's process (tokens first, demo-path screens, states, motion, screenshot review). Its audit (`python3 <skill-dir>/../hackathon-ui/scripts/ui_audit.py <src>`) must report no errors on the app's source before the gate passes.
+- If the environment also has design skills (UI/UX Pro Max, Taste Skill, frontend-design), the design agents read them too, for exploration. The style chosen in `design/DIRECTION.md` stays the source of truth.
+- **Gate:** the screens the demo path uses look intentional. They don't look like a default template or a generic AI dashboard. Loading, empty and error states exist on the demo path. `ui_audit.py` shows no errors, and screenshots at 1440 and 390 wide were reviewed.
 
 ### Phase 6: Quality assurance
 - **Agents:** `qa-testing-engineer` (runs journeys, uses Playwright if present), `debugging-specialist` (for failures), `security-reviewer` (secrets, auth, injection), `performance-engineer` (demo-path latency), `red-team-judge` (in "pre-mortem" mode).
@@ -166,3 +169,5 @@ Subagents cannot spawn other subagents. Only the main session delegates. When a 
 | `references/sponsor-integration.md` | Any sponsor API or prize track |
 | `references/demo-engineering.md` | Demo path, seeded data, fallbacks, live-demo risk |
 | `references/pitch-templates.md` | Phase 7 writing |
+| `references/naming.md` | Naming concepts (Phase 2) and the product (Phase 3) |
+| `<skill-dir>/../hackathon-ui/SKILL.md` | Any UI work: style directions, tokens, components, motion, anti-slop audit |

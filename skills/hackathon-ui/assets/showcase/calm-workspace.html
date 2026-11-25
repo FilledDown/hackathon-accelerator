@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cadence — calm-workspace showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --font-sans:"Inter","Inter Variable",system-ui,sans-serif;
+  --font-display:"Newsreader","Newsreader Variable",Georgia,serif;
+  --bg:#fbfaf8;--surface:#ffffff;--surface-2:#f5f4f1;--surface-3:#eeece8;
+  --border:#ebe9e4;--border-strong:#dcd9d2;
+  --text:#1f1e1c;--text-2:#5f5d58;--text-3:#94918a;
+  --accent:#2f6fed;--accent-fg:#fff;
+  --tag-blue:#e3edfd;--tag-green:#e1f3e8;--tag-yellow:#fbf1d3;--tag-pink:#fbe4ec;--tag-purple:#ece6fd;
+  --tag-blue-fg:#1f56c8;--tag-green-fg:#1f7a45;--tag-yellow-fg:#8a6408;--tag-pink-fg:#b4235a;--tag-purple-fg:#5b3fd1;
+  --radius-sm:6px;--radius:10px;--radius-lg:14px;
+  --shadow:0 1px 2px rgba(31,30,28,.04),0 6px 20px rgba(31,30,28,.06);
+  --shadow-lg:0 2px 4px rgba(31,30,28,.04),0 20px 50px rgba(31,30,28,.10);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0}
+body{font:400 15px/1.55 var(--font-sans);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+nav{display:flex;align-items:center;height:68px}
+.logo{display:flex;align-items:center;gap:9px;font:500 22px var(--font-display);letter-spacing:-.01em}
+.logo span{width:22px;height:22px;border-radius:50%;border:2px solid var(--text);position:relative}
+.logo span::after{content:"";position:absolute;left:4px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--text)}
+.links{display:flex;gap:28px;margin-left:48px;color:var(--text-2);font-weight:500;font-size:14px}
+.navr{margin-left:auto;display:flex;gap:14px;align-items:center;font-size:14px;font-weight:500}
+.btn{display:inline-flex;align-items:center;height:36px;padding:0 16px;border-radius:9px;font-weight:500;font-size:14px;transition:transform .1s}
+.btn:active{transform:scale(.98)}
+.btn.dark{background:var(--text);color:#fff}
+.btn.line{border:1px solid var(--border-strong);background:var(--surface)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hero{text-align:center;padding:96px 0 56px}
+h1{font:400 72px/1.02 var(--font-display);letter-spacing:-.025em;text-wrap:balance}
+h1 em{font-style:italic;color:var(--accent)}
+.lead{color:var(--text-2);font-size:18px;max-width:540px;margin:22px auto 0}
+.cta{display:flex;gap:10px;justify-content:center;margin-top:30px}
+.cta .btn{height:42px;padding:0 20px;font-size:15px}
+.note{font-size:13px;color:var(--text-3);margin-top:14px}
+.tabs{display:flex;gap:4px;justify-content:center;margin:48px 0 18px}
+.tab{padding:7px 14px;border-radius:999px;font-size:14px;font-weight:500;color:var(--text-2)}
+.tab.on{background:var(--surface);box-shadow:var(--shadow);color:var(--text)}
+.app{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);display:grid;grid-template-columns:220px 1fr;overflow:hidden;margin-bottom:110px;position:relative}
+.side{background:var(--surface-2);border-right:1px solid var(--border);padding:18px 14px;font-size:13.5px}
+.side h6{font:500 11.5px var(--font-sans);color:var(--text-3);margin:18px 6px 6px;letter-spacing:.02em}
+.side a{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:var(--radius-sm);color:var(--text-2)}
+.side a.on{background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.05);color:var(--text);font-weight:500}
+.dot{width:8px;height:8px;border-radius:3px}
+.mini{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;font-size:11px;text-align:center;color:var(--text-3);margin:4px 2px 0}
+.mini b{font-weight:500;color:var(--text-2);padding:3px 0;border-radius:5px}
+.mini b.today{background:var(--accent);color:#fff}
+.cal{padding:0}
+.calhead{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--border)}
+.calhead h3{font:500 22px var(--font-display);letter-spacing:-.01em}
+.calhead .seg{margin-left:auto;display:flex;background:var(--surface-2);border-radius:8px;padding:2px;font-size:13px}
+.calhead .seg span{padding:4px 10px;border-radius:6px;color:var(--text-2)}
+.calhead .seg span.on{background:var(--surface);color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.week{display:grid;grid-template-columns:52px repeat(5,1fr);position:relative}
+.dh{padding:10px 8px;font-size:12px;color:var(--text-3);border-bottom:1px solid var(--border);border-left:1px solid var(--border)}
+.dh b{display:block;font:500 20px var(--font-display);color:var(--text)}
+.dh.today b{color:var(--accent)}
+.hours{grid-row:2;font-size:11px;color:var(--text-3);text-align:right;padding-right:8px}
+.hours div{height:56px;transform:translateY(-7px)}
+.col{grid-row:2;position:relative;border-left:1px solid var(--border);background:repeating-linear-gradient(var(--surface) 0 55px,var(--border) 55px 56px)}
+.ev{position:absolute;left:5px;right:5px;border-radius:7px;padding:6px 8px;font-size:12px;line-height:1.35;border-left:3px solid}
+.ev b{display:block;font-weight:600;font-size:12.5px}
+.blue{background:var(--tag-blue);color:var(--tag-blue-fg);border-color:var(--tag-blue-fg)}
+.green{background:var(--tag-green);color:var(--tag-green-fg);border-color:var(--tag-green-fg)}
+.yellow{background:var(--tag-yellow);color:var(--tag-yellow-fg);border-color:var(--tag-yellow-fg)}
+.pink{background:var(--tag-pink);color:var(--tag-pink-fg);border-color:var(--tag-pink-fg)}
+.purple{background:var(--tag-purple);color:var(--tag-purple-fg);border-color:var(--tag-purple-fg)}
+.now{position:absolute;left:0;right:0;height:2px;background:var(--danger,#d4483b)}
+.now::before{content:"";position:absolute;left:-4px;top:-3px;width:8px;height:8px;border-radius:50%;background:#d4483b}
+.cursor{position:absolute;z-index:3;display:flex;align-items:flex-start;gap:2px;pointer-events:none}
+.cursor svg{width:16px;height:16px}
+.cursor span{font-size:12px;font-weight:600;color:#fff;padding:2px 8px;border-radius:999px;margin-top:12px}
+@media (max-width:900px){h1{font-size:46px}.app{grid-template-columns:1fr}.side{display:none}.links{display:none}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav aria-label="Main">
+    <a class="logo" href="#"><span></span>Cadence</a>
+    <div class="links"><a href="#">Product</a><a href="#">For teachers</a><a href="#">Stories</a><a href="#">Pricing</a></div>
+    <div class="navr"><a href="#">Log in</a><a class="btn dark" href="#">Try it free</a></div>
+  </nav>
+  <header class="hero">
+    <h1>Practice with <em>intention</em>,<br>not guilt.</h1>
+    <p class="lead">Cadence turns your repertoire into a calm weekly plan, with short focused sessions, spaced review, and a teacher who can see what you actually worked on.</p>
+    <div class="cta"><a class="btn dark" href="#">Plan my week</a><a class="btn line" href="#">See a sample plan</a></div>
+    <p class="note">Free for students. Works with any instrument.</p>
+  </header>
+  <div class="tabs" role="tablist"><span class="tab on" role="tab" aria-selected="true">Plan</span><span class="tab" role="tab">Practice</span><span class="tab" role="tab">Review</span><span class="tab" role="tab">Share</span></div>
+  <div class="app" role="img" aria-label="Cadence weekly practice calendar">
+    <aside class="side">
+      <div class="mini"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+        <b>9</b><b>10</b><b>11</b><b>12</b><b>13</b><b>14</b><b>15</b><b>16</b><b class="today">17</b><b>18</b><b>19</b><b>20</b><b>21</b><b>22</b></div>
+      <h6>REPERTOIRE</h6>
+      <a class="on" href="#"><span class="dot" style="background:var(--tag-purple-fg)"></span>Chopin · Nocturne Op. 9 No. 2</a>
+      <a href="#"><span class="dot" style="background:var(--tag-blue-fg)"></span>Bach · Invention No. 8</a>
+      <a href="#"><span class="dot" style="background:var(--tag-pink-fg)"></span>Debussy · Clair de lune</a>
+      <h6>SKILLS</h6>
+      <a href="#"><span class="dot" style="background:var(--tag-green-fg)"></span>Scales &amp; arpeggios</a>
+      <a href="#"><span class="dot" style="background:var(--tag-yellow-fg)"></span>Sight-reading</a>
+      <h6>TEACHER</h6>
+      <a href="#">Ms. Halvorsen · Thu 4pm</a>
+    </aside>
+    <div class="cal">
+      <div class="calhead"><h3>November 16 – 20</h3><span style="color:var(--text-3);font-size:13px">4h 50m planned · 2h 15m done</span><div class="seg"><span>Day</span><span class="on">Week</span><span>Month</span></div></div>
+      <div class="week">
+        <div></div>
+        <div class="dh">MON <b>16</b></div><div class="dh today">TUE <b>17</b></div><div class="dh">WED <b>18</b></div><div class="dh">THU <b>19</b></div><div class="dh">FRI <b>20</b></div>
+        <div class="hours"><div>4 PM</div><div>5 PM</div><div>6 PM</div><div>7 PM</div><div>8 PM</div><div>9 PM</div></div>
+        <div class="col" style="height:336px">
+          <div class="ev green" style="top:4px;height:48px"><b>Scales · B♭ minor</b>15 min · metronome 92</div>
+          <div class="ev purple" style="top:60px;height:104px"><b>Nocturne · bars 13–20</b>The turn ornament, slow hands separate</div>
+        </div>
+        <div class="col" style="height:336px">
+          <div class="ev yellow" style="top:4px;height:48px"><b>Sight-reading</b>2 short pieces</div>
+          <div class="ev blue" style="top:60px;height:76px"><b>Invention No. 8</b>Voicing the left hand</div>
+          <div class="now" style="top:150px"></div>
+          <div class="ev purple" style="top:172px;height:76px"><b>Nocturne · run-through</b>Record and listen back</div>
+        </div>
+        <div class="col" style="height:336px">
+          <div class="ev green" style="top:116px;height:48px"><b>Arpeggios · 4 octaves</b>15 min</div>
+          <div class="ev pink" style="top:172px;height:104px"><b>Clair de lune · intro</b>Pedal changes, soft dynamics</div>
+        </div>
+        <div class="col" style="height:336px">
+          <div class="ev blue" style="top:4px;height:104px"><b>Lesson with Ms. Halvorsen</b>Bring the recording from Tuesday</div>
+        </div>
+        <div class="col" style="height:336px">
+          <div class="ev yellow" style="top:60px;height:48px"><b>Sight-reading</b>Hymn harmonization</div>
+          <div class="ev purple" style="top:116px;height:76px"><b>Nocturne · review</b>Spaced review: day 3</div>
+        </div>
+      </div>
+    </div>
+    <div class="cursor" style="left:640px;top:250px"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 1l5 14 2-6 6-2z" fill="#5b3fd1"/></svg><span style="background:#5b3fd1">Ms. Halvorsen</span></div>
+  </div>
+</div>
+</body>
+</html>

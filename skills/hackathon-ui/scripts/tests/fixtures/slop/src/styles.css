@@ -1,0 +1,3 @@
+.card { font-size: 13px; color: #333; background: rgba(255,255,255,.1); backdrop-filter: blur(10px); animation: pop 1s; }
+.a { font-size: 15px } .b { font-size: 17px } .c { font-size: 19px } .d { font-size: 21px } .e { font-size: 23px } .f { font-size: 27px } .g { font-size: 31px } .h { font-size: 45px }
+@keyframes pop { from { transform: scale(.5) } }

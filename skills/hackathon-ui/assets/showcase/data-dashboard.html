@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rivra — data-dashboard showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --font-sans:"Inter","Inter Variable",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono","JetBrains Mono Variable",ui-monospace,monospace;
+  --bg:#f7f7f8;--surface:#ffffff;--surface-2:#f2f2f4;
+  --border:#e6e6ea;--border-strong:#d4d4da;
+  --text:#16161a;--text-2:#5a5a66;--text-3:#8d8d99;
+  --accent:#4f46e5;
+  --series-1:#4f46e5;--series-2:#0ea5e9;--series-3:#10b981;--series-4:#f59e0b;
+  --good:#10b981;--warn:#f59e0b;--bad:#ef4444;
+  --grid-line:rgba(22,22,26,.06);
+  --radius:8px;--radius-lg:10px;
+}
+*{box-sizing:border-box;margin:0}
+body{font:400 13px/1.5 var(--font-sans);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:inherit;text-decoration:none}
+.app{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+aside{border-right:1px solid var(--border);background:var(--surface);padding:14px 10px;display:flex;flex-direction:column;gap:2px}
+.org{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;padding:4px 8px 16px}
+.org i{width:22px;height:22px;border-radius:6px;background:linear-gradient(160deg,#0ea5e9,#4f46e5)}
+aside a{display:flex;align-items:center;gap:10px;height:32px;padding:0 10px;border-radius:6px;color:var(--text-2);font-weight:500}
+aside a.on{background:var(--surface-2);color:var(--text)}
+aside a span{width:14px;height:14px;border:1.6px solid currentColor;border-radius:4px;opacity:.75}
+aside h6{font:500 11px var(--font-sans);color:var(--text-3);margin:16px 10px 4px;letter-spacing:.04em;text-transform:uppercase}
+.alert{margin-left:auto;font:500 11px var(--font-mono);color:#fff;background:var(--bad);padding:0 6px;border-radius:999px}
+main{padding:0 24px 32px}
+.top{display:flex;align-items:center;gap:12px;height:56px;border-bottom:1px solid var(--border);margin:0 -24px 18px;padding:0 24px;background:var(--surface)}
+.crumb{color:var(--text-3)}.crumb b{color:var(--text);font-weight:600}
+.seg{margin-left:auto;display:flex;border:1px solid var(--border);border-radius:7px;overflow:hidden}
+.seg span{padding:5px 11px;color:var(--text-2);font-weight:500}
+.seg span+span{border-left:1px solid var(--border)}
+.seg span.on{background:var(--surface-2);color:var(--text)}
+.btn{height:30px;padding:0 12px;border:1px solid var(--border-strong);border-radius:7px;background:var(--surface);font:500 13px var(--font-sans);display:inline-flex;align-items:center;gap:6px}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.chips{display:flex;gap:8px;margin-bottom:16px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text-2)}
+.chip b{color:var(--text);font-weight:500}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px}
+.ph{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.ph h3{font:600 13.5px var(--font-sans)}
+.ph .more{margin-left:auto;color:var(--text-3);font-weight:500}
+.legend{display:flex;gap:14px;color:var(--text-2);font-size:12px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend span::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--c)}
+.hero{grid-column:span 8}
+.kpis{grid-column:span 4;display:grid;gap:12px}
+.kpi .label{color:var(--text-2);font-weight:500}
+.kpi .row{display:flex;align-items:flex-end;justify-content:space-between;margin-top:6px}
+.kpi .num{font:600 30px/1 var(--font-sans);letter-spacing:-.02em}
+.kpi .num small{font-size:14px;color:var(--text-3);font-weight:500;margin-left:3px}
+.delta{display:inline-flex;align-items:center;font-weight:600;font-size:12px;padding:2px 6px;border-radius:5px;margin-top:8px}
+.up{color:#047857;background:#d1fae5}.down{color:#b91c1c;background:#fee2e2}.flat{color:#92400e;background:#fef3c7}
+.primary{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.primary .num{font:600 40px/1 var(--font-sans);letter-spacing:-.025em}
+.primary .unit{color:var(--text-3);font-weight:500;font-size:15px}
+table{width:100%;border-collapse:collapse}
+th{font:500 12px var(--font-sans);color:var(--text-3);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border)}
+td{padding:0 10px;height:40px;border-bottom:1px solid var(--border)}
+tr:hover td{background:var(--surface-2)}
+td.r,th.r{text-align:right}
+.mono{font-family:var(--font-mono);font-size:12px;color:var(--text-2)}
+.st{display:inline-flex;align-items:center;gap:6px;font-weight:500}
+.st::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c)}
+.mag{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.mag i{display:block;height:6px;border-radius:3px;background:var(--series-1);opacity:.75}
+.heat{display:grid;grid-template-columns:repeat(24,1fr);gap:3px;margin-top:4px}
+.heat i{aspect-ratio:1;border-radius:2px;background:var(--c)}
+@media (max-width:1000px){.app{grid-template-columns:1fr}aside{display:none}.hero,.kpis,.wide{grid-column:span 12}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside aria-label="Navigation">
+    <div class="org"><i></i>Rivra</div>
+    <a class="on" href="#"><span></span>Overview</a>
+    <a href="#"><span></span>Sensors</a>
+    <a href="#"><span></span>Alerts<em class="alert">3</em></a>
+    <a href="#"><span></span>Forecasts</a>
+    <h6>Watersheds</h6>
+    <a href="#"><span style="border-radius:50%"></span>Cedar Creek</a>
+    <a href="#"><span style="border-radius:50%"></span>Mill River</a>
+    <a href="#"><span style="border-radius:50%"></span>South Fork</a>
+  </aside>
+  <main>
+    <div class="top">
+      <span class="crumb">Watersheds / <b>Cedar Creek</b></span>
+      <div class="seg" role="tablist"><span>1h</span><span class="on">24h</span><span>7d</span><span>30d</span></div>
+      <button class="btn">⇩ Export</button>
+    </div>
+    <div class="chips"><span class="chip">Sensors <b>All 48</b></span><span class="chip">Metric <b>River level</b></span><span class="chip">Compare <b>Last storm (Oct 12)</b></span></div>
+    <div class="grid">
+      <section class="panel hero" aria-label="River level chart">
+        <div class="ph"><h3>River level at Cedar St. bridge</h3><div class="legend" style="margin-left:16px"><span style="--c:var(--series-1)">Now</span><span style="--c:#c7c7d1">Oct 12 storm</span><span style="--c:var(--bad)">Flood stage</span></div><span class="more">⋯</span></div>
+        <div class="primary"><span class="num">3.82</span><span class="unit">m</span><span class="delta up" style="margin:0">▲ 0.41 m in 3h</span></div>
+        <svg viewBox="0 0 720 230" width="100%" height="230" aria-label="Line chart: river level rising toward flood stage" role="img">
+          <g stroke="var(--grid-line)" stroke-width="1"><path d="M40 20H720M40 70H720M40 120H720M40 170H720M40 210H720"/></g>
+          <g font-size="11" fill="#8d8d99" font-family="Inter"><text x="0" y="24">5 m</text><text x="0" y="74">4 m</text><text x="0" y="124">3 m</text><text x="0" y="174">2 m</text>
+            <text x="40" y="228">00:00</text><text x="210" y="228">06:00</text><text x="380" y="228">12:00</text><text x="550" y="228">18:00</text><text x="680" y="228">Now</text></g>
+          <path d="M40 56H720" stroke="var(--bad)" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <text x="720" y="50" text-anchor="end" font-size="11" fill="#ef4444" font-family="Inter" font-weight="600">Flood stage 4.3 m</text>
+          <path d="M40 190 C120 186 180 170 250 160 S360 120 420 100 520 80 600 72 680 76 720 78" fill="none" stroke="#c7c7d1" stroke-width="2"/>
+          <defs><linearGradient id="a" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#4f46e5" stop-opacity=".16"/><stop offset="1" stop-color="#4f46e5" stop-opacity="0"/></linearGradient></defs>
+          <path d="M40 182 C110 180 170 178 240 172 S350 160 420 150 520 126 580 112 660 88 700 80 V210 H40Z" fill="url(#a)"/>
+          <path d="M40 182 C110 180 170 178 240 172 S350 160 420 150 520 126 580 112 660 88 700 80" fill="none" stroke="var(--series-1)" stroke-width="2.5"/>
+          <circle cx="700" cy="80" r="4.5" fill="#fff" stroke="var(--series-1)" stroke-width="2.5"/>
+          <path d="M520 30V210" stroke="#16161a" stroke-width="1" stroke-dasharray="2 3" opacity=".5"/>
+          <rect x="452" y="30" width="136" height="22" rx="5" fill="#16161a"/><text x="520" y="45" text-anchor="middle" font-size="11" fill="#fff" font-family="Inter" font-weight="500">Storm cell arrives 15:10</text>
+        </svg>
+      </section>
+      <div class="kpis">
+        <section class="panel kpi"><div class="label">Sensors online</div><div class="row"><span class="num">46<small>/ 48</small></span><svg width="90" height="30" viewBox="0 0 90 30" aria-hidden="true"><path d="M0 8 L15 8 L30 9 L45 8 L60 12 L75 10 L90 11" fill="none" stroke="var(--series-3)" stroke-width="2"/></svg></div><span class="delta flat">2 offline · battery</span></section>
+        <section class="panel kpi"><div class="label">Rainfall, last 24h</div><div class="row"><span class="num">61<small>mm</small></span><svg width="90" height="30" viewBox="0 0 90 30" aria-hidden="true"><path d="M0 26 L15 24 L30 22 L45 18 L60 12 L75 8 L90 4" fill="none" stroke="var(--series-2)" stroke-width="2"/></svg></div><span class="delta up">▲ 2.4× seasonal avg</span></section>
+        <section class="panel kpi"><div class="label">Est. time to flood stage</div><div class="row"><span class="num">4h 10m</span></div><span class="delta down">Earlier than Oct 12 by 1h 35m</span></section>
+      </div>
+      <section class="panel wide" style="grid-column:span 8" aria-label="Sensors needing attention">
+        <div class="ph"><h3>Sensors needing attention</h3><span class="more">View all 48 →</span></div>
+        <table>
+          <thead><tr><th>Sensor</th><th>Location</th><th>Status</th><th class="r">Rise / hr</th><th class="r">Level</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">CC-014</td><td>Cedar St. bridge</td><td><span class="st" style="--c:var(--bad)">Rising fast</span></td><td class="r"><div class="mag"><i style="width:64px"></i>0.18 m</div></td><td class="r">3.82 m</td></tr>
+            <tr><td class="mono">CC-021</td><td>Elm Park culvert</td><td><span class="st" style="--c:var(--warn)">Watch</span></td><td class="r"><div class="mag"><i style="width:38px"></i>0.11 m</div></td><td class="r">2.95 m</td></tr>
+            <tr><td class="mono">CC-007</td><td>Old mill weir</td><td><span class="st" style="--c:var(--warn)">Watch</span></td><td class="r"><div class="mag"><i style="width:30px"></i>0.09 m</div></td><td class="r">3.10 m</td></tr>
+            <tr><td class="mono">CC-033</td><td>Harbor outfall</td><td><span class="st" style="--c:#c7c7d1">Offline · battery</span></td><td class="r" style="color:var(--text-3)">—</td><td class="r" style="color:var(--text-3)">—</td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section class="panel" style="grid-column:span 4" aria-label="Uptime heatmap">
+        <div class="ph"><h3>Network uptime, 24h</h3></div>
+        <div class="heat" id="heat"></div>
+        <div style="display:flex;justify-content:space-between;color:var(--text-3);font-size:11px;margin-top:8px"><span>00:00</span><span>99.2% uptime</span><span>Now</span></div>
+      </section>
+    </div>
+  </main>
+</div>
+<script>
+const h=document.getElementById("heat");for(let r=0;r<4;r++)for(let c=0;c<24;c++){const i=document.createElement("i");const v=(c*7+r*13)%29;i.style.setProperty("--c",v===3?"#ef4444":v<5?"#fcd34d":v<12?"#6ee7b7":"#10b981");h.appendChild(i)}
+</script>
+</body>
+</html>

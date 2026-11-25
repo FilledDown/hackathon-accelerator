@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Create the hackathon shared project memory in a project root. Never overwrites existing files.
 
 Usage:
