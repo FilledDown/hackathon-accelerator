@@ -6,7 +6,7 @@ A Claude Code plugin that gives you a whole hackathon team: an orchestrator skil
 
 In Claude Code:
 ```
-/plugin marketplace add YOUR-GITHUB-USERNAME/hackathon-accelerator
+/plugin marketplace add /hackathon-accelerator
 /plugin install hackathon-accelerator@hackathon-accelerator
 ```
 Restart Claude Code and you're set. Python 3 is needed for the helper scripts. They use the standard library only.
