@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: pushback-on-late-feature
+expected_outcome: |
+  The assistant reads PROGRESS.md, notices ~75% of time is used (past feature freeze) and checks the rubric, pushes back briefly with the trade-off, offers a cheaper demo-safe alternative, and does not start building full real-time sync without the user's confirmation.
+context:
+  scaffold_script: place-files.sh

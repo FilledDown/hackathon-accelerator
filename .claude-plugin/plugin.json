@@ -1,0 +1,7 @@
+{
+  "name": "hackathon-accelerator",
+  "version": "1.0.0",
+  "description": "An AI hackathon team for Claude Code: competition research, idea scoring, architecture, an always-on coding assistant, design polish, QA, Devpost/pitch/demo writing and mock judging, coordinated by an orchestrator skill and 40 specialist agents.",
+  "license": "MIT",
+  "keywords": ["hackathon", "devpost", "multi-agent", "pitch", "coding-assistant", "judging"]
+}

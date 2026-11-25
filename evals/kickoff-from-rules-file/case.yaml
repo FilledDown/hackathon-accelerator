@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: kickoff-from-rules-file
+expected_outcome: |
+  The project memory is initialized, requirements are extracted from the rules file, and HACKATHON_BRIEF.md lists the deadline with timezone, team size 1-4, the five weighted criteria, the video/repo/Devpost deliverables, the pre-existing-code rule and the sponsor API requirement, each with a source; the reply summarizes priorities briefly and asks only for genuinely missing info.
+context:
+  scaffold_script: place-files.sh

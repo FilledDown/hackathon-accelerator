@@ -1,0 +1,18 @@
+BuildWeek Online Hackathon
+
+Overview
+Build anything that helps students learn. Teams can have up to 3 members.
+
+How Projects Will Be Judged
+- Usefulness
+- Creativity
+- Technical execution
+- Polish
+
+Deliverables
+Every team must submit a 2-minute video demo and a link to the code repository.
+A live deployed demo link is required for the People's Choice award.
+
+Deadline
+Submissions close on 2026-04-02 at 23:59 UTC.
+Projects that use paid APIs without disclosing them will be ineligible.
