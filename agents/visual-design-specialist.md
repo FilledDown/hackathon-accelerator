@@ -1,6 +1,6 @@
 ---
 name: visual-design-specialist
-description: "Refines the visual craft of a hackathon product — typography, color, spacing, iconography, imagery, consistency, and overall aesthetic quality — so it looks professionally designed. Use in Phase 5 after flows are stable."
+description: "Refines type, color, spacing and tokens so every screen looks designed."
 model: inherit
 color: magenta
 ---

@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
-"""Install the /hackathon-accelerator shortcut for your user account.
+"""Install the plain shortcut commands for your user account.
 
-Claude Code namespaces plugin skills, so the plugin's skill is /hackathon-accelerator:hackathon-accelerator.
-This copies a small forwarding skill to ~/.claude/skills/hackathon-accelerator so that typing
-/hackathon-accelerator works in every project. The forwarding skill only runs when you type it
-(disable-model-invocation), so it never competes with the plugin skill.
+Claude Code namespaces plugin skills (/hackathon-accelerator:hackathon-accelerator). This copies small
+forwarding skills into ~/.claude/skills/ so these work in every project:
+
+  /hackathon-accelerator   start or resume the accelerator
+  /hackathon-team          show the team and which agents did what
+
+The shortcuts only run when you type them (disable-model-invocation), so they never compete with the plugin.
 
 Usage:
-  python tools/install_shortcut.py            install
-  python tools/install_shortcut.py --force    overwrite an existing ~/.claude/skills/hackathon-accelerator
+  python tools/install_shortcut.py            install (or update) all shortcuts
+  python tools/install_shortcut.py --force    overwrite existing skills with the same names
   python tools/install_shortcut.py --remove   uninstall
 Restart Claude Code afterwards.
 """
@@ -17,9 +20,14 @@ import shutil
 import sys
 from pathlib import Path
 
-SRC = Path(__file__).resolve().parent.parent / "shortcut" / "hackathon-accelerator"
-DST = Path.home() / ".claude" / "skills" / "hackathon-accelerator"
-MARK = "Shortcut that starts or resumes the Hackathon Accelerator plugin"
+SRC_ROOT = Path(__file__).resolve().parent.parent / "shortcut"
+DST_ROOT = Path.home() / ".claude" / "skills"
+MARK = "Shortcut that"   # every shortcut's description starts with this
+
+
+def is_ours(dst: Path) -> bool:
+    f = dst / "SKILL.md"
+    return f.exists() and MARK in f.read_text(encoding="utf-8", errors="replace")
 
 
 def main() -> int:
@@ -27,30 +35,30 @@ def main() -> int:
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--remove", action="store_true")
     args = ap.parse_args()
-
-    existing = DST / "SKILL.md"
-    is_ours = existing.exists() and MARK in existing.read_text(encoding="utf-8", errors="replace")
-
-    if args.remove:
-        if not DST.exists():
-            print("Shortcut not installed; nothing to remove.")
-        elif is_ours or args.force:
-            shutil.rmtree(DST)
-            print(f"Removed {DST}. Restart Claude Code.")
-        else:
-            print(f"{DST} isn't the shortcut (a different skill lives there). Not removing it; use --force if you're sure.")
-            return 1
-        return 0
-
-    if DST.exists() and not (is_ours or args.force):
-        print(f"{DST} already exists and isn't the shortcut. Not overwriting it; use --force to replace it.")
-        return 1
-    if DST.exists():
-        shutil.rmtree(DST)
-    DST.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copytree(SRC, DST)
-    print(f"Installed {DST}\nRestart Claude Code, then type /hackathon-accelerator in any project.")
-    return 0
+    code = 0
+    for src in sorted(p for p in SRC_ROOT.iterdir() if (p / "SKILL.md").exists()):
+        dst = DST_ROOT / src.name
+        if args.remove:
+            if not dst.exists():
+                print(f"/{src.name}: not installed")
+            elif is_ours(dst) or args.force:
+                shutil.rmtree(dst)
+                print(f"/{src.name}: removed")
+            else:
+                print(f"/{src.name}: {dst} is a different skill, not removing it (use --force if you're sure)")
+                code = 1
+            continue
+        if dst.exists() and not (is_ours(dst) or args.force):
+            print(f"/{src.name}: {dst} already exists and isn't this shortcut, skipped (use --force to replace)")
+            code = 1
+            continue
+        if dst.exists():
+            shutil.rmtree(dst)
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copytree(src, dst)
+        print(f"/{src.name}: installed at {dst}")
+    print("Restart Claude Code to pick up the changes.")
+    return code
 
 
 if __name__ == "__main__":

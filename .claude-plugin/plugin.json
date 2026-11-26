@@ -1,10 +1,13 @@
 {
   "name": "hackathon-accelerator",
-  "version": "1.2.0",
-  "description": "An AI hackathon team for Claude Code: competition research, idea scoring, architecture, an always-on coding assistant, a UI skill with 10 style directions and an anti-slop audit, QA, Devpost/pitch/demo writing and mock judging. Coordinated by an orchestrator skill and 40 specialist agents.",
+  "version": "1.3.1",
+  "description": "An AI hackathon team for Claude Code: research, ideas, build, polished animated UI, licensed images, timed pitch decks (Canva or HTML), automated demo videos, mock judging, and a log of which agent did what. 40 agents, lean on tokens.",
   "license": "MIT",
   "keywords": [
+    "animation",
+    "canva",
     "coding-assistant",
+    "demo-video",
     "design-system",
     "devpost",
     "frontend",
@@ -12,6 +15,7 @@
     "judging",
     "multi-agent",
     "pitch",
+    "pitch-deck",
     "ui"
   ],
   "author": {

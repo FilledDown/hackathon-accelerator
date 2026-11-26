@@ -1,6 +1,6 @@
 ---
 name: interaction-designer
-description: "Designs and implements interactions, transitions, micro-animations, feedback, and the moment-to-moment feel of a hackathon product — especially the differentiator moment in the demo. Use in Phase 5 or to make an AI/processing wait feel intentional."
+description: "Adds component animations and stages the hero moment."
 model: inherit
 color: magenta
 ---

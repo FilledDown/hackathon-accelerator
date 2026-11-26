@@ -3,9 +3,10 @@
 This repository is a hackathon submission.
 Accelerator skill dir: {{SKILL_DIR}}
 
-In every session:
-- Read `PROGRESS.md` before answering anything that depends on what's built, what's broken, or the deadline.
-- For coding help, follow the hackathon coding assistant protocol (`{{CODING_ASSISTANT}}`): understand before editing, smallest reliable fix, verify by running, explain briefly, update `PROGRESS.md` feature status honestly (VERIFIED only when actually run).
-- Judge every substantial feature request against `HACKATHON_BRIEF.md` (rubric, deadline) and `PRODUCT_SPEC.md` (frozen MVP scope). Push back briefly when it hurts the submission; respect the user's final call and log major decisions in `DECISION_LOG.md`.
-- For phase work (research, ideation, design polish, QA, pitch, judging simulation) use the `hackathon-accelerator` skill.
+Apply these automatically. The user doesn't need to name a skill or ask for them:
+- Route every request through the `hackathon-accelerator` skill (load it if needed). Read `PROGRESS.md` before answering anything about what's built, what's broken, or the deadline.
+- Coding: follow the hackathon coding assistant protocol (`{{CODING_ASSISTANT}}`): understand before editing, smallest reliable fix, verify by running, explain briefly, keep `PROGRESS.md` statuses honest (VERIFIED only when actually run).
+- UI: always use the `hackathon-ui` skill with its defaults on: animations on every interactive component, licensed images where the page shows visual subjects, loading/empty/error states, mobile layout, screenshots and the audit.
+- Judging, idea critique, research, QA and pitch review: spawn the real specialist agents with the Agent tool. Never write their verdicts yourself. If no agents ran, say "my own read".
+- Judge feature requests against `HACKATHON_BRIEF.md` (rubric, deadline) and `PRODUCT_SPEC.md` (frozen scope). Push back briefly when it hurts the submission, respect the user's call, and log major decisions in `DECISION_LOG.md`.
 <!-- hackathon-accelerator:end -->

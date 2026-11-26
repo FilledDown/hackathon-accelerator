@@ -1,6 +1,6 @@
 ---
 name: design-director
-description: "Sets and guards the visual and UX direction for a hackathon product — design principles, visual language, priority screens — and audits the product so it looks intentional, not like a generic AI dashboard. Use in Phase 3 for direction and Phase 5 to audit and prioritize polish."
+description: "Picks the UI style direction (hackathon-ui) and audits screens; prioritizes polish."
 model: inherit
 color: magenta
 ---

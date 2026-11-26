@@ -1,6 +1,6 @@
 ---
 name: api-integration-engineer
-description: "Integrates third-party and sponsor APIs/SDKs into a hackathon project — auth, wrappers, rate limits, webhooks, error handling, and demo fallbacks. Use for any sponsor API work or when an external integration fails."
+description: "Integrates sponsor and third-party APIs, verified against docs, with timeouts and fallbacks."
 model: inherit
 color: cyan
 ---

@@ -1,6 +1,6 @@
 ---
 name: debugging-specialist
-description: "Methodically diagnoses and fixes hard bugs in a hackathon project — reproduces, isolates the root cause, applies the smallest reliable fix, and verifies. Use when something is broken and the cause isn't obvious, when a fix attempt failed, or when an error is intermittent."
+description: "Methodically reproduces, isolates and fixes hard or intermittent bugs."
 model: inherit
 color: red
 ---

@@ -1,6 +1,6 @@
 ---
 name: judge-psychology-analyst
-description: "Analyzes how judges at this event will likely evaluate projects — format, time per project, judge backgrounds — and turns it into concrete pitch and demo guidance. Use when judges are known, when designing the demo flow, or before Phase 8 simulation to define judge personas."
+description: "Models how judges will evaluate (format, time, backgrounds) and defines judge personas."
 tools: Read, Grep, Glob, WebSearch, WebFetch, Write
 model: inherit
 color: cyan

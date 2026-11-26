@@ -1,6 +1,6 @@
 ---
 name: chief-orchestrator
-description: Overall coordinator of the Hackathon Council. Intended as the MAIN session agent (`claude --agent chief-orchestrator`). It understands the user's goals and time, decides which specialists to activate, delegates with specific deliverables, resolves conflicting recommendations, tracks project health and makes final execution decisions. If spawned as a subagent, it produces a coordination plan (which agents, in what order, with what briefs) instead of delegating.
+description: "Main-session coordinator for the hackathon council: picks agents, delegates, resolves conflicts, guards the clock. Use via `claude --agent`."
 model: inherit
 color: purple
 ---

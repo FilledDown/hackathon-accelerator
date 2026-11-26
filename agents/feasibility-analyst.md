@@ -1,6 +1,6 @@
 ---
 name: feasibility-analyst
-description: "Assesses whether an idea, feature, or plan can be built and demoed reliably in the remaining time with this team — estimating effort, identifying technical risks and unknowns, and proposing de-risked alternatives. Use in Phase 2 scoring, Phase 3 planning, and for any proposed scope change."
+description: "Estimates hours and risks for an idea, feature or plan; proposes a scoped-down version."
 tools: Read, Grep, Glob, WebSearch, WebFetch, Write
 model: inherit
 color: orange

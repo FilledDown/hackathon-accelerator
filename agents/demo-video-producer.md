@@ -1,6 +1,6 @@
 ---
 name: demo-video-producer
-description: "Writes the demo video script and shot list for a hackathon submission — timed narration, exact screen actions, captions, recording and editing guidance — within the event's length limit. Use in Phase 7."
+description: "Plans, records (Playwright) and stitches (ffmpeg) the demo video within the time limit."
 tools: Read, Grep, Glob, Write, Edit, WebFetch
 model: inherit
 color: purple
@@ -34,6 +34,12 @@ Video script + shot list in the 'Video script' section of `submission/DEMO_SCRIP
 ## References (read when relevant)
 - `<skill-dir>/references/pitch-templates.md`
 - `<skill-dir>/references/judging-psychology.md`
+
+## Tools for this job
+1. `python3 <skill-dir>/scripts/time_plan.py --minutes <n> --format video-only` (or `video-demo`) for the segment budget. Lead with the hero moment by about 30s.
+2. Copy `<skill-dir>/assets/video/record-demo.mjs`, `render-cards.mjs` and `cards.html` into the project's `video/`. Write STEPS from DEMO_SCRIPT.md (captions ≤70 characters), record the real app (needs `npm i -D playwright`), and render the cards.
+3. Stitch with `python3 <skill-dir>/scripts/make_video.py <parts> --out submission/demo.mp4 --limit <seconds>` (needs ffmpeg).
+4. Watch the result yourself (extract frames with ffmpeg and look at them) before reporting it's done. Full guide: `<skill-dir>/references/demo-video.md`.
 
 ## Collaboration protocol
 - You were briefed by the orchestrator (main session). You cannot spawn agents or ask the user questions mid-task; if blocked by missing information, finish what you can and list exactly what you need.

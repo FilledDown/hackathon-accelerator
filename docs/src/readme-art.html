@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>README art</title>
+<!-- Source for docs/images/*.png. Regenerate: cd tools/render-showcases && npm install && npm run readme-art -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--font-sans:"Inter","Inter Variable",system-ui,sans-serif;--font-display:"Inter Tight","Inter Tight Variable","Inter",sans-serif;--font-mono:"Geist Mono","Geist Mono Variable",ui-monospace,monospace;
+  --bg:#08090a;--surface:#0f1011;--surface-2:#151618;--surface-3:#1c1d20;--border:rgba(255,255,255,.08);--border-strong:rgba(255,255,255,.13);
+  --text:#f7f8f8;--text-2:#b4b6bc;--text-3:#7c7f87;--accent:#f97316;--accent-2:#facc15;--ok:#4cb782;--blue:#8b93f0}
+*{box-sizing:border-box;margin:0}
+body{background:#000;font:400 14px/1.5 var(--font-sans);color:var(--text);-webkit-font-smoothing:antialiased;padding:0}
+.art{background:var(--bg);position:relative;overflow:hidden;margin-bottom:40px}
+.grain::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;background-image:radial-gradient(rgba(255,255,255,.035) 1px,transparent 1px);background-size:3px 3px}
+/* banner */
+#banner{width:1280px;height:440px;border-radius:20px;border:1px solid var(--border);display:grid;grid-template-columns:1fr 520px;align-items:center;padding:0 56px;gap:40px}
+#banner .glow{position:absolute;right:-80px;top:-120px;width:760px;height:600px;background:radial-gradient(closest-side,rgba(249,115,22,.30),rgba(250,204,21,.08) 55%,transparent);filter:blur(30px)}
+.pill{display:inline-flex;align-items:center;gap:8px;height:28px;padding:0 12px 0 6px;border:1px solid var(--border-strong);border-radius:999px;font:500 13px var(--font-sans);color:var(--text-2);background:rgba(255,255,255,.02)}
+.pill b{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#1a0f00;border-radius:999px;padding:1px 8px;font-size:11.5px;font-weight:600}
+#banner h1{font:600 60px/1 var(--font-display);letter-spacing:-.038em;margin-top:22px}
+#banner h1 span{color:var(--text-3)}
+#banner p{font-size:19px;color:var(--text-2);margin-top:16px;max-width:560px;line-height:1.45}
+.stats{display:flex;gap:22px;margin-top:28px;font-size:14px;color:var(--text-3)}
+.stats b{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums;margin-right:4px}
+.term{position:relative;z-index:1;background:rgba(15,16,17,.92);border:1px solid var(--border-strong);border-radius:14px;box-shadow:0 0 0 1px rgba(255,255,255,.03) inset,0 40px 90px rgba(0,0,0,.6);overflow:hidden}
+.term .top{height:38px;display:flex;align-items:center;gap:7px;padding:0 14px;border-bottom:1px solid var(--border)}
+.term .top i{width:10px;height:10px;border-radius:50%;background:#2a2b2e}
+.term .top span{margin-left:auto;font:500 11.5px var(--font-mono);color:var(--text-3)}
+.term pre{margin:0;padding:16px 18px 18px;font:400 12.8px/1.85 var(--font-mono);color:var(--text-2);white-space:pre}
+.term .p{color:var(--accent-2)}.term .a{color:var(--text);font-weight:500}.term .ok{color:var(--ok)}.term .d{color:var(--text-3)}.term .bl{color:var(--blue)}
+/* how it works */
+#how{width:1280px;height:560px;border-radius:20px;border:1px solid var(--border);padding:44px 52px}
+.h{font:500 12px var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--text-3)}
+#how h2{font:600 34px/1.1 var(--font-display);letter-spacing:-.035em;margin-top:10px}
+.flow{display:grid;grid-template-columns:220px 40px 330px 40px 1fr;align-items:stretch;margin-top:34px;gap:0}
+.box{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px}
+.box h3{font:600 16px var(--font-display);letter-spacing:-.01em}
+.box p{color:var(--text-2);font-size:13.5px;margin-top:6px}
+.box .q{margin-top:14px;font:400 12.5px/1.6 var(--font-mono);color:var(--text);background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.box.core{border-color:rgba(249,115,22,.45);background:linear-gradient(180deg,rgba(249,115,22,.07),transparent 60%),var(--surface)}
+.box ul{list-style:none;padding:0;margin-top:12px;display:grid;gap:8px}
+.box li{font-size:13.5px;color:var(--text-2);display:flex;gap:8px}
+.box li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:7px;flex:none}
+.arr{display:grid;place-items:center;color:var(--text-3);font-size:20px}
+.depts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.dept{border:1px solid var(--border);border-radius:10px;padding:9px 11px;background:var(--surface-2)}
+.dept b{display:block;font-size:13px}.dept span{font-size:11.5px;color:var(--text-3)}
+.outs{display:flex;gap:8px;margin-top:22px;flex-wrap:wrap}
+.out{display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 12px;border:1px solid var(--border);border-radius:999px;font-size:13px;color:var(--text-2);background:var(--surface)}
+.out i{width:7px;height:7px;border-radius:50%;background:var(--c)}
+.outs .lbl{font:500 12px var(--font-mono);color:var(--text-3);letter-spacing:.1em;align-self:center;margin-right:6px}
+/* phases */
+#phases{width:1280px;height:250px;border-radius:20px;border:1px solid var(--border);padding:40px 52px}
+.track{position:relative;display:grid;grid-template-columns:repeat(8,1fr);gap:10px;margin-top:30px}
+.track::before{content:"";position:absolute;left:4%;right:4%;top:19px;height:1px;background:linear-gradient(90deg,var(--border-strong),rgba(249,115,22,.6),var(--border-strong))}
+.ph{position:relative;text-align:left}
+.ph .n{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--surface-2);border:1px solid var(--border-strong);font:600 14px var(--font-mono);color:var(--text)}
+.ph.hot .n{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#1a0f00;border:0}
+.ph b{display:block;font:600 15px var(--font-display);margin-top:14px;letter-spacing:-.01em}
+.ph span{display:block;font-size:12.5px;color:var(--text-3);margin-top:3px;line-height:1.4}
+</style>
+</head>
+<body>
+
+<section class="art grain" id="banner">
+  <div class="glow"></div>
+  <div style="position:relative;z-index:1">
+    <span class="pill"><b>v1.3</b>Claude Code plugin</span>
+    <h1>hackathon<span>-</span>accelerator</h1>
+    <p>Your AI hackathon team. Research, build, design, pitch and demo, from an empty repo to a submission judges remember.</p>
+    <div class="stats"><span><b>40</b>agents</span><span><b>10</b>UI styles</span><span><b>8</b>phases</span><span><b>1</b>command</span></div>
+  </div>
+  <div class="term">
+    <div class="top"><i></i><i></i><i></i><span>claude · ~/polarhacks</span></div>
+<pre><span class="p">&gt;</span> <span class="a">/hackathon-team</span>
+<span class="d">22:41</span>  <span class="a">rules-auditor</span>        9 requirements, 2 DQ rules
+<span class="d">22:52</span>  <span class="a">idea-generator</span>       5 concepts · <span class="bl">Floody</span>, <span class="bl">Engen</span>…
+<span class="d">23:30</span>  <span class="a">design-director</span>      style → calm-workspace
+<span class="d">02:14</span>  <span class="a">frontend-engineer</span>    record flow <span class="ok">✓ VERIFIED</span>
+<span class="d">09:05</span>  <span class="a">slide-deck-designer</span>  6 slides · 2:52 / 3:00
+<span class="d">09:40</span>  <span class="a">demo-video-producer</span>  demo.mp4 · <span class="ok">1:58 / 2:00</span>
+<span class="d">10:02</span>  <span class="a">red-team-judge</span>       7.4 / 9 · 3 fixes left</pre>
+  </div>
+</section>
+
+<section class="art grain" id="how">
+  <span class="h">How it works</span>
+  <h2>One command routes your request to the few specialists who matter</h2>
+  <div class="flow">
+    <div class="box"><h3>You</h3><p>Ask in plain words, any time.</p><div class="q">help me win polarhacks<br><br>why is /api/score 500?<br><br>make the demo video</div></div>
+    <div class="arr">→</div>
+    <div class="box core"><h3>Orchestrator skill</h3><p>Reads the project state, then picks the smallest team.</p>
+      <ul><li>Routes: coding · UI · consult · phase · status</li><li>8 phases with quality gates</li><li>Lean mode: short briefs, cheap research</li><li>Honesty checks before submitting</li><li>Logs who did what for /hackathon-team</li></ul></div>
+    <div class="arr">→</div>
+    <div class="box"><h3>The council · 40 agents</h3><p>Specialists that share project files and disagree on purpose.</p>
+      <div class="depts"><div class="dept"><b>Strategy</b><span>rules, rubric, sponsors</span></div><div class="dept"><b>Innovation</b><span>ideas, critics, names</span></div>
+        <div class="dept"><b>Engineering</b><span>build, QA, security</span></div><div class="dept"><b>Design</b><span>UI styles, motion</span></div>
+        <div class="dept"><b>Presentation</b><span>deck, video, Devpost</span></div><div class="dept"><b>Council</b><span>orchestrator, judges</span></div></div></div>
+  </div>
+  <div class="outs"><span class="lbl">YOU GET</span><span class="out" style="--c:#8b93f0"><i></i>Rules brief</span><span class="out" style="--c:#facc15"><i></i>Idea scorecard</span><span class="out" style="--c:#f97316"><i></i>Spec</span><span class="out" style="--c:#4cb782"><i></i>Polished app</span><span class="out" style="--c:#f472b6"><i></i>Timed pitch deck</span><span class="out" style="--c:#38bdf8"><i></i>Demo video</span><span class="out" style="--c:#b4b6bc"><i></i>Devpost + mock judges</span></div>
+</section>
+
+<section class="art grain" id="phases">
+  <span class="h">The eight phases · start anywhere</span>
+  <div class="track">
+    <div class="ph"><span class="n">1</span><b>Recon</b><span>rules, rubric, past winners</span></div>
+    <div class="ph"><span class="n">2</span><b>Ideas</b><span>critiqued, scored, named</span></div>
+    <div class="ph"><span class="n">3</span><b>Spec</b><span>MVP frozen, style picked</span></div>
+    <div class="ph hot"><span class="n">4</span><b>Build</b><span>core journey first</span></div>
+    <div class="ph"><span class="n">5</span><b>Design</b><span>tokens, motion, images</span></div>
+    <div class="ph"><span class="n">6</span><b>QA</b><span>3 cold-start demo runs</span></div>
+    <div class="ph"><span class="n">7</span><b>Pitch</b><span>deck, video, Devpost</span></div>
+    <div class="ph"><span class="n">8</span><b>Judging</b><span>mock panel, final fixes</span></div>
+  </div>
+</section>
+
+</body>
+</html>

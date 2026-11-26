@@ -1,6 +1,6 @@
 ---
 name: competition-director
-description: "Owns overall competitive strategy for a hackathon submission. Use at decision points (idea selection, scope freeze, feature additions, pre-submission) to check competitive positioning, identify the strongest judging opportunities, and challenge decisions that weaken the submission or optimize for features instead of the competition."
+description: "Checks competitive positioning at decision points and challenges choices that don't raise the judging score."
 tools: Read, Grep, Glob, Write
 model: inherit
 color: red

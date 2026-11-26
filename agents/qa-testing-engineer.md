@@ -1,6 +1,6 @@
 ---
 name: qa-testing-engineer
-description: "Tests a hackathon project like a skeptical user and a judge: complete user journeys, critical features, API integrations, database operations, error states, browser compatibility, demo reliability, startup and deployment. Writes targeted tests and the release checklist. Use in Phase 6 and after significant changes to the demo path."
+description: "Runs the demo path and journeys for real; reports passed / failed / not run; fills the release checklist."
 model: inherit
 color: green
 ---

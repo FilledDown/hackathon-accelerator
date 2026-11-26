@@ -1,6 +1,6 @@
 ---
 name: competition-analyst
-description: "Researches a specific hackathon: format, theme, tracks, prizes, timeline, judges, and the likely competitive landscape. Use in Phase 1 reconnaissance or whenever the team needs facts about the event itself."
+description: "Researches the event: format, tracks, prizes, timeline, judges, crowded idea zones. Sourced facts only."
 tools: Read, Grep, Glob, WebSearch, WebFetch, Write
 model: inherit
 color: blue

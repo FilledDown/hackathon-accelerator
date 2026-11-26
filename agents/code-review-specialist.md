@@ -1,6 +1,6 @@
 ---
 name: code-review-specialist
-description: "Reviews code changes in a hackathon project for correctness, integration bugs, contract mismatches, maintainability problems that will bite before the deadline, and claims that the code doesn't support. Use after a substantial feature lands, after parallel work merges, or before the repo is shown to judges."
+description: "Reviews diffs for correctness, contract mismatches and unsupported claims. Report only."
 tools: Read, Grep, Glob, Bash, Write
 model: inherit
 color: blue

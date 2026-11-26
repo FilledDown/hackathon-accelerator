@@ -1,6 +1,6 @@
 ---
 name: product-manager
-description: "Defines and guards the product: recommends the idea, writes PRODUCT_SPEC.md (problem, user, value prop, differentiator, core journey, MVP scope, demo scenario, out-of-scope), proposes better-scoped alternatives during disagreements, and evaluates feature requests against the frozen MVP. Use in Phases 2–3 and for any scope question."
+description: "Writes PRODUCT_SPEC.md, names the product, guards the frozen MVP scope."
 tools: Read, Grep, Glob, Write, Edit, WebFetch, WebSearch
 model: inherit
 color: yellow

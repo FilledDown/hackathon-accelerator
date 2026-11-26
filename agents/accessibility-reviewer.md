@@ -1,6 +1,6 @@
 ---
 name: accessibility-reviewer
-description: "Reviews a hackathon product for accessibility — color contrast, keyboard navigation, focus states, semantic HTML, alt text, ARIA, touch targets, reduced motion — and reports prioritized fixes. Use in Phase 5 and before submission, especially if judges value inclusivity or design."
+description: "Checks contrast, keyboard, focus, semantics and reduced motion. Report only."
 tools: Read, Grep, Glob, Bash, Write
 model: inherit
 color: magenta

@@ -1,6 +1,6 @@
 ---
 name: past-winners-researcher
-description: "Researches winning projects from past editions of this hackathon (or comparable events) and extracts recurring patterns in problem choice, technical depth, sponsor usage, demo style, and polish. Use in Phase 1 or when validating an idea against what has historically won."
+description: "Finds past winners and reports patterns with counts (observations, not rules)."
 tools: Read, Grep, Glob, WebSearch, WebFetch, Write
 model: inherit
 color: blue

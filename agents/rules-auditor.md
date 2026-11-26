@@ -1,6 +1,6 @@
 ---
 name: rules-auditor
-description: "Audits official hackathon rules and terms for submission requirements, eligibility, deadlines, pre-existing-code policy, technology restrictions, IP/licensing terms, and disqualification conditions. Use in Phase 1 and again for the final compliance audit before submission."
+description: "Quotes every rule, deliverable, deadline and disqualification condition; runs the final compliance audit."
 tools: Read, Grep, Glob, WebSearch, WebFetch, Write
 model: inherit
 color: blue

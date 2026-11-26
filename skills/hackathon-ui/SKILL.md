@@ -1,6 +1,6 @@
 ---
 name: hackathon-ui
-description: Design and build polished, distinctive frontends (landing pages, web apps, dashboards, hackathon demos) that look like a real funded product instead of generic AI output. It provides 10 style directions reverse-engineered from top product sites (Linear/Raycast/Vercel dark precision, Stripe/Mercury fintech, Notion/Attio calm workspace, Resend/Supabase developer, Aesop/Apple editorial, Teenage Engineering spec-sheet, bold media, data dashboards, Framer/Webflow playful, immersive 3D), with design tokens, component recipes, motion rules, working demo pages, and an anti-slop audit script. Use it whenever you build, restyle, review or polish any UI, website, landing page, app screen or dashboard, especially for a hackathon, even if the user only says "make it look good" or "improve the frontend."
+description: "Build polished, non-generic product UI with animations, licensed images and states built in by default: 10 style directions, tokens, React or vanilla, anti-slop audit. Use for any UI, page, screen or frontend request."
 ---
 
 # Hackathon UI
@@ -11,6 +11,16 @@ This skill gives you a design process, 10 concrete style directions, and the cra
 
 **Paths:** `<ui-dir>` is this skill's folder (the base directory shown when it loaded). The files below are relative to it.
 
+## Defaults: always on, never wait to be asked
+Every UI this skill produces gets all of these, even when the request is just "build a landing page":
+- one chosen style direction, with tokens and no hardcoded colors;
+- **animations on every interactive component**: buttons, links, cards, images, tabs, toggles, inputs, plus an entrance stagger and a staged hero moment (`references/animations.md`);
+- **real licensed images** wherever the page shows visual subjects (hero, people, places, food, objects), fetched with `scripts/fetch_images.py` and credited. Skip photos only for pure tool UIs where the product's own screens are the visual;
+- loading, empty and error states on every data view, realistic domain copy, a mobile layout at 390 wide, visible focus styles and `prefers-reduced-motion`;
+- screenshots at 1440 and 390 plus `ui_audit.py`, fixed before you show it.
+
+If the user explicitly says not to (for example "no photos"), follow that. Otherwise don't ask. Mention what you added in one line.
+
 ## The process (follow it in order)
 
 ### 1. Understand the product and the audience (2 minutes)
@@ -18,6 +28,8 @@ Answer these three questions before you write any CSS:
 - Who uses this, and how do they feel when they open it? (A stressed on-call engineer is different from a florist browsing.)
 - What is the single hero moment the demo must show?
 - Is it mostly a **landing page**, an **app**, or **both**? Hackathon judges usually see the app, and the Devpost page shows screenshots.
+
+Almost every hackathon project is a **product**: an app or site that does one thing well. It's rarely a dashboard. Design the product's core loop first (input → work → result) using the "Product screens" section of `references/components.md`. The `data-dashboard` style is a reference for the one data view a product might have, not a default.
 
 ### 2. Pick ONE style direction
 Read `references/styles/index.md`, choose the direction that fits the audience, and read **only that style file**. Write the choice into `design/DIRECTION.md` along with a one-line reason. Combining two directions is fine only if one clearly leads ("Precision Dark, with the data density of Dashboard").
@@ -34,8 +46,10 @@ Order: the app's hero screen (the differentiator moment) → the landing hero (i
 
 The working demo page for your style (`assets/showcase/<style>.html`) is a reference implementation. Read it to see how the tokens, spacing and details fit together, then build the real thing in the project's framework.
 
-### 5. Add the states and the motion
-Every data view on the demo path needs loading (skeleton), empty (helpful message plus action) and error (what happened and what to do) states. Then add motion from `references/motion.md`: entrance stagger, hover and press feedback, and the build-up to the hero moment. Respect `prefers-reduced-motion`.
+### 5. Add images, states and motion
+- **Images (default on):** wherever the page shows visual subjects (hero, product context, places, food, people as generic subjects), follow `references/images.md`. Pull licensed images with `scripts/fetch_images.py`, which records credits automatically, and treat them consistently. The product's own UI is still the best hero image.
+- **States:** every data view on the demo path needs loading (skeleton), empty (helpful message plus action) and error (what happened and what to do) states.
+- **Motion:** animate every interactive component with the recipes in `references/animations.md`: buttons, links, cards, images, text, tabs, toggles and feedback. Use CSS, Motion for React, or anime.js for vanilla. Stage the hero moment with `references/motion.md`. Respect `prefers-reduced-motion`. `assets/showcase/motion-gallery.html` shows all of it working.
 
 ### 6. Verify by looking, not by assuming
 - **Screenshot it** at 1440×900 and 390×844 (mobile). With Playwright available: `npx playwright screenshot --viewport-size=1440,900 http://localhost:3000 shot-desktop.png`. Otherwise use a browser MCP or tool. Then Read the PNG and critique it like a judge.
@@ -69,8 +83,12 @@ Use these when delegating (fill the brackets):
 | `references/styles/index.md` | Step 2: choosing a direction |
 | `references/styles/<style>.md` | After choosing, read only that one |
 | `references/foundations.md` | Building tokens, type scale, spacing, color, layout grid |
-| `references/components.md` | Building any screen: nav, hero, product frame, bento, pricing, app shell, tables, command palette, empty states, charts |
-| `references/motion.md` | Adding animation and interaction feedback |
+| `references/components.md` | Building any screen: product screens (onboarding, input→result, chat, drop zone, mobile shell, before/after), marketing sections, app shell, states |
+| `references/motion.md` | Timing principles, curves, the hero moment |
+| `references/animations.md` | Animating buttons, links, cards, images, text, controls; React Bits, Kokonut UI, anime.js, Motion, ECharts |
+| `references/images.md` | Finding, licensing, optimizing and styling photos |
+| `assets/showcase/motion-gallery.html` | Every component animation, working |
+| `scripts/fetch_images.py` | Download licensed images and write credits |
 | `references/anti-slop.md` | Before showing anything to the user; Phase 5 and 6 reviews |
 | `references/inspiration.md` | Looking for more references (Mobbin, Godly, Refero…) |
 | `assets/showcase/screenshots/*.png` | Step 2: see each style before choosing |

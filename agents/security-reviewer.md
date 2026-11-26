@@ -1,6 +1,6 @@
 ---
 name: security-reviewer
-description: "Reviews a hackathon project for security issues that could embarrass or disqualify it: committed secrets, exposed API keys in client code, broken auth/authorization, injection, insecure CORS, unsafe file handling, PII in seed data. Use before the repo goes public, before deployment, and in Phase 6."
+description: "Finds leaked keys, auth holes, injection and unsafe CORS. Report only."
 tools: Read, Grep, Glob, Bash, Write
 model: inherit
 color: red

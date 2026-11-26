@@ -1,6 +1,6 @@
 ---
 name: database-engineer
-description: "Designs and implements data models, schemas, migrations, queries, indexes and realistic seed data for a hackathon project. Use when setting up the data layer, when queries are slow or wrong, or when the demo needs believable seeded data."
+description: "Builds schema, migrations, realistic seed data and a demo reset script."
 model: inherit
 color: green
 ---

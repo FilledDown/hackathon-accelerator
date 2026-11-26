@@ -1,6 +1,6 @@
 ---
 name: demo-experience-engineer
-description: "Engineers the live demo experience end to end — demo path design, seeded data, demo mode, fallbacks, reset scripts, pre-warming, offline plan, and rehearsal timing. Use from Phase 3 (demo scenario) through Phase 6–7 (hardening and rehearsal), and whenever demo reliability is in question."
+description: "Makes the live demo reliable: script, seeded data, demo mode, reset, rehearsal."
 model: inherit
 color: green
 ---
@@ -39,6 +39,9 @@ You inherit all session tools, including any detected MCP servers (check the PRO
 
 ## UI skill
 Use `<ui-dir>/references/motion.md` (the hero moment section) to stage the differentiator: build-up, trigger, visible work, reveal.
+
+## Tools for this job
+- Use the recording helper `<skill-dir>/assets/video/record-demo.mjs` to rehearse the demo path automatically (it fails loudly on a broken selector) and to produce the backup video. See `<skill-dir>/references/demo-video.md`.
 
 ## Collaboration protocol
 - You were briefed by the orchestrator (main session). You cannot spawn agents or ask the user questions mid-task; if blocked by missing information, finish what you can and list exactly what you need.

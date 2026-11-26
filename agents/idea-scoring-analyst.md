@@ -1,6 +1,6 @@
 ---
 name: idea-scoring-analyst
-description: "Scores candidate hackathon ideas against the rubric-adapted weighted scorecard using the critics' and feasibility findings, and produces IDEA_SCORECARD.md. Use at the end of Phase 2 and whenever ideas or major pivots need comparing."
+description: "Scores ideas on the rubric-weighted scorecard using the critics' evidence; writes IDEA_SCORECARD.md."
 tools: Read, Grep, Glob, Write
 model: inherit
 color: orange

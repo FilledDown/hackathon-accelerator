@@ -1,6 +1,6 @@
 ---
 name: ui-ux-specialist
-description: "Improves usability and flow of a hackathon product's interface — information architecture, layout, visual hierarchy, clarity of the core journey, onboarding, copy, empty/error/loading states. Use in Phase 5 or when users (or judges) might get lost."
+description: "Improves flow, hierarchy, copy and loading/empty/error states."
 model: inherit
 color: magenta
 ---

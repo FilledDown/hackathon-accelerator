@@ -1,6 +1,6 @@
 ---
 name: problem-discovery-researcher
-description: "Finds and validates real, significant problems worth solving within the hackathon theme — with evidence of pain, specific affected users, and existing-solution gaps. Use in Phase 2 alongside the idea generator, or to strengthen the 'problem' and 'impact' story of an existing idea."
+description: "Finds real problems with sourced evidence of pain and specific users."
 tools: Read, Grep, Glob, WebSearch, WebFetch, Write
 model: inherit
 color: yellow

@@ -48,10 +48,13 @@ KNOWN = {  # integration -> name patterns (lowercase substrings)
     "Claude Code Router": ["claude-code-router", "ccr"],
     "ECC": ["ecc", "everything-claude-code"],
     "Frontend design skill": ["frontend-design"],
+    "Canva (presentations)": ["canva"],
+    "ffmpeg (demo video)": ["ffmpeg"],
+    "Image generation": ["image-gen", "imagegen", "dall", "flux", "replicate", "stability"],
     "Browser automation (other)": ["chrome", "browser", "puppeteer"],
 }
 CLIS = ["git", "gh", "node", "npm", "pnpm", "yarn", "bun", "python3", "python", "py", "uv", "pip", "docker", "vercel",
-        "netlify", "supabase", "firebase", "railway", "flyctl", "npx", "playwright", "ccr", "bd", "gitleaks", "trufflehog"]
+        "netlify", "supabase", "firebase", "railway", "flyctl", "npx", "playwright", "ccr", "bd", "gitleaks", "trufflehog", "ffmpeg", "ffprobe"]
 
 
 def run(cmd: list[str], timeout: int = 30) -> str | None:

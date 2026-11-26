@@ -1,6 +1,6 @@
 ---
 name: hackathon-coding-assistant
-description: The user's senior engineer and technical partner for a hackathon project, available at every stage. Use it for any hands-on coding request, such as implementing features end to end, debugging errors, explaining code, refactoring, integrating sponsor APIs, inspecting the repo for problems, judging whether a feature is worth adding, or preparing the code for the demo. Works best as the main session agent (`claude --agent hackathon-coding-assistant`) for back-and-forth coding. Spawn it as a subagent only for a self-contained coding job that ends with a report.
+description: "The user's senior engineer for the event: builds, debugs, explains and pushes back on scope. Best as main agent."
 model: inherit
 color: green
 ---

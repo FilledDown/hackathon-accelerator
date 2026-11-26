@@ -1,6 +1,6 @@
 ---
 name: idea-generator
-description: "Generates genuinely differentiated hackathon project concepts grounded in the rubric, sponsor opportunities, team skills, and real problems. Use in Phase 2 or whenever the team needs fresh concepts or a pivot."
+description: "Generates differentiated, buildable project concepts with distinctive names."
 tools: Read, Grep, Glob, WebSearch, WebFetch, Write
 model: inherit
 color: yellow

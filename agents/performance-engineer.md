@@ -1,6 +1,6 @@
 ---
 name: performance-engineer
-description: "Measures and improves performance on the demo path of a hackathon project — page load, API latency, AI response time, bundle size, slow queries, cold starts. Use when anything a judge sees feels slow."
+description: "Measures and fixes what feels slow on the demo path."
 model: inherit
 color: yellow
 ---

@@ -2,6 +2,7 @@
 """Fixture-based tests for the hackathon-accelerator scripts. Run: python3 -m unittest discover -s <this dir>"""
 import json
 import shutil
+import os
 import subprocess
 import sys
 import tempfile
@@ -155,6 +156,131 @@ class ReportAndInit(unittest.TestCase):
             self.assertIn("## Session log", prog)  # following section preserved
 
 
+class TeamLog(unittest.TestCase):
+    def test_hook_log_pairs_starts_and_stops(self):
+        import json as _j
+        with tempfile.TemporaryDirectory() as d:
+            (Path(d) / "PROGRESS.md").write_text("# Progress", encoding="utf-8")
+            log = Path(d) / ".hackathon" / "agent-log.jsonl"
+            log.parent.mkdir()
+            rows = [{"ts": "2026-11-25T20:00:00Z", "event": "start", "agent": "rules-auditor", "task": "Audit rules"},
+                    {"ts": "2026-11-25T20:01:30Z", "event": "stop", "agent": "rules-auditor", "summary": "## Result Wrote research/rules-audit.md. 7 items."},
+                    {"ts": "2026-11-25T20:02:00Z", "event": "start", "agent": "frontend-engineer", "task": "Build calendar"}]
+            log.write_text("\n".join(_j.dumps(r) for r in rows) + "\n", encoding="utf-8")
+            run("team_log.py", d, "--add", "hackathon-coding-assistant", "Fix CORS", "Verified fetch works")
+            code, out, _ = run("team_log.py", d, "--json")
+            data = _j.loads(out)
+            runs = {r["agent"]: r for r in data["runs"]}
+            self.assertEqual(runs["rules-auditor"]["status"], "done")
+            self.assertEqual(runs["rules-auditor"]["result"], "Wrote research/rules-audit.md.")
+            self.assertEqual(runs["frontend-engineer"]["status"], "running")
+            self.assertEqual(runs["hackathon-coding-assistant"]["status"], "done (main session)")
+            self.assertEqual(sum(len(v) for v in data["roster"].values()), 40)
+            code, out, _ = run("team_log.py", d)
+            self.assertIn("| **rules-auditor** | strategy | Audit rules | Wrote research/rules-audit.md. | 1m 30s |", out)
+
+    def test_hook_script_logs_only_in_hackathon_projects(self):
+        import shutil as _sh
+        node = _sh.which("node")
+        if not node:
+            self.skipTest("node not installed")
+        hook = SCRIPTS.parents[2] / "hooks" / "agent-log.js"
+        with tempfile.TemporaryDirectory() as d:
+            proj, other = Path(d) / "p", Path(d) / "o"
+            proj.mkdir(); other.mkdir()
+            (proj / "PROGRESS.md").write_text("x", encoding="utf-8")
+            for cwd in (proj, other):
+                inp = '{"cwd": "%s", "tool_input": {"subagent_type": "hackathon-accelerator:qa-testing-engineer", "description": "Run QA"}}' % cwd.as_posix()
+                p = subprocess.run([node, str(hook), "start"], input=inp, capture_output=True, text=True, encoding="utf-8")
+                self.assertEqual(p.returncode, 0)
+                self.assertEqual(p.stdout, "")
+            line = (proj / ".hackathon" / "agent-log.jsonl").read_text(encoding="utf-8")
+            self.assertIn('"agent":"qa-testing-engineer"', line)
+            self.assertFalse((other / ".hackathon").exists())
+            p = subprocess.run([node, str(hook), "stop"], input="not json", capture_output=True, text=True)
+            self.assertEqual(p.returncode, 0)
+
+
+    def test_session_hook_adds_context_only_in_hackathon_projects(self):
+        import shutil as _sh, json as _j
+        node = _sh.which("node")
+        if not node:
+            self.skipTest("node not installed")
+        hook = SCRIPTS.parents[2] / "hooks" / "agent-log.js"
+        with tempfile.TemporaryDirectory() as d:
+            proj, other = Path(d) / "p", Path(d) / "o"
+            proj.mkdir(); other.mkdir()
+            (proj / "HACKATHON_BRIEF.md").write_text("x", encoding="utf-8")
+            env = {k: v for k, v in os.environ.items() if k != "CLAUDE_PROJECT_DIR"}
+            out = {}
+            for name, cwd in (("p", proj), ("o", other)):
+                p = subprocess.run([node, str(hook), "session"], input=_j.dumps({"cwd": str(cwd)}),
+                                   capture_output=True, text=True, encoding="utf-8", env=env)
+                self.assertEqual(p.returncode, 0)
+                out[name] = p.stdout
+            self.assertEqual(out["o"], "")
+            ctx = _j.loads(out["p"])["hookSpecificOutput"]
+            self.assertEqual(ctx["hookEventName"], "SessionStart")
+            self.assertIn("Delegation is real", ctx["additionalContext"])
+            self.assertIn("animations", ctx["additionalContext"])
+
+    def test_claude_block_refreshes_when_outdated(self):
+        with tempfile.TemporaryDirectory() as d:
+            old = "# Mine\n\n<!-- hackathon-accelerator:start -->\nold text C:\\Users\\x\n<!-- hackathon-accelerator:end -->\n\nkeep me\n"
+            (Path(d) / "CLAUDE.md").write_text(old, encoding="utf-8")
+            code, out, _ = run("init_project.py", d)
+            self.assertEqual(code, 0)
+            text = (Path(d) / "CLAUDE.md").read_text(encoding="utf-8")
+            self.assertIn("refreshed", out)
+            self.assertNotIn("old text", text)
+            self.assertIn("Never write their verdicts yourself", text)
+            self.assertIn("keep me", text)
+            self.assertEqual(text.count("hackathon-accelerator:start"), 1)
+            code, out, _ = run("init_project.py", d)
+            self.assertIn("block already present", out)
+
+
+class TimeAndVideo(unittest.TestCase):
+    def test_time_plan_budgets_and_check(self):
+        code, out, _ = run("time_plan.py", "--minutes", "3", "--format", "live-demo")
+        self.assertEqual(code, 0)
+        self.assertIn("usable 162s", out)
+        self.assertIn("LIVE DEMO", out)
+        self.assertIn("appendix slides", out)
+        code, out, _ = run("time_plan.py", "--minutes", "2", "--format", "video-only")
+        self.assertIn("Hero moment first", out)
+        self.assertNotIn("agenda slide", out)               # slide rules don't apply to video-only
+        with tempfile.TemporaryDirectory() as d:
+            (Path(d) / "submission").mkdir()
+            (Path(d) / "submission" / "PITCH.md").write_text("# Pitch\n## Script\n" + "word " * 500, encoding="utf-8")
+            code, out, _ = run("time_plan.py", "--minutes", "3", "--format", "live-demo", "--check", d)
+            self.assertEqual(code, 1)
+            self.assertIn("OVER", out)
+
+    def test_make_video_stitches_and_enforces_limit(self):
+        import shutil as _sh
+        if not (_sh.which("ffmpeg") and _sh.which("ffprobe")):
+            self.skipTest("ffmpeg not installed")
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-f", "lavfi", "-i", "color=c=navy:s=1280x720", "-frames:v", "1", str(d / "card.png")], check=True)
+            subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-f", "lavfi", "-i", "testsrc=size=1280x720:rate=30", "-t", "4", "-c:v", "libvpx-vp9", "-b:v", "1M", str(d / "clip.webm")], check=True)
+            code, out, err = run("make_video.py", f"{d / 'card.png'}:2", f"{d / 'clip.webm'}@0.5-3.5", f"{d / 'card.png'}:2",
+                                 "--out", d / "out.mp4", "--limit", "60")
+            self.assertEqual(code, 0, err + out)
+            self.assertIn("Within the 60s limit", out)
+            probe = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "stream=codec_name,width,height", "-of", "csv=p=0", str(d / "out.mp4")],
+                                   capture_output=True, text=True).stdout
+            self.assertIn("h264,1920,1080", probe)
+            self.assertIn("aac", probe)                      # silent audio track added
+            dur = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(d / "out.mp4")],
+                                       capture_output=True, text=True).stdout)
+            self.assertAlmostEqual(dur, 2 + 3 + 2 - 2 * 0.4, delta=0.35)
+            code, out, _ = run("make_video.py", f"{d / 'card.png'}:5", "--out", d / "long.mp4", "--limit", "3")
+            self.assertEqual(code, 1)
+            self.assertIn("OVER", out)
+
+
 class Shortcut(unittest.TestCase):
     def test_install_reinstall_remove_and_conflict(self):
         import os
@@ -173,6 +299,9 @@ class Shortcut(unittest.TestCase):
             dst.write_text("someone else's skill", encoding="utf-8")
             self.assertEqual(go().returncode, 1)            # never clobbers a different skill
             self.assertEqual(dst.read_text(encoding="utf-8"), "someone else's skill")
+            team = Path(home) / ".claude" / "skills" / "hackathon-team" / "SKILL.md"
+            self.assertTrue(team.exists())                  # the other shortcut still installed
+            self.assertIn("hackathon-accelerator:team", team.read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

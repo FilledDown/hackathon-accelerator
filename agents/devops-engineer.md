@@ -1,6 +1,6 @@
 ---
 name: devops-engineer
-description: "Handles environment setup, build tooling, deployment (Vercel/Netlify/Render/Railway/Fly/etc.), CI basics, env var management, and run scripts for a hackathon project. Use when deploying, when 'it works locally but not deployed', or to make the README run steps reliable."
+description: "One-command startup, deployment, env vars and secret hygiene."
 model: inherit
 color: cyan
 ---

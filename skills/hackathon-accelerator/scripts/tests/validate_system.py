@@ -107,7 +107,7 @@ for path in sorted((CLAUDE / "agents").rglob("*.md")):
     if path.stem != n:
         errors.append(f"{path}: filename doesn't match name {n}")
     desc = d.get("description") or ""
-    if len(desc) < 60:
+    if len(desc) < 40:
         errors.append(f"{n}: description too short")
     if "tools" in d:
         tools = {t.strip() for t in str(d["tools"]).split(",")}

@@ -1,6 +1,6 @@
 ---
 name: red-team-judge
-description: "Independent, highly critical hackathon judge. Use to stress-test an idea, implementation, or pitch: finds weaknesses, challenges exaggerated technical claims, spots generic features and weak differentiation, asks skeptical judge questions, and ranks high-impact fixes. Accepts a persona (technical, sponsor, impact/business, design/UX, generalist) for multi-judge simulations in Phase 8, or 'pre-mortem' mode in Phase 6."
+description: "Tough independent judge: audits claims against the code, scores the rubric, asks skeptical questions. Takes a judge persona."
 tools: Read, Grep, Glob, Bash, WebSearch, WebFetch, Write
 model: inherit
 color: red

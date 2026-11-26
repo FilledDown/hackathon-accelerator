@@ -1,6 +1,6 @@
 ---
 name: system-architect
-description: "Designs the technical architecture for a hackathon project: stack selection, components and ownership, interfaces (API contracts, schemas, shared types), external dependencies, demo mode, and the build/parallelization plan. Use in Phase 3, before parallel engineering work, and for 'is this architecture a good idea?' questions."
+description: "Designs the stack, interfaces and build plan; scaffolds contracts for parallel work."
 model: inherit
 color: blue
 ---

@@ -74,10 +74,10 @@ def main() -> int:
     block = (TEMPLATES / "CLAUDE_BLOCK.md").read_text(encoding="utf-8")
     block = block.replace("{{SKILL_DIR}}", str(skill_dir)).replace("{{CODING_ASSISTANT}}", str(agents_dir / "hackathon-coding-assistant.md"))
     existing = cm.read_text(encoding="utf-8") if cm.exists() else ""
-    if MARK in existing and str(skill_dir) not in existing:
-        # skill moved (e.g. plugin updated): refresh the managed block in place
+    if MARK in existing and block.strip() not in existing:
+        # plugin updated or moved: refresh the managed block in place
         import re as _re
-        existing = _re.sub(r"<!-- hackathon-accelerator:start -->.*?<!-- hackathon-accelerator:end -->\n?", block, existing, flags=_re.S)
+        existing = _re.sub(r"<!-- hackathon-accelerator:start -->.*?<!-- hackathon-accelerator:end -->\n?", lambda _m: block, existing, flags=_re.S)
         cm.write_text(existing, encoding="utf-8")
         created.append("CLAUDE.md (hackathon block refreshed)")
     elif MARK not in existing:

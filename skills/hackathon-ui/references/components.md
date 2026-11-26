@@ -123,3 +123,39 @@ Bottom-right (desktop) or top (mobile), 360px wide, auto-dismiss after 4–6s, w
 - One accent series plus neutral comparison series. Gridlines at 6% contrast, axis labels 11–12px `--text-3`, and a tooltip with tabular numbers.
 - Pick the chart for the question: line for trends, bar for comparisons, area only for cumulative totals, and no pie charts with more than 4 slices.
 - Label the key number directly on the chart ("+38% this week") instead of making judges read axes.
+
+---
+
+## Product screens (most hackathon projects need these, not dashboards)
+
+Most hackathon projects are a **product**: a web or mobile app that does one thing well, plus a landing page. These are the screens judges actually see.
+
+### First-run / onboarding
+1–3 steps at most, each with one question and big tap targets. Offer "Try with sample data" so a judge sees value in 5 seconds. Show progress dots and keep a skip option.
+
+### Input → magic → result (the core loop of most AI products)
+- **Input:** one dominant input (prompt box, drop zone, camera, record button), with example chips under it so nobody faces a blank box.
+- **Drop zone:** a dashed border that becomes solid and accent-colored on dragover, a file icon that lifts, and accepted file types in small text. After the drop, show the file chip with a remove ×.
+- **Working state:** named steps ("Transcribing… Finding rushed bars… Writing tips…") with progress, or streamed output. Never a bare spinner over 2 seconds.
+- **Result:** the answer first (big and scannable), details below or expandable, plus actions: save, share, try again, edit. Show confidence or sources when it's AI output.
+
+### Chat / assistant view
+Messages max ~680px wide, the user's messages right-aligned with an accent tint, the assistant's left-aligned on a surface. Stream the tokens. Suggested replies as chips. The input is fixed to the bottom with a send button that animates on press. Render code blocks and tables properly.
+
+### Detail view
+A hero area (title, key metadata, primary action), then content in sections, then related items. On mobile, the primary action becomes a sticky bottom bar.
+
+### Mobile app shell (when the project is a mobile or PWA app)
+Bottom tab bar with 3–5 icons and labels, 44px+ targets, the active tab tinted, a large title header that collapses on scroll, and bottom sheets instead of modals. Design at 390×844 first.
+
+### Map or place view
+A full-bleed map with a list or bottom sheet of results. The selected pin syncs with the selected card. Muted map style (light or dark) so your accent pins pop.
+
+### Before / after
+For anything that transforms something (image cleanup, translation, rewriting, design fixes): a draggable comparison slider or a side-by-side toggle. It's one of the most convincing demo visuals there is.
+
+### Sharing / output
+Generate a shareable result card (an image or link with OG preview) so the product's output looks good outside the app. Judges love "and here's what you'd post".
+
+### Settings and profile
+Keep them minimal or skip them entirely for a hackathon unless the rubric needs them.

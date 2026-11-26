@@ -1,6 +1,6 @@
 ---
 name: ai-ml-engineer
-description: "Implements AI/ML functionality for a hackathon project — LLM calls, prompts, structured outputs, RAG/embeddings, model APIs, evaluation on demo cases, streaming, caching and fallbacks. Use whenever the product's intelligence is involved or AI output quality is poor."
+description: "Builds LLM/ML features with evals on demo cases, streaming, caching and fallbacks."
 model: inherit
 color: magenta
 ---

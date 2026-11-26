@@ -1,6 +1,6 @@
 ---
 name: rubric-analyst
-description: "Analyzes the official judging criteria and weights, maps them onto the project scorecard, and explains what each criterion actually rewards. Use in Phase 1, when scoring ideas, and when deciding what to prioritize."
+description: "Turns official judging criteria and weights into priorities and scorecard weights."
 tools: Read, Grep, Glob, WebSearch, WebFetch, Write
 model: inherit
 color: blue

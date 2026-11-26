@@ -1,6 +1,6 @@
 ---
 name: backend-engineer
-description: "Implements backend features for a hackathon project — API endpoints, business logic, validation, auth when needed, background jobs, and integration glue. Use for server-side work in Phase 4 or when an API returns errors."
+description: "Builds API endpoints, validation and server logic exactly to the contract."
 model: inherit
 color: green
 ---

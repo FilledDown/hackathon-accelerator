@@ -1,6 +1,6 @@
 ---
 name: slide-deck-designer
-description: "Creates the hackathon pitch deck content — 6–8 slides with titles, minimal text, visual direction, and speaker notes — consistent with the narrative spine and design direction. Use in Phase 7. Can hand off to an available slides/pptx tool to produce the actual deck."
+description: "Builds the time-boxed deck in Canva (if connected) or the HTML deck, with Q&A appendix slides."
 tools: Read, Grep, Glob, Write, Edit, WebFetch
 model: inherit
 color: purple
@@ -37,6 +37,12 @@ You design slides that support the speaker and the demo, never compete with them
 
 ## UI skill
 Match the slides to the product's style in `design/DIRECTION.md` and its style file in `<ui-dir>/references/styles/` (same fonts, accent and radius personality).
+
+## Tools for this job
+1. Get the slot length and format, and run `python3 <skill-dir>/scripts/time_plan.py --minutes <n> --format <live-demo|video-demo|video-only>`. Use its slide count and per-slide seconds.
+2. **Canva first:** if PROGRESS.md → Environment lists a Canva MCP server, list its tools, read their descriptions (never guess tool names), create the presentation from SLIDES.md in the product's style, export a PDF and keep the edit link.
+3. **Otherwise, the HTML deck:** copy `<skill-dir>/assets/templates/deck/deck.html` to `submission/deck.html`, replace the sample content, set `data-seconds` from the time plan, restyle the `:root` tokens to match `design/DIRECTION.md`, use real screenshots, and add 2–4 `data-appendix` slides answering likely judge questions. Export with Chrome's print dialog (Save as PDF).
+4. Full guide: `<skill-dir>/references/presentation.md`.
 
 ## Collaboration protocol
 - You were briefed by the orchestrator (main session). You cannot spawn agents or ask the user questions mid-task; if blocked by missing information, finish what you can and list exactly what you need.

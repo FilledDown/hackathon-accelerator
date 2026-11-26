@@ -2,6 +2,38 @@
 
 All notable changes to this plugin. Versions follow [semantic versioning](https://semver.org): fixes bump the last number, new features the middle one, breaking changes the first.
 
+## [1.3.1] - 2026-11-25
+
+### Changed
+- **Automatic by default.** A new `SessionStart` hook tells Claude, in hackathon projects only, to route every request through the team without a slash command. UI work always gets animations, licensed images, states, a mobile layout and the audit, without being asked. Decks always get a time plan and Q&A slides.
+- **Real delegation.** Judging, idea critique, research, QA and pitch review must actually spawn the specialist agents. The orchestrator may not write an agent's verdict itself, labels its own opinions as "my own read", and builds the 👥 summary from the real agent log.
+- New "Judge / critique" route: "is this idea good?" spawns `originality-critic`, `feasibility-analyst` and `red-team-judge` in parallel.
+- The CLAUDE.md block is rewritten with the same rules and refreshes itself whenever its text changes, not only when the plugin path moves.
+
+### Fixed
+- The CLAUDE.md block refresh could crash on Windows paths containing `\U` and similar sequences (regex replacement escaping).
+
+## [1.3.0] - 2026-11-25
+
+### Added
+- **Component animations** (`hackathon-ui/references/animations.md`): recipes for buttons, links, cards, images, text, tabs, toggles, inputs, lists, feedback and backgrounds, in CSS, React (Motion) and vanilla (anime.js v4) versions. Covers React Bits and Kokonut UI install patterns, and ECharts for the one chart a product needs. **Motion gallery** demo page with every animation working.
+- **Licensed images:** `fetch_images.py` downloads photos from Openverse (no key), Pexels or Unsplash (free keys) and writes `CREDITS.md` automatically. New `references/images.md` covers art direction, optimization and rules.
+- **Product-first UI:** new "Product screens" patterns (onboarding, input → work → result, drop zone, chat, mobile shell, before/after, share card). The dashboard style is now a reference for a single data view, not a default.
+- **`/hackathon-accelerator:team`** (and `/hackathon-team` with the shortcuts) shows the roster and an activity table of which agent did what, when, the result and how long it took. Logged automatically by a plugin hook (`PreToolUse` on the Agent tool + `SubagentStop`), only in hackathon projects. `team_log.py --add` records main-session work.
+- **Timed presentations:** `time_plan.py` budgets a 2/3/5-minute pitch (live demo, recorded demo, or video-only) in seconds, words and slides, and checks your script against it.
+- **Pitch deck:** Canva via the Canva MCP when it's connected. Otherwise an offline HTML deck template with a per-slide timer, speaker notes, PDF export and Q&A appendix slides. New `references/presentation.md`.
+- **Demo video pipeline:** `record-demo.mjs` (Playwright: drives the real app with a visible cursor, click ripples, captions, spotlight), `render-cards.mjs` + `cards.html` (title, problem, impact and end cards), and `make_video.py` (ffmpeg stitch to 1080p MP4 with crossfades, music or voiceover, and a time-limit check). New `references/demo-video.md`.
+- New README art (banner, how-it-works, phases, deck and video previews, an animation GIF), rendered from `docs/src/readme-art.html` with `tools/render-showcases` (`npm run readme-art`).
+- Environment detection now finds Canva, ffmpeg and image-generation tools.
+
+### Changed
+- **Token usage:** always-loaded agent and skill descriptions cut from about 3,200 to about 1,000 tokens. The orchestrator SKILL.md was rewritten from about 4,750 to about 3,050 tokens while adding the new features. Lean mode is now the default: capped briefs and handoffs, scripts instead of re-reading docs, and the option to run read-only research agents on a cheaper model.
+- Phase 7 now covers the time plan, deck (Canva or HTML) and video. The presentation agents and the coding assistant know the new tools.
+- The shortcut installer installs every shortcut in `shortcut/` and never overwrites other skills.
+
+### Fixed
+- The deck template responds to `#slide` hash changes after load.
+
 ## [1.2.0] - 2026-11-25
 
 ### Added

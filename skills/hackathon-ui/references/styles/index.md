@@ -11,13 +11,13 @@ Pick one. Each file has tokens, type, layout signatures, component details, moti
 | [`editorial-luxe`](editorial-luxe.md) | Aesop, COS, Apple, Porsche, Squarespace templates | Fashion, food, travel, culture, music (classical), premium consumer, portfolios | Data-heavy apps |
 | [`spec-sheet`](spec-sheet.md) | Teenage Engineering, Nothing, technical-document portfolios | Hardware, IoT, maker tools, design-forward portfolios, anything "engineered" | Mass-market consumer onboarding |
 | [`bold-media`](bold-media.md) | AI music generators, streaming, sports and automotive retail, gaming | Music, video, creator tools, games, events, sports | Enterprise, health, finance |
-| [`data-dashboard`](data-dashboard.md) | Datadog, Grafana, Tremor, PostHog, Mixpanel, Retool | Analytics, monitoring, climate/civic data, internal tools | Landing-page-only projects |
+| [`data-dashboard`](data-dashboard.md) | Datadog, Grafana, Tremor, PostHog, Mixpanel, Retool | The one data view inside a product (progress, impact, monitoring). Rarely a whole hackathon project | Most products: use it as a reference, not the main style |
 | [`playful-builder`](playful-builder.md) | Framer, Webflow, Lovable, Replit, Figma | No-code/AI builders, education, creative tools for beginners, community | Serious B2B, healthcare |
 | [`immersive`](immersive.md) | Lusion, Immersive Garden, Spline, Rive, Awwwards winners | Art, storytelling, events, brand experiences, when 3D *is* the product | Short hackathons, data apps, accessibility-critical projects |
 
 ## Quick chooser
 - **Is the user a developer?** → `dev-platform` (API product) or `precision-dark` (app product).
-- **Is the hero moment a number or a chart?** → `data-dashboard` (the app) plus `precision-dark` or `fintech-gradient` (the landing page).
+- **Does the product have one important chart or number?** → keep your main style and borrow the chart and KPI patterns from `data-dashboard` for that one view.
 - **Is it about taste: fashion, food, art, music?** → `editorial-luxe` (refined) or `bold-media` (loud).
 - **Is it a physical product or a maker tool?** → `spec-sheet`.
 - **Does it help ordinary people organize their life or work?** → `calm-workspace`.

@@ -1,6 +1,6 @@
 ---
 name: sponsor-track-strategist
-description: "Analyzes sponsor prizes and APIs: requirements, integration effort, natural fit with the project, and how to make sponsor technology essential rather than bolted on. Use in Phase 1, during idea scoring, and before integrating any sponsor API."
+description: "Ranks sponsor prizes by value, fit and effort; designs essential (not bolted-on) sponsor use."
 tools: Read, Grep, Glob, WebSearch, WebFetch, Write
 model: inherit
 color: cyan

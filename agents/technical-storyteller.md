@@ -1,6 +1,6 @@
 ---
 name: technical-storyteller
-description: "Turns the project's architecture and hardest engineering challenges into a clear, compelling technical narrative for judges — the 'how it works' and 'challenges' sections, diagrams, and technical Q&A. Use in Phase 7 or when technical depth isn't coming across."
+description: "Turns the architecture and hardest problems into a clear technical story."
 tools: Read, Grep, Glob, Write, Edit, WebFetch
 model: inherit
 color: purple

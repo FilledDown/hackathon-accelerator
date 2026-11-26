@@ -1,6 +1,6 @@
 ---
 name: frontend-engineer
-description: "Implements frontend features for a hackathon project — components, pages, state, API wiring, loading/error/empty states, responsive layout. Use for UI implementation work in Phase 4 or when the frontend isn't communicating with the backend."
+description: "Builds UI screens wired to real APIs, with states and animations, using the hackathon-ui skill."
 model: inherit
 color: green
 ---

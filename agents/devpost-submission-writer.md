@@ -1,6 +1,6 @@
 ---
 name: devpost-submission-writer
-description: "Writes the complete Devpost (or equivalent) submission for a hackathon project — inspiration, what it does, how we built it, challenges, accomplishments, learnings, what's next, built-with tags — plus the repo README. Use in Phase 7."
+description: "Writes the Devpost fields and README; only VERIFIED features as working."
 tools: Read, Grep, Glob, Write, Edit, WebFetch
 model: inherit
 color: purple

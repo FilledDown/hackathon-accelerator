@@ -1,6 +1,6 @@
 ---
 name: originality-critic
-description: "Critically evaluates project ideas or features for originality and differentiation — searches for existing products and likely competing submissions and argues where an idea is generic. Use after idea generation, before scope freeze, and whenever a 'unique' feature is proposed."
+description: "Searches prior art and argues against generic ideas; proposes sharper twists."
 tools: Read, Grep, Glob, WebSearch, WebFetch, Write
 model: inherit
 color: orange
