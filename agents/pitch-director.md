@@ -1,7 +1,6 @@
 ---
 name: pitch-director
 description: "Owns the pitch story and timing (time_plan.py) and keeps all judge-facing material consistent."
-tools: Read, Grep, Glob, Write, Edit, WebFetch
 model: inherit
 color: purple
 ---

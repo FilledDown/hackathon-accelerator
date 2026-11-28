@@ -4,7 +4,8 @@
   "description": "Re-render the hackathon-ui showcase screenshots and the README art with local fonts.",
   "scripts": {
     "render": "node render.js ../../skills/hackathon-ui/assets/showcase/screenshots ../../skills/hackathon-ui/assets/showcase/precision-dark.html ../../skills/hackathon-ui/assets/showcase/fintech-gradient.html ../../skills/hackathon-ui/assets/showcase/calm-workspace.html ../../skills/hackathon-ui/assets/showcase/dev-platform.html ../../skills/hackathon-ui/assets/showcase/editorial-luxe.html ../../skills/hackathon-ui/assets/showcase/spec-sheet.html ../../skills/hackathon-ui/assets/showcase/bold-media.html ../../skills/hackathon-ui/assets/showcase/data-dashboard.html ../../skills/hackathon-ui/assets/showcase/playful-builder.html ../../skills/hackathon-ui/assets/showcase/motion-gallery.html",
-    "readme-art": "node render-art.js"
+    "readme-art": "node render-art.js",
+    "producthunt": "node render-art.js docs/src/producthunt.html docs/images/producthunt ph1 ph2 ph3"
   },
   "dependencies": {
     "@fontsource-variable/archivo": "^5.3.0",

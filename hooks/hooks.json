@@ -1,5 +1,5 @@
 {
-  "description": "Logs which hackathon agents ran (for /hackathon-accelerator:team) and, at session start, reminds Claude that the folder is a hackathon project so the team's defaults apply automatically. Only active in projects with PROGRESS.md or HACKATHON_BRIEF.md.",
+  "description": "Logs which hackathon agents ran (for /hackathon-accelerator:team), reminds Claude at session start that the folder is a hackathon project, and adds one-line routing hints (which agents to spawn) to matching messages. Silent outside hackathon projects; never blocks.",
   "hooks": {
     "PreToolUse": [
       {
@@ -31,6 +31,17 @@
             "type": "command",
             "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/agent-log.js\" session",
             "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/agent-log.js\" prompt",
+            "timeout": 5
           }
         ]
       }

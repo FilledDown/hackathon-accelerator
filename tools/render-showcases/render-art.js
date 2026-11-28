@@ -28,8 +28,13 @@ const css = Object.entries(FONTS).map(([k, f]) => {
 }).join("\n");
 
 (async () => {
-  // usage: node render-art.js  → renders #banner, #how, #phases in docs/src/readme-art.html to docs/images/*.png at 2x
+  // usage: node render-art.js [src.html out-dir id...]
+  //   default: renders #banner, #how, #phases in docs/src/readme-art.html to docs/images/*.png at 2x
   const root = path.resolve(__dirname, "../..");
+  const [srcArg, outArg, ...idArgs] = process.argv.slice(2);
+  const src = srcArg || "docs/src/readme-art.html", out = outArg || "docs/images";
+  const ids = idArgs.length ? idArgs : ["banner", "how", "phases"];
+  fs.mkdirSync(path.join(root, out), { recursive: true });
   const browser = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {});
   const page = await browser.newPage({ viewport: { width: 1300, height: 900 }, deviceScaleFactor: 2 });
   await page.route("**/*", async route => {
@@ -37,15 +42,15 @@ const css = Object.entries(FONTS).map(([k, f]) => {
     if (url.startsWith("https://fonts.googleapis.com/")) return route.fulfill({ contentType: "text/css", body: css });
     if (url.startsWith("https://fonts.gstatic.com/")) return route.abort();
     if (url.startsWith("https://fonts.local/")) return route.fulfill({ contentType: "font/woff2", body: fs.readFileSync(path.join(__dirname, "node_modules", url.replace("https://fonts.local/", ""))) });
-    if (url.startsWith("https://page.local/")) return route.fulfill({ contentType: "text/html", body: fs.readFileSync(path.join(root, "docs/src/readme-art.html")) });
+    if (url.startsWith("https://page.local/")) return route.fulfill({ contentType: "text/html", body: fs.readFileSync(path.join(root, src)) });
     return route.abort();
   });
   await page.goto("https://page.local/readme-art.html");
   await page.evaluate(() => document.fonts.ready);
   await page.waitForTimeout(800);
-  for (const id of ["banner", "how", "phases"]) {
-    await page.locator("#" + id).screenshot({ path: path.join(root, "docs/images", id + ".png"), omitBackground: true });
-    console.log("docs/images/" + id + ".png");
+  for (const id of ids) {
+    await page.locator("#" + id).screenshot({ path: path.join(root, out, id + ".png"), omitBackground: true });
+    console.log(out + "/" + id + ".png");
   }
   await browser.close();
 })();

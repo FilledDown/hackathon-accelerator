@@ -2,6 +2,22 @@
 
 All notable changes to this plugin. Versions follow [semantic versioning](https://semver.org): fixes bump the last number, new features the middle one, breaking changes the first.
 
+## [1.4.0] - 2026-11-27
+
+### Added
+- **Finished demo video in one command** (`demo_video.py`): agents write `video/shots.json`, the script records the running app (smooth cursor, click ripples, `zoom` for readable UIs) and edits it: hook and title cards, shots trimmed to fit while keeping each result, a push-in on the hero shot, captions composited on top, crossfades, a generated royalty-free music bed, end card, thumbnail. `--check` prints exact install fixes; `--plan` validates timing; `--skip-record` re-edits. Frames are captured through Chrome DevTools and encoded with your own ffmpeg, so no Playwright browser or ffmpeg download is needed (that download was the reason the old recorder failed). Ships a sample app and example shot list.
+- **Project brain** (`brain.py`): an incremental map of the code and project in `.hackathon/brain/BRAIN.md` (~2k tokens): status, stack, entry points, folder map, most-connected files and symbols, routes, decisions, notes. `--query`, `--file`, `--note`. Read by Claude and every agent instead of re-exploring the repo.
+- **New agents:** `project-explainer` (writes `docs/EXPLAINER.md`: journey with file:line, architecture, file by file, real vs simulated), `judge-qa-coach` (question bank with ≤ 35-word evidence-backed answers, pre-empts, drill → `submission/QA.md`), `game-designer` (game jams: theme, core loop, game feel, scope, itch.io).
+- **Game jam mode** with `references/game-jam.md`: how jams are judged, a jam plan, game feel checklist, itch.io page, and official connection steps for Roblox Studio, Godot, Unity and Unreal. `detect_environment.py` now detects engine projects and whether Claude Code is connected to them.
+- **Dense pitch decks:** new HTML template where every slide is a claim + proof (sourced numbers, framed real screenshots, pipeline diagram, comparison table, Q&A grid), with sample screenshots. `deck_audit.py` flags empty or overloaded slides, missing proof, stretched/missing images and timing. A Canva workflow that uploads real screenshots, generates with Canva's own layouts and elements, then reads and fixes every page.
+- **Message routing hook** (`UserPromptSubmit`): in hackathon projects, adds a one-line hint naming the agents to spawn when a message matches a task (ideas, judging, build, deck, video, Q&A, explain, game jam). Silent otherwise; can't block a message.
+- New plugin icon; refreshed README art, deck and video previews, and a demo GIF.
+
+### Changed
+- **Agents run automatically:** Phase 2 starts by itself after the brief (idea agents generate and critique before you pick), and planned features are delegated to builder agents in parallel; the main thread integrates and verifies.
+- The deck, video and pitch agents now have every tool (including Bash and Canva). Before, the video agent couldn't run commands at all.
+- Session-start context and the CLAUDE.md block mention the brain, automatic delegation and game jams.
+
 ## [1.3.1] - 2026-11-25
 
 ### Changed

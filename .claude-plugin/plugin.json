@@ -1,7 +1,7 @@
 {
   "name": "hackathon-accelerator",
-  "version": "1.3.1",
-  "description": "An AI hackathon team for Claude Code: research, ideas, build, polished animated UI, licensed images, timed pitch decks (Canva or HTML), automated demo videos, mock judging, and a log of which agent did what. 40 agents, lean on tokens.",
+  "version": "1.4.0",
+  "description": "An AI hackathon and game jam team for Claude Code: 43 specialist agents that research, generate and judge ideas, build, design animated UI, make dense pitch decks (Canva or HTML), record a finished demo video, prep judge Q&A and explain the code, with a project brain that saves tokens.",
   "license": "MIT",
   "keywords": [
     "animation",
@@ -16,7 +16,15 @@
     "multi-agent",
     "pitch",
     "pitch-deck",
-    "ui"
+    "ui",
+    "game-jam",
+    "roblox",
+    "godot",
+    "unity",
+    "unreal",
+    "project-brain",
+    "judge-qa",
+    "explainer"
   ],
   "author": {
     "name": "FilledDown",

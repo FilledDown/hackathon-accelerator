@@ -7,7 +7,7 @@ Usage:
 
 Reads <root>/.hackathon/agent-log.jsonl, written automatically by the plugin's hook every time an agent
 starts (PreToolUse on the Agent tool) and finishes (SubagentStop). Pairs starts with stops, and prints a
-table of who did what, plus usage counts. --roster also lists all 40 agents by department (parsed from
+table of who did what, plus usage counts. --roster also lists all 43 agents by department (parsed from
 the accelerator SKILL.md roster, the single source of truth).
 """
 from __future__ import annotations

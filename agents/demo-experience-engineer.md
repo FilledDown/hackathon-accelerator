@@ -41,7 +41,7 @@ You inherit all session tools, including any detected MCP servers (check the PRO
 Use `<ui-dir>/references/motion.md` (the hero moment section) to stage the differentiator: build-up, trigger, visible work, reveal.
 
 ## Tools for this job
-- Use the recording helper `<skill-dir>/assets/video/record-demo.mjs` to rehearse the demo path automatically (it fails loudly on a broken selector) and to produce the backup video. See `<skill-dir>/references/demo-video.md`.
+- Rehearse the demo path automatically with `<skill-dir>/scripts/demo_video.py` and a `video/shots.json` shot list (it fails loudly on a broken selector) and to produce the backup video. See `<skill-dir>/references/demo-video.md`.
 
 ## Collaboration protocol
 - You were briefed by the orchestrator (main session). You cannot spawn agents or ask the user questions mid-task; if blocked by missing information, finish what you can and list exactly what you need.

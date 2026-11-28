@@ -52,7 +52,29 @@ KNOWN = {  # integration -> name patterns (lowercase substrings)
     "ffmpeg (demo video)": ["ffmpeg"],
     "Image generation": ["image-gen", "imagegen", "dall", "flux", "replicate", "stability"],
     "Browser automation (other)": ["chrome", "browser", "puppeteer"],
+    "Roblox Studio (MCP)": ["roblox"],
+    "Godot (MCP)": ["godot"],
+    "Unity (plugin/MCP)": ["unity"],
+    "Unreal Engine (MCP)": ["unreal"],
 }
+
+ENGINE_FILES = {  # engine -> how a project folder reveals it
+    "Roblox": ["default.project.json", "*.rbxl", "*.rbxlx", "*.luau"],
+    "Godot": ["project.godot"],
+    "Unity": ["ProjectSettings/ProjectVersion.txt"],
+    "Unreal Engine": ["*.uproject"],
+}
+ENGINE_MCP = {"Roblox": "Roblox Studio (MCP)", "Godot": "Godot (MCP)", "Unity": "Unity (plugin/MCP)", "Unreal Engine": "Unreal Engine (MCP)"}
+
+
+def engines(root: Path) -> list[str]:
+    found = []
+    for eng, pats in ENGINE_FILES.items():
+        for pat in pats:
+            if any(root.glob(pat)) or any(root.glob("*/" + pat)):
+                found.append(eng)
+                break
+    return found
 CLIS = ["git", "gh", "node", "npm", "pnpm", "yarn", "bun", "python3", "python", "py", "uv", "pip", "docker", "vercel",
         "netlify", "supabase", "firebase", "railway", "flyctl", "npx", "playwright", "ccr", "bd", "gitleaks", "trufflehog", "ffmpeg", "ffprobe"]
 
@@ -163,7 +185,7 @@ def detect(root: Path, use_cli: bool) -> dict:
         integrations[label] = sorted(set(hits))
     return {"detected_at": datetime.now().isoformat(timespec="minutes"), "claude_version": (ver or "").strip() or None,
             "mcp_servers": mcps, "skills": sks, "plugins": plugs, "agents": agents(root), "clis": clis,
-            "integrations": integrations,
+            "integrations": integrations, "engines": engines(root),
             "agent_teams_env": os.environ.get("CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS") or None}
 
 
@@ -180,6 +202,10 @@ def to_md(d: dict) -> str:
     L.append(f"- Plugins: {', '.join(d['plugins']) or 'none'}")
     L.append(f"- Agents ({len(d['agents'])}): {len(d['agents'])} definitions found")
     L.append(f"- CLIs: {', '.join(sorted(d['clis'])) or 'none'}")
+    for eng in d.get("engines", []):
+        conn = d["integrations"].get(ENGINE_MCP[eng])
+        L.append(f"- **Game engine: {eng}**, Claude Code connection: " + (", ".join(conn) if conn else
+                 "NOT connected. Give the user the steps in references/game-jam.md → Step 0 before building."))
     return "\n".join(L)
 
 

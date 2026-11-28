@@ -175,7 +175,7 @@ class TeamLog(unittest.TestCase):
             self.assertEqual(runs["rules-auditor"]["result"], "Wrote research/rules-audit.md.")
             self.assertEqual(runs["frontend-engineer"]["status"], "running")
             self.assertEqual(runs["hackathon-coding-assistant"]["status"], "done (main session)")
-            self.assertEqual(sum(len(v) for v in data["roster"].values()), 40)
+            self.assertEqual(sum(len(v) for v in data["roster"].values()), 43)
             code, out, _ = run("team_log.py", d)
             self.assertIn("| **rules-auditor** | strategy | Audit rules | Wrote research/rules-audit.md. | 1m 30s |", out)
 
@@ -302,6 +302,97 @@ class Shortcut(unittest.TestCase):
             team = Path(home) / ".claude" / "skills" / "hackathon-team" / "SKILL.md"
             self.assertTrue(team.exists())                  # the other shortcut still installed
             self.assertIn("hackathon-accelerator:team", team.read_text(encoding="utf-8"))
+
+
+class BrainDeckVideo(unittest.TestCase):
+    def test_brain_maps_code_incrementally_and_queries(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            (root / "PRODUCT_SPEC.md").write_text("# Floody\n## Problem\nFlood alerts arrive too late.\n", encoding="utf-8")
+            (root / "src").mkdir()
+            (root / "src" / "api.ts").write_text("import { score } from './score'\napp.get('/alerts', handler)\nexport function handler() {}\n", encoding="utf-8")
+            (root / "src" / "score.ts").write_text("// risk scoring\nexport const score = (x) => x * 2\n", encoding="utf-8")
+            (root / "node_modules").mkdir()
+            (root / "node_modules" / "junk.js").write_text("function nope(){}", encoding="utf-8")
+            code, out, _ = run("brain.py", d)
+            self.assertEqual(code, 0)
+            self.assertIn("2 files (2 re-read", out)
+            brain = (root / ".hackathon" / "brain" / "BRAIN.md").read_text(encoding="utf-8")
+            self.assertIn("Floody", brain)
+            self.assertIn("GET /alerts", brain)
+            self.assertNotIn("junk", brain)
+            code, out, _ = run("brain.py", d)
+            self.assertIn("(0 re-read", out)
+            code, out, _ = run("brain.py", d, "--query", "score")
+            self.assertIn("src/score.ts", out)
+            code, out, _ = run("brain.py", d, "--file", "src/score.ts")
+            self.assertIn("used by: src/api.ts", out)
+            run("brain.py", d, "--note", "alerts come from the NOAA API")
+            self.assertIn("NOAA", (root / ".hackathon" / "brain" / "BRAIN.md").read_text(encoding="utf-8"))
+
+    def test_deck_audit_passes_template_and_flags_bad_deck(self):
+        tpl = SCRIPTS.parent / "assets" / "templates" / "deck" / "deck.html"
+        code, out, _ = run("deck_audit.py", str(tpl), "--minutes", "3")
+        self.assertEqual(code, 0, out)
+        with tempfile.TemporaryDirectory() as d:
+            bad = Path(d) / "deck.html"
+            bad.write_text('<style>img{width:100%}</style><section class="slide" data-seconds="200"><h2>Hi</h2></section>'
+                           '<section class="slide"><img src="x.png"></section>', encoding="utf-8")
+            code, out, _ = run("deck_audit.py", str(bad), "--minutes", "3")
+            self.assertEqual(code, 1)
+            for frag in ("looks empty", "outside a .frame", "image file missing", "object-fit", "timing"):
+                self.assertIn(frag, out)
+
+    def test_demo_video_plan_validates_shots(self):
+        with tempfile.TemporaryDirectory() as d:
+            (Path(d) / "video").mkdir()
+            ex = SCRIPTS.parent / "assets" / "video" / "shots.example.json"
+            shutil.copy(ex, Path(d) / "video" / "shots.json")
+            code, out, _ = run("demo_video.py", d, "--plan")
+            self.assertEqual(code, 0, out)
+            self.assertIn("5 shots", out)
+            self.assertIn("★", out)
+            (Path(d) / "video" / "shots.json").write_text('{"shots":[{"actions":[{"fly":"x"}]}]}', encoding="utf-8")
+            code, out, _ = run("demo_video.py", d, "--plan")
+            self.assertEqual(code, 2)
+            self.assertIn('unknown action "fly"', out)
+
+    @unittest.skipUnless(os.environ.get("HA_FULL_VIDEO") == "1", "set HA_FULL_VIDEO=1 to record a real video (needs node, ffmpeg, Chrome/Edge, network for npm)")
+    def test_demo_video_end_to_end(self):
+        with tempfile.TemporaryDirectory() as d:
+            (Path(d) / "video").mkdir()
+            for f in ("shots.example.json", "sample-app.html"):
+                shutil.copy(SCRIPTS.parent / "assets" / "video" / f, Path(d) / "video" / f)
+            (Path(d) / "video" / "shots.example.json").rename(Path(d) / "video" / "shots.json")
+            p = subprocess.run([sys.executable, str(SCRIPTS / "demo_video.py"), d], capture_output=True, text=True, encoding="utf-8", timeout=600)
+            self.assertEqual(p.returncode, 0, p.stdout[-2000:] + p.stderr[-2000:])
+            mp4 = Path(d) / "submission" / "demo.mp4"
+            self.assertTrue(mp4.exists())
+            dur = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(mp4)],
+                                       capture_output=True, text=True).stdout)
+            self.assertTrue(15 < dur <= 35, dur)
+            self.assertTrue((Path(d) / "submission" / "thumbnail.png").exists())
+
+    def test_prompt_hook_routes_only_matching_messages(self):
+        node = shutil.which("node")
+        if not node:
+            self.skipTest("node not installed")
+        hook = SCRIPTS.parents[2] / "hooks" / "agent-log.js"
+        env = {k: v for k, v in os.environ.items() if k != "CLAUDE_PROJECT_DIR"}
+        with tempfile.TemporaryDirectory() as d:
+            (Path(d) / "PROGRESS.md").write_text("x", encoding="utf-8")
+            def ask(text, cwd=d):
+                p = subprocess.run([node, str(hook), "prompt"], input=json.dumps({"cwd": cwd, "prompt": text}),
+                                   capture_output=True, text=True, encoding="utf-8", env=env)
+                self.assertEqual(p.returncode, 0)
+                return p.stdout
+            self.assertIn("idea agents", ask("what should we build?"))
+            self.assertIn("slide-deck-designer", ask("make the deck"))
+            self.assertIn("game-designer", ask("we are doing a godot game jam"))
+            self.assertEqual(ask("fix the typo in the header"), "")
+            with tempfile.TemporaryDirectory() as other:
+                self.assertIn("hackathon-accelerator skill", ask("help me with my hackathon", other))
+                self.assertEqual(ask("hello", other), "")
 
 
 if __name__ == "__main__":

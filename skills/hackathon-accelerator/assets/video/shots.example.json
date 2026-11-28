@@ -1,0 +1,92 @@
+{
+  "url": "sample-app.html",
+  "target_seconds": 30,
+  "limit_seconds": 35,
+  "zoom": 1.4,
+  "brand": {
+    "name": "Cadence",
+    "tagline": "Practice with intention, not guilt.",
+    "accent": "#f97316",
+    "bg": "#0b0b0d",
+    "font": "Inter"
+  },
+  "hook": {
+    "kicker": "The problem",
+    "big": "73%",
+    "text": "of music students practice by just playing pieces through."
+  },
+  "end": {
+    "url": "cadence.app",
+    "team": "Team Fermata",
+    "event": "PolarHacks 2026"
+  },
+  "shots": [
+    {
+      "caption": "Add what you're learning in *seconds*",
+      "actions": [
+        {
+          "type": [
+            "#piece",
+            "Chopin · Nocturne Op. 9 No. 2"
+          ]
+        },
+        {
+          "click": "text=Add piece"
+        }
+      ],
+      "hold": 1.0
+    },
+    {
+      "caption": "Your whole repertoire, in *one place*",
+      "actions": [
+        {
+          "type": [
+            "#piece",
+            "Debussy · Clair de lune"
+          ]
+        },
+        {
+          "press": "Enter"
+        },
+        {
+          "click": "text=Add piece"
+        },
+        {
+          "hover": ".piece"
+        }
+      ],
+      "hold": 0.8
+    },
+    {
+      "caption": "Play a run-through. Cadence *listens*",
+      "actions": [
+        {
+          "click": "#record"
+        },
+        {
+          "waitFor": "#result.on"
+        }
+      ],
+      "hold": 0.6
+    },
+    {
+      "caption": "The rushed bars *light up*, with a plan to fix them",
+      "actions": [
+        {
+          "spotlight": "#result"
+        }
+      ],
+      "hold": 3.4,
+      "hero": true
+    },
+    {
+      "caption": "*+12 minutes* go to exactly the bars that need it",
+      "actions": [
+        {
+          "hover": "text=+12 min"
+        }
+      ],
+      "hold": 1.6
+    }
+  ]
+}

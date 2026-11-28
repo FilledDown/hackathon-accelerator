@@ -5,17 +5,18 @@
 <p align="center">
   <a href="https://github.com/FilledDown/hackathon-accelerator/actions/workflows/test.yml"><img src="https://github.com/FilledDown/hackathon-accelerator/actions/workflows/test.yml/badge.svg" alt="tests"></a>
   <img src="https://img.shields.io/badge/Claude%20Code-plugin-f97316" alt="Claude Code plugin">
-  <img src="https://img.shields.io/badge/version-1.3.1-f97316" alt="version 1.3.1">
-  <img src="https://img.shields.io/badge/agents-40-6366f1" alt="40 agents">
+  <img src="https://img.shields.io/badge/version-1.4.0-f97316" alt="version 1.4.0">
+  <img src="https://img.shields.io/badge/agents-43-6366f1" alt="43 agents">
+  <img src="https://img.shields.io/badge/game%20jams-Roblox%20%C2%B7%20Godot%20%C2%B7%20Unity%20%C2%B7%20Unreal-4cb782" alt="game jams">
   <img src="https://img.shields.io/badge/python-3.9%2B-3776ab" alt="Python 3.9+">
   <img src="https://img.shields.io/badge/license-MIT-22c55e" alt="MIT license">
 </p>
 
-**hackathon-accelerator** is a Claude Code plugin that acts as your whole hackathon team. You bring the hackathon link. It reads the rules, figures out what the judges are scoring, helps you choose an idea worth building, plans it, writes and debugs the code with you, polishes the UI, tests the demo, writes the Devpost and pitch, and then runs a mock judging panel against your actual project before you submit.
+**hackathon-accelerator** is a Claude Code plugin that acts as your whole hackathon or game jam team. You bring the link. It reads the rules, figures out what the judges are scoring, helps you choose an idea worth building, plans it, writes and debugs the code with you, polishes the UI, tests the demo, writes the Devpost and pitch, and then runs a mock judging panel against your actual project before you submit.
 
-Most "AI hackathon helpers" are one big prompt. This is an orchestrator skill plus 40 specialist agents that share project files, disagree with each other, and get called only when they're useful. If you ask a quick question, you get a quick answer. The full council only shows up for big decisions.
+Most "AI hackathon helpers" are one big prompt. This is an orchestrator skill plus 43 specialist agents that share project files and disagree with each other. It runs them **automatically**: idea agents generate and critique ideas, builder agents build the planned features, and critics judge the result, so you never have to ask "use the agents". A quick question still gets a quick answer, and `/hackathon-accelerator:team` shows exactly which agent did what.
 
-It also ships a **UI skill** with 10 style directions reverse-engineered from products like Linear, Stripe, Notion, Resend, Aesop and Teenage Engineering, so your demo looks like a funded product instead of a template. It animates every button, card and image, finds licensed photos, builds a timed pitch deck (in Canva or offline), records a captioned demo video of your real app, and shows you which agent did what.
+It also ships a **UI skill** with 10 style directions reverse-engineered from products like Linear, Stripe, Notion, Resend, Aesop and Teenage Engineering, plus component animations and licensed photos by default. It builds a **dense, timed pitch deck** (in Canva or offline), records and edits a **finished demo video** of your real app in one command, prepares **answers to judge questions**, **explains every part of your code**, keeps a **project brain** so Claude doesn't re-read your repo every session, and connects to **Roblox Studio, Godot, Unity and Unreal** for game jams.
 
 ```
 /plugin marketplace add FilledDown/hackathon-accelerator
@@ -33,6 +34,9 @@ It also ships a **UI skill** with 10 style directions reverse-engineered from pr
 - [The 8 phases](#the-8-phases)
 - [UI that doesn't look AI-generated](#ui-that-doesnt-look-ai-generated)
 - [Pitch deck and demo video](#pitch-deck-and-demo-video)
+- [Judge Q&A and the explainer](#judge-qa-and-the-explainer)
+- [Game jams](#game-jams)
+- [Project brain](#project-brain)
 - [See who did what](#see-who-did-what)
 - [Light on tokens](#light-on-tokens)
 - [The coding assistant](#the-coding-assistant)
@@ -51,15 +55,17 @@ It also ships a **UI skill** with 10 style directions reverse-engineered from pr
 
 ## What it does
 
-<p align="center"><img src="docs/images/how.png" alt="How it works: you ask in plain words, the orchestrator skill picks the smallest team from 40 agents in six departments, and you get a brief, scorecard, spec, polished app, timed deck, demo video and Devpost" width="100%"></p>
+<p align="center"><img src="docs/images/how.png" alt="How it works: you ask in plain words, the orchestrator skill picks the smallest team from 43 agents in six departments, and you get a brief, scorecard, spec, polished app, timed deck, demo video and Devpost" width="100%"></p>
 
 - **Researches the competition.** It reads the official rules, prize tracks and judging criteria, and studies past winners. Every fact goes into `HACKATHON_BRIEF.md` with its source. Anything it couldn't confirm gets tagged `[UNVERIFIED]` instead of being guessed.
-- **Picks an idea that can win.** It generates 3 to 5 genuinely different concepts. An originality critic looks for prior art, a feasibility analyst estimates hours, and each idea is scored against the real rubric weights. You make the final call.
+- **Picks an idea that can win, automatically.** As soon as the rules are in, the idea agents generate 3 to 5 genuinely different concepts. An originality critic looks for prior art, a feasibility analyst estimates hours, and each idea is scored against the real rubric weights. Bring your own idea and the same critics review it. You make the final call.
 - **Keeps scope under control.** The MVP is one core user journey plus one standout feature. Scope freezes after planning, and checkpoints at 25/50/70/85/95% of your time tell you when to cut.
-- **Builds with you.** A coding assistant is available the whole time. It reads your repo before changing anything, debugs by reproducing the problem first, checks unfamiliar APIs against the docs, and tells you when a feature isn't worth the time.
+- **Builds with a team.** Planned features go to builder agents (frontend, backend, AI/ML, database, integrations) working in parallel on separate files, and the orchestrator integrates and verifies them. A coding assistant is available the whole time for everything else. It reads your repo before changing anything, debugs by reproducing the problem first, checks unfamiliar APIs against the docs, and tells you when a feature isn't worth the time.
 - **Makes the demo reliable.** Seeded realistic data, a demo mode, fallbacks on every external API call, a reset script, and three cold-start rehearsal runs.
 - **Makes it look like a real product.** Ten style directions, component animations (React or vanilla), licensed images with credits, and an anti-slop audit.
-- **Writes and records the submission.** Devpost entry, a pitch timed to your slot (3 minutes? it budgets every second), a deck in Canva or an offline HTML deck with Q&A backup slides, a captioned demo video recorded from your running app, the README, and answers to likely judge questions.
+- **Writes and records the submission.** Devpost entry, a pitch timed to your slot (3 minutes? it budgets every second), a dense deck in Canva or an offline HTML deck, a finished ~30-second demo video plus the full video script, the README, and a bank of judge questions with answers.
+- **Explains your project.** An explainer agent maps the journey through the code file by file, so anyone on the team can answer "how does it work?".
+- **Handles game jams.** A game designer agent interprets the theme, designs the core loop and game feel, and gives you exact steps to connect Claude Code to your engine.
 - **Judges you before the judges do.** Three or four simulated judges (technical, sponsor, impact, design) score the actual repo against the official rubric and give you a ranked fix list.
 
 ---
@@ -139,7 +145,7 @@ claude
 /hackathon-accelerator https://polarhacks.devpost.com
 ```
 
-You can also just talk to it normally. "I'm doing PolarHacks this weekend with two friends, help me plan" triggers the skill too.
+You can also just talk to it normally. "I'm doing PolarHacks this weekend with two friends, help me plan" triggers the skill too. Once the project exists, every message is routed automatically: you never need to type a skill name or say "use the agents".
 
 **3. Answer a few questions.** It asks for the deadline (with timezone), team size, what everyone is good at, and any tracks you care about.
 
@@ -193,6 +199,16 @@ Write the Devpost submission
 Write a 3 minute pitch and the questions judges will ask
 Simulate judging
 Run the final submission check
+```
+
+**New in 1.4**
+
+```
+Make the deck for a 3 minute pitch          → dense slides in Canva or HTML, audited
+Make the demo video                          → full script + a finished 30 s MP4
+What will the judges ask us? Quiz me.        → QA.md, then a live drill
+Explain how the audio scoring works          → docs/EXPLAINER.md deep dive
+We're doing GMTK Game Jam in Godot           → game designer + engine connection steps
 ```
 
 ### What pushback looks like
@@ -277,22 +293,68 @@ or just say "improve the frontend" or "make this landing page look good." Inside
 
 **Timed to your slot.** Tell it "we have 3 minutes with a live demo" and `time_plan.py` budgets every segment in seconds, spoken words (at 140 wpm) and slides. The demo gets at least half the time and starts before 40 seconds. It checks your script against the clock and flags overruns.
 
-**The deck.** If Canva is connected, it builds the presentation in Canva in your product's style and exports a PDF. If not, it uses an offline HTML deck with a built-in per-slide timer (`T`), speaker notes (`N`) and one-click PDF export (`P`). Either way, it adds 2–4 **appendix slides answering the questions judges usually ask** ("what if the AI is wrong?", "what did you build this weekend?").
+**A deck with substance.** Every slide is a claim headline plus proof: a number with its source, a real screenshot, a diagram, a comparison table or a user quote, laid out to fill the 16:9 canvas. Images sit in fixed-ratio frames, so they're never stretched or blurry. The last slides answer the six questions judges are most likely to ask. `deck_audit.py` catches empty slides, walls of text, stretched or missing images and timing that doesn't fit.
 
-<p align="center"><img src="docs/images/deck.png" alt="Sample HTML pitch deck: title slide, problem statistic, architecture slide and a Q&A appendix slide" width="100%"></p>
+- **In Canva** (when connected): it uploads your real screenshots, generates the presentation with Canva's own layouts, icons, shapes and charts (and your brand kit if you have one), then reads every page and fixes overflow, generic images and placeholders before exporting PDF and PPTX.
+- **Offline**: an HTML deck with a per-slide timer (`T`), speaker notes (`N`) and PDF export (`P`).
 
-To connect Canva (optional, needs a Canva account):
+<p align="center"><img src="docs/images/deck.png" alt="Sample HTML deck: title slide with product screenshot and numbers, problem slide with a sourced statistic and quote, how-it-works pipeline with performance numbers, comparison table against alternatives" width="100%"></p>
+
+To connect Canva (optional, needs a Canva account): in Claude Code run `/plugin`, open **Discover** and install Canva's plugin, or add just the server:
 ```bash
 claude mcp add --transport http Canva https://mcp.canva.com/mcp
 ```
 Then run `/mcp` in Claude Code and sign in.
 
-**The demo video.** A Playwright script drives your *real running app* with a visible, smoothly moving cursor, click ripples, captions and a spotlight on the hero moment. Title, problem, impact and end cards render from HTML, and `make_video.py` stitches everything into a 1080p MP4 with crossfades and optional music or narration. It fails if you're over the time limit. Since the recording is a script, re-recording after a bug fix takes a minute.
-
-<p align="center"><img src="docs/images/video.png" alt="Frames from a generated demo video: title card, captioned app recording, spotlight on the hero moment, end card" width="100%"></p>
+**A finished demo video, one command.** The `demo-video-producer` agent writes the full video script for your event's limit and a short shot list (`video/shots.json`). Then:
 
 ```bash
-python skills/hackathon-accelerator/scripts/make_video.py video/cards/title.png:3 video/raw/demo.webm@1-80 video/cards/end.png:4 --out submission/demo.mp4 --limit 120
+python skills/hackathon-accelerator/scripts/demo_video.py .          # --check first if you like
+```
+
+It drives your *real running app* with a smooth cursor and click ripples, then edits it like a person would: a hook card with a real number, a title card, each shot trimmed to fit (keeping the result at the end of each shot), a slow push-in on the hero moment, captions on top, crossfades, a generated royalty-free music bed and an end card. Out comes a ~30-second 1080p `submission/demo.mp4` and a thumbnail. It needs Node, ffmpeg and Chrome or Edge, and installs its recorder privately the first time. Re-edit without re-recording with `--skip-record`.
+
+<p align="center"><img src="docs/images/demo.gif" alt="A 30-second demo video made by demo_video.py: typing a piece, recording, the rushed bars lighting up with a zoom, and the plan" width="80%"></p>
+
+<p align="center"><img src="docs/images/video.png" alt="Frames from the generated video: hook card, title card, captioned app shot, hero shot with push-in" width="100%"></p>
+
+---
+
+## Judge Q&A and the explainer
+
+**Judge Q&A.** The `judge-qa-coach` agent predicts 15–25 questions across the rubric, technical depth, originality ("how is this different from X?"), business, impact, sponsor use and honesty traps ("is that live or mocked?"). Each one gets a ≤ 35-word answer with evidence. The top 6 become appendix slides, the two most damaging get answered inside the pitch before anyone asks, and you can drill them: ask "quiz me on judge questions" and Claude fires them at you and gives feedback.
+
+**The explainer.** Ask "explain how the scoring works" or "walk me through the code" and the `project-explainer` agent writes `docs/EXPLAINER.md`: what the project does, the core journey step by step with `file:line` references, an architecture diagram, every folder and important file, key decisions and trade-offs, what's real vs simulated, and how to run the demo. It's built from the project brain, so it reads only what it needs.
+
+---
+
+## Game jams
+
+Say it's a game jam (or name Ludum Dare, GMTK, itch.io, Roblox, Godot, Unity or Unreal) and the `game-designer` agent leads: 8 theme interpretations scored for fun and feasibility, one core verb and loop, the first 60 seconds of play, scope by the jam clock, a game feel checklist (screen shake, hit-stop, particles, sound on every action) and an itch.io page plan. Judging simulations rate Fun, Theme, Innovation, Graphics and Audio like players do.
+
+**Before building, it checks your engine is connected to Claude Code** and, if it isn't, gives you the exact steps:
+
+| Engine | How it connects |
+|---|---|
+| **Roblox Studio** | Built into Studio: **Assistant → … → Manage MCP Servers → Enable Studio as MCP server**, then **Quick connect → Claude Code** |
+| **Godot 4** | `claude mcp add godot -- npx @coding-solo/godot-mcp` from your project folder (needs Node) |
+| **Unity** | Unity's official plugin: `/plugin marketplace add Unity-Technologies/unity-agent-plugin` then `/plugin install unity@unity-agent-plugin`, plus the Unity CLI |
+| **Unreal Engine** | Epic's Unreal MCP: enable **Unreal MCP** and **All Toolsets**, then **Editor Preferences → Model Context Protocol → Generate Client Config** (and Epic's plugin from the official marketplace) |
+| **Phaser, Three.js, HTML5** | Nothing to connect; Claude edits the code directly |
+
+Full steps and troubleshooting: [`references/game-jam.md`](skills/hackathon-accelerator/references/game-jam.md).
+
+---
+
+## Project brain
+
+`brain.py` keeps a compact map of your project in `.hackathon/brain/BRAIN.md` (about 2,000 tokens): what the project is, feature status, stack, entry points, a folder map, the most connected files with their key functions, routes and endpoints, recent decisions and saved notes. Claude and every agent read it **instead of exploring the repo** each session. It updates incrementally (only changed files are re-read, usually under a second) and understands Python, JS/TS, Lua/Luau, GDScript, C#, C++, Go, Rust and Java.
+
+```bash
+python skills/hackathon-accelerator/scripts/brain.py .                      # refresh
+python skills/hackathon-accelerator/scripts/brain.py . --query score        # find files, functions, routes
+python skills/hackathon-accelerator/scripts/brain.py . --file src/api.ts    # symbols, imports, used by
+python skills/hackathon-accelerator/scripts/brain.py . --note "alerts come from the NOAA API"
 ```
 
 ---
@@ -315,14 +377,16 @@ Example output:
 | 03:05 | hackathon-coding… | always      | Fix CORS between web and api  | Added origin; verified fetch works      | —      |
 ```
 
-It also lists the full roster of 40 agents, with a ✓ next to the ones that have worked on your project. Logging only happens in hackathon projects (folders with `PROGRESS.md`), never in your other repos.
+It also lists the full roster of 43 agents, with a ✓ next to the ones that have worked on your project. Logging only happens in hackathon projects (folders with `PROGRESS.md`), never in your other repos.
 
 ---
 
 ## Light on tokens
 
 The plugin keeps its fixed cost small, so more of your usage goes to actual work:
-- **About 1,000 tokens of always-loaded descriptions** for 40 agents and 3 skills (down from about 3,200 in v1.2).
+- **A project brain** (`BRAIN.md`, ~2k tokens) replaces re-exploring the repo every session, and agents get it in their brief.
+- **Short always-loaded descriptions** for 43 agents and 3 skills (about 1,100 tokens).
+- **Routing hints only when they matter:** the message hook adds a one-line hint just for messages that match a task, and nothing otherwise.
 - **Lean mode by default:** quick questions use 0–1 agents, briefs and handoffs are capped at about 150 words, details go into files instead of chat, and read-only research agents can run on a cheaper model.
 - **Scripts instead of reading:** `generate_project_report.py` summarizes the project state in a few lines, so Claude doesn't re-read every doc.
 - **Progressive disclosure:** playbooks load only when their phase starts.
@@ -354,7 +418,7 @@ claude --agent hackathon-accelerator:hackathon-coding-assistant
 
 ## The agents
 
-All 40 agents are in [`agents/`](agents/). Research and review agents get limited tools (read, search the web, and write their own report). Builder agents get every tool you have, including MCP servers like Context7 or Playwright when they're installed.
+All 43 agents are in [`agents/`](agents/). Research and review agents get limited tools (read, search the web, and write their own report). Builder agents get every tool you have, including MCP servers like Context7 or Playwright when they're installed.
 
 <details>
 <summary><b>Council</b> (3): coordination and the toughest critic</summary>
@@ -380,10 +444,11 @@ All 40 agents are in [`agents/`](agents/). Research and review agents get limite
 </details>
 
 <details>
-<summary><b>Innovation</b> (6): find and stress-test the idea</summary>
+<summary><b>Innovation</b> (7): find and stress-test the idea</summary>
 
 | Agent | Job |
 |---|---|
+| `game-designer` | Game jams: theme, core loop, game feel, scope, engine connection, itch.io page |
 | `idea-generator` | 8 to 12 raw concepts, narrowed to the best 3 to 5 |
 | `problem-discovery-researcher` | Real problems with sourced evidence of pain |
 | `originality-critic` | Finds prior art and argues against generic ideas |
@@ -425,11 +490,12 @@ All 40 agents are in [`agents/`](agents/). Research and review agents get limite
 </details>
 
 <details>
-<summary><b>Presentation</b> (6): tell the story</summary>
+<summary><b>Presentation</b> (7): tell the story</summary>
 
 | Agent | Job |
 |---|---|
-| `pitch-director` | Story structure, timing, rubric map, judge Q&A |
+| `judge-qa-coach` | Predicts judge questions, writes short evidence-backed answers, runs drills |
+| `pitch-director` | Story structure, timing, rubric map |
 | `technical-storyteller` | Makes hard engineering visible and explainable |
 | `slide-deck-designer` | 6 to 8 slides with speaker notes |
 | `demo-video-producer` | Timed video script and shot list within the length limit |
@@ -438,11 +504,12 @@ All 40 agents are in [`agents/`](agents/). Research and review agents get limite
 </details>
 
 <details>
-<summary><b>Always on</b> (1)</summary>
+<summary><b>Always on</b> (2)</summary>
 
 | Agent | Job |
 |---|---|
 | `hackathon-coding-assistant` | Your senior engineer for the whole event |
+| `project-explainer` | Explains any part of the code and project in plain words (`docs/EXPLAINER.md`) |
 </details>
 
 ### How they work together
@@ -548,6 +615,9 @@ The accelerator scripts are in `skills/hackathon-accelerator/scripts/`, and the 
 | `validate_submission.py` | The honesty and compliance gate described above | `python validate_submission.py . --requirements research/requirements.json --strict` |
 | `generate_project_report.py` | Time left, checkpoint, feature counts, risks, scorecard, warnings | `python generate_project_report.py .` |
 | `time_plan.py` | Second-by-second plan for a 2/3/5-minute pitch or video, plus a script length check | `python time_plan.py --minutes 3 --format live-demo --check .` |
+| `demo_video.py` | Records your app from `video/shots.json` and edits a finished ~30 s video (cards, zoom, captions, music) | `python demo_video.py . --check` then `python demo_video.py .` |
+| `deck_audit.py` | Checks a deck for empty slides, missing proof, stretched or missing images, timing | `python deck_audit.py submission/deck.html --minutes 3` |
+| `brain.py` | Project brain: incremental code and project map, search, notes | `python brain.py . --query auth` |
 | `make_video.py` | Stitches cards and recordings into a 1080p MP4 with crossfades and music; enforces the time limit | `python make_video.py cards/title.png:3 raw/demo.webm --out demo.mp4 --limit 180` |
 | `team_log.py` | Who did what: the agent activity log plus roster | `python team_log.py . --roster` |
 | `hackathon-ui/scripts/fetch_images.py` | Licensed photos from Openverse, Pexels or Unsplash, with credits | `python fetch_images.py "rainy street at night" --count 4` |
@@ -571,9 +641,10 @@ The plugin works with nothing extra installed. If you do have these, it uses the
 | UI/UX Pro Max, Taste, frontend-design | Design polish in Phase 5 |
 | Beads, Vibe Kanban, Planning with Files | Task tracking |
 | Canva MCP | Building the pitch deck in Canva and exporting it as a PDF |
-| ffmpeg + Playwright | Recording and stitching the demo video |
+| ffmpeg + Node + Chrome/Edge | Recording and editing the demo video |
 | Pexels / Unsplash API keys | More photo sources (Openverse works without a key) |
 | Image-generation MCP | Generated images, credited as AI-generated |
+| Roblox Studio, Godot, Unity, Unreal MCP | Game jams: building inside the engine (see [Game jams](#game-jams)) |
 | Agent Teams (experimental) | Direct debate between agents in Phases 2 and 8 |
 
 ---
@@ -586,7 +657,7 @@ Everything works on Windows. A few things to know:
 - For timezone names like `America/Denver`, install the timezone database with `pip install tzdata`. Without it, the scripts fall back to a built-in table of standard offsets, which can be an hour off during daylight saving time. You can also write deadlines with an offset, like `2026-12-06 17:00 -07:00`.
 - If Windows "Extract All" puts the folder inside a second folder with the same name, `cd` one level deeper.
 - For the demo video, install ffmpeg with `winget install Gyan.FFmpeg`, then reopen PowerShell.
-- Setting environment variables in PowerShell looks like `$env:DEMO_URL="http://localhost:3000"; node video/record-demo.mjs`.
+- The demo video uses Microsoft Edge if Chrome isn't installed, so nothing extra is needed beyond Node and ffmpeg. Run `python skills\hackathon-accelerator\scripts\demo_video.py . --check` to see what's missing.
 
 ---
 
@@ -598,6 +669,15 @@ Everything works on Windows. A few things to know:
 ```
 
 Then restart Claude Code. See [CHANGELOG.md](CHANGELOG.md) for what changed.
+
+If `/plugin` isn't available, run the same thing from a terminal: `claude plugin marketplace update hackathon-accelerator` and `claude plugin update hackathon-accelerator@hackathon-accelerator`. If a new command still doesn't show up, an old copy is cached. Reinstall cleanly:
+
+```bash
+claude plugin uninstall hackathon-accelerator@hackathon-accelerator
+claude plugin marketplace remove hackathon-accelerator
+claude plugin marketplace add FilledDown/hackathon-accelerator
+claude plugin install hackathon-accelerator@hackathon-accelerator
+```
 
 ---
 
@@ -663,16 +743,16 @@ skills/hackathon-accelerator/
   SKILL.md               the orchestrator
   references/            12 playbooks: rubrics, MVP scope, demo engineering, presentation, demo video, naming...
   scripts/               the Python helpers + tests/ + fixtures
-  assets/templates/      project memory templates + deck/deck.html
-  assets/video/          record-demo.mjs, render-cards.mjs, cards.html
+  assets/templates/      project memory templates + deck/ (deck.html + img/)
+  assets/video/          video-engine.mjs (recorder), shots.example.json, sample-app.html
 skills/hackathon-ui/
   SKILL.md               the UI process
   references/            foundations, components, animations, motion, images, anti-slop, inspiration, styles/ (10)
   assets/showcase/       9 style demo pages + motion-gallery.html + screenshots/
   scripts/               ui_audit.py, fetch_images.py + tests
 skills/team/             /hackathon-accelerator:team
-hooks/                   agent activity logging (hooks.json + agent-log.js)
-agents/                  40 agent definitions
+hooks/                   agent logging, session context and message routing (hooks.json + agent-log.js)
+agents/                  43 agent definitions
 shortcut/                /hackathon-accelerator and /hackathon-team forwarding skills
 tools/                   install_shortcut.py, render-showcases/ (regenerates the screenshots)
 evals/                   test cases for `claude plugin eval`
@@ -688,7 +768,9 @@ docs/images/, docs/src/   README images and their HTML source
 - **Requirement extraction is heuristic.** Pages that render with JavaScript need Firecrawl, a browser tool, or a saved copy of the page.
 - **Agent logging uses Claude Code hooks.** Hooks need Node (which Claude Code already requires). If your setup blocks plugin hooks, `/hackathon-accelerator:team` still shows the roster and any work logged by the main session.
 - **Canva tool names vary between versions,** so Claude lists and reads the connected Canva tools before using them. Without Canva, the HTML deck is the fallback.
-- **The demo video needs Playwright and ffmpeg** in your project. Apps that can't be driven in a browser (native mobile, hardware) need a manual screen recording, which the stitcher accepts.
+- **The demo video needs Node, ffmpeg and Chrome or Edge.** Apps that can't be driven in a browser (native mobile, hardware, most engine builds) need a manual screen recording, which `make_video.py` stitches.
+- **Game engine connections are made by the engine makers' tools** (Roblox, Unity, Epic) or community servers (Godot). Unreal MCP is marked experimental by Epic.
+- **The brain is a static map,** built from file structure and patterns, not a full parser. It points Claude to the right files; Claude still reads them before editing.
 - **Claim checking matches feature names.** It catches a planned feature that's named in the Devpost, but not a reworded description of it. The presentation critic and red-team judge cover rewording.
 
 ---
